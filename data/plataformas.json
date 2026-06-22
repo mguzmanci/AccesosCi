@@ -1,0 +1,6 @@
+[
+  { "id": "gmail", "nombre": "Gmail @capitalinteligente.cl", "facturable": true, "activa": true },
+  { "id": "slack", "nombre": "Slack", "facturable": true, "activa": true },
+  { "id": "salesforce", "nombre": "Salesforce", "facturable": true, "activa": true },
+  { "id": "jira", "nombre": "Jira", "facturable": true, "activa": true }
+]

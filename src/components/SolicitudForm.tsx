@@ -1,0 +1,139 @@
+"use client";
+
+import { useActionState, useState } from "react";
+import type { Plataforma, TipoSolicitud } from "@/types";
+import { crearSolicitudAction } from "@/app/actions";
+
+const estadoInicial: { error?: string } = {};
+
+const inputClass =
+  "mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary";
+
+export function SolicitudForm({ plataformas }: { plataformas: Plataforma[] }) {
+  const [estado, formAction, pending] = useActionState(crearSolicitudAction, estadoInicial);
+  const [tipo, setTipo] = useState<TipoSolicitud>("crear");
+
+  return (
+    <form action={formAction} className="space-y-5 rounded-xl border border-border bg-card p-6">
+      <div>
+        <label htmlFor="tipo" className="block text-sm font-medium text-foreground">
+          Tipo de solicitud
+        </label>
+        <select
+          id="tipo"
+          name="tipo"
+          value={tipo}
+          onChange={(e) => setTipo(e.target.value as TipoSolicitud)}
+          className={inputClass}
+        >
+          <option value="crear">Crear acceso</option>
+          <option value="modificar">Modificar acceso</option>
+          <option value="baja">Dar de baja acceso</option>
+        </select>
+      </div>
+
+      {tipo === "crear" && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Campo label="Nombres" name="nombres" />
+          <Campo label="Apellidos" name="apellidos" />
+          <Campo label="Teléfono" name="telefono" placeholder="+56 9 1234 5678" />
+          <Campo
+            label="Correo personal (envío de credenciales)"
+            name="correoPersonal"
+            type="email"
+          />
+        </div>
+      )}
+
+      {tipo === "modificar" && (
+        <div className="space-y-4">
+          <Campo
+            label="Correo @capitalinteligente.cl a modificar"
+            name="correoCorporativo"
+            type="email"
+          />
+          <div>
+            <label htmlFor="detalle" className="block text-sm font-medium text-foreground">
+              Detalle del cambio
+            </label>
+            <textarea id="detalle" name="detalle" rows={3} className={inputClass} />
+          </div>
+        </div>
+      )}
+
+      {tipo === "baja" && (
+        <div className="space-y-4">
+          <Campo
+            label="Correo @capitalinteligente.cl a dar de baja"
+            name="correoCorporativo"
+            type="email"
+          />
+          <Campo
+            label="Si tiene Salesforce: ¿a quién se redistribuyen leads y cuentas?"
+            name="redistribucionSalesforce"
+            required={false}
+          />
+        </div>
+      )}
+
+      <fieldset>
+        <legend className="text-sm font-medium text-foreground">Plataformas</legend>
+        <div className="mt-2 grid gap-2 sm:grid-cols-2">
+          {plataformas.map((p) => (
+            <label
+              key={p.id}
+              className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"
+            >
+              <input type="checkbox" name="plataformas" value={p.id} />
+              {p.nombre}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      {estado?.error && (
+        <p className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-400">
+          {estado.error}
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={pending}
+        className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60"
+      >
+        {pending ? "Enviando…" : "Enviar solicitud"}
+      </button>
+    </form>
+  );
+}
+
+function Campo({
+  label,
+  name,
+  type = "text",
+  placeholder,
+  required = true,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  placeholder?: string;
+  required?: boolean;
+}) {
+  return (
+    <div>
+      <label htmlFor={name} className="block text-sm font-medium text-foreground">
+        {label}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        required={required}
+        className={inputClass}
+      />
+    </div>
+  );
+}

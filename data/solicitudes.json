@@ -1,0 +1,27 @@
+[
+  {
+    "id": "sol_7190fbff",
+    "tipo": "crear",
+    "solicitanteEmail": "solicitante@capitalinteligente.cl",
+    "fechaCreacion": "2026-06-18T20:33:11.089Z",
+    "estado": "completada",
+    "datos": {
+      "nombres": "Tomas",
+      "apellidos": "Mallea",
+      "telefono": "981704806",
+      "correoPersonal": "mallea@cl.cl"
+    },
+    "accesos": [
+      {
+        "plataformaId": "gmail",
+        "fechaSolicitud": "2026-06-18T20:33:11.089Z",
+        "estado": "completada"
+      },
+      {
+        "plataformaId": "salesforce",
+        "fechaSolicitud": "2026-06-18T20:33:11.089Z",
+        "estado": "completada"
+      }
+    ]
+  }
+]

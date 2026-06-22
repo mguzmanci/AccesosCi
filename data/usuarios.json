@@ -1,0 +1,14 @@
+[
+  {
+    "email": "accesos@capitalinteligente.cl",
+    "nombre": "Equipo de Accesos",
+    "rol": "equipo",
+    "passwordHash": "f1c969ddf9ed3f85023c5f962660edde1fbbdcb84fd78e37064cf4dbb69128bf"
+  },
+  {
+    "email": "solicitante@capitalinteligente.cl",
+    "nombre": "Solicitante",
+    "rol": "solicitante",
+    "passwordHash": "f1c969ddf9ed3f85023c5f962660edde1fbbdcb84fd78e37064cf4dbb69128bf"
+  }
+]
