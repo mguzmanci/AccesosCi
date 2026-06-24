@@ -304,8 +304,8 @@ function FilaAsesor({
     <tr className="group border-b border-border last:border-0 hover:bg-muted/20">
       {/* Nombre */}
       <td className="px-3 py-2 text-foreground">
-        <div className="flex items-center gap-1.5">
-          <CeldaTexto valor={nombre} onSave={(v) => onEdit('nombre', v)} />
+        <div className="flex min-w-0 items-center gap-1.5">
+          <CeldaTexto valor={nombre} onSave={(v) => onEdit('nombre', v)} className="truncate" />
           {tl && (
             <button
               type="button"
