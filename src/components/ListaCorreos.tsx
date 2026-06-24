@@ -200,7 +200,7 @@ function FilaAsesor({
   return (
     <tr className="border-b border-border last:border-0 hover:bg-muted/20">
       {/* Nombre */}
-      <td className="min-w-[160px] px-3 py-2 text-foreground">
+      <td className="px-3 py-2 text-foreground">
         <div className="flex items-center gap-1.5">
           <CeldaTexto valor={nombre} onSave={(v) => onEdit('nombre', v)} />
           {tl && (
@@ -227,36 +227,36 @@ function FilaAsesor({
       </td>
 
       {/* Correo */}
-      <td className="min-w-[220px] px-3 py-2">
+      <td className="max-w-0 px-3 py-2">
         <CeldaTexto
           valor={correo}
           onSave={(v) => onEdit('correo', v)}
-          className="font-mono text-xs text-muted-foreground"
+          className="block truncate font-mono text-xs text-muted-foreground"
         />
       </td>
 
       {/* Estado */}
-      <td className="w-[110px] px-3 py-2">
+      <td className="px-3 py-2">
         <EstadoBadge estado={estado || 'Activo'} onSave={(v) => onEdit('estado', v)} />
       </td>
 
       {/* Jira */}
       {columnas.jira && (
-        <td className="w-12 px-3 py-2 text-center">
+        <td className="px-3 py-2 text-center">
           <ToggleBool valor={jira} onToggle={() => onEdit('jira', jira ? 'false' : 'true')} />
         </td>
       )}
 
       {/* Slack */}
       {columnas.slack && (
-        <td className="w-12 px-3 py-2 text-center">
+        <td className="px-3 py-2 text-center">
           <ToggleBool valor={slack} onToggle={() => onEdit('slack', slack ? 'false' : 'true')} />
         </td>
       )}
 
       {/* Salesforce */}
       {columnas.sf && (
-        <td className="w-[100px] px-3 py-2">
+        <td className="px-3 py-2">
           <CeldaSelect
             valor={sf}
             opciones={['', 'Portal', 'Cloud']}
@@ -267,7 +267,7 @@ function FilaAsesor({
 
       {/* Fecha baja */}
       {columnas.fecha && (
-        <td className="w-[110px] whitespace-nowrap px-3 py-2">
+        <td className="px-3 py-2">
           <CeldaTexto
             valor={fecha}
             onSave={(v) => onEdit('fechaEliminacion', v)}
@@ -407,26 +407,24 @@ function TablaGrupo({
         )}
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-border">
-        <table className="w-full text-sm">
+      <div className="rounded-lg border border-border">
+        <table className="w-full table-fixed text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/40 text-left">
-              <th className="min-w-[160px] px-3 py-2 font-semibold text-foreground">Nombre</th>
-              <th className="min-w-[220px] px-3 py-2 font-semibold text-foreground">Correo</th>
-              <th className="w-[110px] px-3 py-2 font-semibold text-foreground">Estado</th>
+              <th className="w-[22%] px-3 py-2 font-semibold text-foreground">Nombre</th>
+              <th className="px-3 py-2 font-semibold text-foreground">Correo</th>
+              <th className="w-[108px] px-3 py-2 font-semibold text-foreground">Estado</th>
               {columnas.jira && (
-                <th className="w-12 px-3 py-2 text-center font-semibold text-foreground">Jira</th>
+                <th className="w-10 px-3 py-2 text-center font-semibold text-foreground">Jira</th>
               )}
               {columnas.slack && (
-                <th className="w-12 px-3 py-2 text-center font-semibold text-foreground">Slack</th>
+                <th className="w-10 px-3 py-2 text-center font-semibold text-foreground">Slack</th>
               )}
               {columnas.sf && (
-                <th className="w-[100px] px-3 py-2 font-semibold text-foreground">Salesforce</th>
+                <th className="w-[95px] px-3 py-2 font-semibold text-foreground">Salesforce</th>
               )}
               {columnas.fecha && (
-                <th className="w-[110px] whitespace-nowrap px-3 py-2 font-semibold text-foreground">
-                  Fecha baja
-                </th>
+                <th className="w-[88px] px-3 py-2 font-semibold text-foreground">Fecha baja</th>
               )}
             </tr>
           </thead>
