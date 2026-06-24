@@ -13,10 +13,8 @@ import { logoutAction } from '@/app/actions';
 import { SolicitudForm } from '@/components/SolicitudForm';
 import { SolicitudesList } from '@/components/SolicitudesList';
 import { DashboardTabs } from '@/components/DashboardTabs';
-import { DirectorioEquipos } from '@/components/DirectorioEquipos';
 import { ListaCorreos } from '@/components/ListaCorreos';
 import { EliminadosPanel } from '@/components/EliminadosPanel';
-import { construirDirectorio } from '@/lib/services/solicitudes.service';
 
 export default async function Home({
   searchParams,
@@ -107,20 +105,6 @@ export default async function Home({
                 />
               ),
             },
-            ...(esEquipo
-              ? [
-                  {
-                    id: 'equipos',
-                    label: 'Equipos',
-                    content: (
-                      <DirectorioEquipos
-                        directorio={construirDirectorio(todas)}
-                        plataformas={plataformas}
-                      />
-                    ),
-                  },
-                ]
-              : []),
             ...(sesion.rol === 'admin'
               ? [
                   {
