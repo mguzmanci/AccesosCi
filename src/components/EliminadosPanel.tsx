@@ -122,11 +122,8 @@ export function EliminadosPanel({
             {eliminados.map((e) => (
               <tr key={e.correo} className="border-b border-border last:border-0 hover:bg-muted/20">
                 <td className="px-3 py-2 text-foreground">{e.nombre}</td>
-                <td className="max-w-0 px-3 py-2">
-                  <span
-                    title={e.correo}
-                    className="block truncate font-mono text-xs text-muted-foreground"
-                  >
+                <td className="px-3 py-2">
+                  <span className="break-all font-mono text-xs text-muted-foreground">
                     {e.correo}
                   </span>
                 </td>
