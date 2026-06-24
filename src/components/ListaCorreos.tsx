@@ -503,23 +503,17 @@ function TablaGrupo({
   columnas,
   edits,
   eliminadas,
-  extraId,
   onEdit,
   onEditMetrica,
   onEliminar,
-  onNuevoBP,
-  onEliminarBP,
 }: {
   grupo: Grupo;
   columnas: { jira: boolean; slack: boolean; sf: boolean; fecha: boolean };
   edits: Record<string, string>;
   eliminadas: Set<string>;
-  extraId?: string;
   onEdit: (correoOrig: string, campo: string, valor: string) => void;
   onEditMetrica: (label: string, valor: number) => void;
   onEliminar: (correo: string, nombre: string) => void;
-  onNuevoBP: () => void;
-  onEliminarBP?: (id: string) => void;
 }) {
   const metricas = useMemo(
     () => calcularMetricasDinamicas(grupo, edits, eliminadas),
@@ -530,74 +524,30 @@ function TablaGrupo({
     (a) => !eliminadas.has(a.correo) && edits[estKey(a.correo, 'eliminado')] !== 'true',
   );
 
-  const puedeEliminar = !!extraId && asesoresVisibles.length === 0;
-
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex flex-wrap items-center gap-2">
-          <h3 className="text-sm font-semibold text-foreground">{grupo.nombre}</h3>
-          <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-            {asesoresVisibles.length}
-          </span>
-          {metricas.map((m) =>
-            m.label === 'Cuentas Portal Creadas' ? (
-              <BadgeNumeroEditable
-                key={m.label}
-                label={m.label}
-                valor={m.valor}
-                onSave={(v) => onEditMetrica(m.label, v)}
-              />
-            ) : (
-              <span
-                key={m.label}
-                className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-xs text-sky-700 dark:border-sky-800 dark:bg-sky-950 dark:text-sky-400"
-              >
-                {m.label}: <strong>{m.valor}</strong>
-              </span>
-            ),
-          )}
-        </div>
-        <div className="flex shrink-0 items-center gap-1.5">
-          <button
-            type="button"
-            onClick={onNuevoBP}
-            title="Crear nuevo BP en esta hoja"
-            className="flex items-center gap-1 rounded-md border border-border bg-background px-2.5 py-1 text-xs text-foreground hover:bg-muted"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="11"
-              height="11"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+      <div className="flex flex-wrap items-center gap-2">
+        <h3 className="text-sm font-semibold text-foreground">{grupo.nombre}</h3>
+        <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+          {asesoresVisibles.length}
+        </span>
+        {metricas.map((m) =>
+          m.label === 'Cuentas Portal Creadas' ? (
+            <BadgeNumeroEditable
+              key={m.label}
+              label={m.label}
+              valor={m.valor}
+              onSave={(v) => onEditMetrica(m.label, v)}
+            />
+          ) : (
+            <span
+              key={m.label}
+              className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-xs text-sky-700 dark:border-sky-800 dark:bg-sky-950 dark:text-sky-400"
             >
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-            Nuevo BP
-          </button>
-          {extraId && (
-            <button
-              type="button"
-              onClick={() => puedeEliminar && onEliminarBP?.(extraId)}
-              disabled={!puedeEliminar}
-              title={puedeEliminar ? 'Eliminar este BP' : 'El BP debe estar vacío para eliminarlo'}
-              className={cn(
-                'rounded-md border px-2.5 py-1 text-xs transition-colors',
-                puedeEliminar
-                  ? 'border-rose-200 bg-background text-rose-600 hover:bg-rose-50 dark:border-rose-800 dark:hover:bg-rose-950/40'
-                  : 'cursor-not-allowed border-border bg-background text-muted-foreground/40',
-              )}
-            >
-              Eliminar BP
-            </button>
-          )}
-        </div>
+              {m.label}: <strong>{m.valor}</strong>
+            </span>
+          ),
+        )}
       </div>
 
       <div className="rounded-lg border border-border">
@@ -639,6 +589,90 @@ function TablaGrupo({
             ))}
           </tbody>
         </table>
+      </div>
+    </div>
+  );
+}
+
+// ─── Modal eliminar BP ────────────────────────────────────────────────────────
+
+function ModalEliminarBP({
+  bps,
+  onEliminar,
+  onCerrar,
+}: {
+  bps: { nombre: string; correos: number; extraId?: string }[];
+  onEliminar: (id: string) => void;
+  onCerrar: () => void;
+}) {
+  const [advertencia, setAdvertencia] = useState<string | null>(null);
+
+  function handleSeleccionar(bp: { nombre: string; correos: number; extraId?: string }) {
+    if (!bp.extraId) {
+      setAdvertencia(`"${bp.nombre}" es un equipo del sistema y no puede eliminarse desde aquí.`);
+      return;
+    }
+    if (bp.correos > 0) {
+      setAdvertencia(
+        `"${bp.nombre}" tiene ${bp.correos} correo${bp.correos !== 1 ? 's' : ''}. Debes eliminar todos los correos antes de poder eliminar el BP.`,
+      );
+      return;
+    }
+    onEliminar(bp.extraId);
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      onClick={onCerrar}
+    >
+      <div
+        className="w-96 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="space-y-1">
+          <h2 className="text-base font-semibold text-foreground">Eliminar BP</h2>
+          <p className="text-sm text-muted-foreground">Selecciona el BP que deseas eliminar.</p>
+        </div>
+
+        <div className="space-y-1.5">
+          {bps.map((bp) => (
+            <div
+              key={bp.nombre}
+              className="flex items-center justify-between rounded-lg border border-border px-3 py-2"
+            >
+              <div>
+                <p className="text-sm font-medium text-foreground">{bp.nombre}</p>
+                <p className="text-xs text-muted-foreground">
+                  {bp.correos} correo{bp.correos !== 1 ? 's' : ''}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleSeleccionar(bp)}
+                className="rounded-md border border-rose-200 bg-background px-2.5 py-1 text-xs text-rose-600 hover:bg-rose-50 dark:border-rose-800 dark:hover:bg-rose-950/40"
+              >
+                Eliminar
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {advertencia && (
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5 text-sm text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-400">
+            {advertencia}
+          </div>
+        )}
+
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={onCerrar}
+            className="rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-muted"
+          >
+            Cerrar
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -726,6 +760,7 @@ export function ListaCorreos({
   const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [creandoEquipo, setCreandoEquipo] = useState(false);
   const [confirmandoEliminarGrupo, setConfirmandoEliminarGrupo] = useState<string | null>(null);
+  const [mostrandoEliminarBP, setMostrandoEliminarBP] = useState(false);
 
   const [edits, actualizarEdits] = useOptimistic(
     editsInicial,
@@ -767,6 +802,17 @@ export function ListaCorreos({
   }, [hoja]);
 
   const totalHoja = hoja.grupos.reduce((n, g) => n + g.asesores.length, 0);
+
+  const bpsInfo = useMemo(() => {
+    const todosGrupos = [...hoja.grupos, ...gruposDinamicos];
+    return todosGrupos.map((g) => ({
+      nombre: g.nombre,
+      correos: g.asesores.filter(
+        (a) => !eliminadas.has(a.correo) && edits[estKey(a.correo, 'eliminado')] !== 'true',
+      ).length,
+      extraId: 'extraId' in g ? (g.extraId as string) : undefined,
+    }));
+  }, [hoja.grupos, gruposDinamicos, edits, eliminadas]);
   const totalGeneral = data.hojas.reduce(
     (n, h) => n + h.grupos.reduce((m, g) => m + g.asesores.length, 0),
     0,
@@ -875,10 +921,42 @@ export function ListaCorreos({
         ))}
       </div>
 
-      <p className="text-xs text-muted-foreground">
-        {hoja.nombre} · {totalHoja} correos · {hoja.grupos.length} equipo
-        {hoja.grupos.length !== 1 ? 's' : ''}
-      </p>
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-xs text-muted-foreground">
+          {hoja.nombre} · {totalHoja} correos · {grupos.length} BP
+          {grupos.length !== 1 ? 's' : ''}
+        </p>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setCreandoEquipo(true)}
+            className="flex items-center gap-1 rounded-md border border-border bg-background px-2.5 py-1 text-xs text-foreground hover:bg-muted"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Nuevo BP
+          </button>
+          <button
+            type="button"
+            onClick={() => setMostrandoEliminarBP(true)}
+            className="rounded-md border border-border bg-background px-2.5 py-1 text-xs text-foreground hover:bg-muted"
+          >
+            Eliminar BP
+          </button>
+        </div>
+      </div>
 
       <div className="space-y-6">
         {grupos.length === 0 && !busqueda ? null : grupos.length === 0 ? (
@@ -893,12 +971,9 @@ export function ListaCorreos({
               columnas={columnas}
               edits={edits}
               eliminadas={eliminadas}
-              extraId={'extraId' in g ? (g.extraId as string) : undefined}
               onEdit={handleEdit}
               onEditMetrica={(label, valor) => handleEditMetrica(g.nombre, label, valor)}
               onEliminar={handleSolicitarEliminar}
-              onNuevoBP={() => setCreandoEquipo(true)}
-              onEliminarBP={(id) => setConfirmandoEliminarGrupo(id)}
             />
           ))
         )}
@@ -909,6 +984,19 @@ export function ListaCorreos({
           <ModalNuevoEquipo
             onCrear={handleCrearEquipo}
             onCancelar={() => setCreandoEquipo(false)}
+          />,
+          document.body,
+        )}
+
+      {mostrandoEliminarBP &&
+        createPortal(
+          <ModalEliminarBP
+            bps={bpsInfo}
+            onEliminar={(id) => {
+              setMostrandoEliminarBP(false);
+              setConfirmandoEliminarGrupo(id);
+            }}
+            onCerrar={() => setMostrandoEliminarBP(false)}
           />,
           document.body,
         )}
