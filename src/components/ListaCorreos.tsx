@@ -283,28 +283,21 @@ function calcularMetricasDinamicas(
   grupo: Grupo,
   edits: Record<string, string>,
 ): { label: string; valor: number }[] {
-  const tieneLabel = new Set(grupo.metricas.map((m) => m.label));
-
   // Aplicar edits sobre cada asesor para obtener sf y estado actuales
   const asesores = grupo.asesores.map((a) => ({
     sf: (edits[estKey(a.correo, 'sf')] ?? a.sf ?? '').trim(),
     estado: (edits[estKey(a.correo, 'estado')] ?? a.estado ?? 'Activo').toLowerCase(),
   }));
 
+  const portalActivo = asesores.filter((a) => a.sf === 'Portal' && a.estado === 'activo').length;
+  const salesCloud = asesores.filter((a) => a.sf === 'Cloud' && a.estado === 'activo').length;
+
   return grupo.metricas.map((m) => {
-    if (!LABELS_DINAMICOS.has(m.label)) return m; // Creadas es fijo (baseline)
-    if (m.label === 'Cuentas Portal Activo') {
-      return {
-        ...m,
-        valor: asesores.filter((a) => a.sf === 'Portal' && a.estado === 'activo').length,
-      };
-    }
-    if (m.label === 'Cuentas SalesCloud') {
-      return {
-        ...m,
-        valor: asesores.filter((a) => a.sf === 'Cloud' && a.estado === 'activo').length,
-      };
-    }
+    if (m.label === 'Cuentas Portal Activo') return { ...m, valor: portalActivo };
+    if (m.label === 'Cuentas SalesCloud') return { ...m, valor: salesCloud };
+    // "Cuentas Portal Creadas": máximo histórico — sube si Portal Activo lo supera, nunca baja
+    if (m.label === 'Cuentas Portal Creadas')
+      return { ...m, valor: Math.max(m.valor, portalActivo) };
     return m;
   });
 }
