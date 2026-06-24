@@ -11,7 +11,7 @@ import {
   eliminarGrupoAction,
   ocultarGrupoAction,
 } from '@/app/actions';
-import type { GrupoExtra } from '@/lib/db';
+import type { GrupoExtra, MiembroExtra } from '@/lib/db';
 
 interface Asesor {
   nombre: string;
@@ -746,10 +746,12 @@ export function ListaCorreos({
   edits: editsInicial,
   gruposExtra = [],
   gruposOcultos = [],
+  miembrosExtra = [],
 }: {
   edits: Record<string, string>;
   gruposExtra?: GrupoExtra[];
   gruposOcultos?: { hojaId: string; nombre: string }[];
+  miembrosExtra?: MiembroExtra[];
 }) {
   const [hojaActiva, setHojaActiva] = useState(data.hojas[0]?.id);
   const [busqueda, setBusqueda] = useState('');
@@ -786,7 +788,20 @@ export function ListaCorreos({
 
   const grupos = useMemo(() => {
     const estaticos = hoja.grupos.filter((g) => !ocultoSet.has(g.nombre));
-    const todos = [...estaticos, ...gruposDinamicos];
+    const todos = [...estaticos, ...gruposDinamicos].map((g) => {
+      const extras = miembrosExtra
+        .filter((m) => m.hojaId === hoja.id && m.grupoNombre === g.nombre)
+        .map((m) => ({
+          nombre: m.nombre,
+          correo: m.correo,
+          estado: m.estado,
+          jira: m.jira,
+          slack: m.slack,
+          sf: m.sf,
+          tl: false,
+        }));
+      return extras.length > 0 ? { ...g, asesores: [...g.asesores, ...extras] } : g;
+    });
     const q = busqueda.trim().toLowerCase();
     if (!q) return todos;
     return todos
@@ -797,7 +812,7 @@ export function ListaCorreos({
         ),
       }))
       .filter((g) => g.asesores.length > 0);
-  }, [hoja, gruposDinamicos, ocultoSet, busqueda]);
+  }, [hoja, gruposDinamicos, ocultoSet, busqueda, miembrosExtra]);
 
   const columnas = useMemo(() => {
     const all = hoja.grupos.flatMap((g) => g.asesores);
@@ -809,7 +824,9 @@ export function ListaCorreos({
     };
   }, [hoja]);
 
-  const totalHoja = hoja.grupos.reduce((n, g) => n + g.asesores.length, 0);
+  const totalHoja =
+    hoja.grupos.reduce((n, g) => n + g.asesores.length, 0) +
+    miembrosExtra.filter((m) => m.hojaId === hoja.id).length;
 
   const bpsInfo = useMemo(() => {
     const todosGrupos = [...hoja.grupos, ...gruposDinamicos];

@@ -6,6 +6,7 @@ import {
   actualizarSolicitud,
   borrarEdicionesEliminado,
   crearGrupoExtra,
+  crearMiembroExtra,
   eliminarGrupoExtra,
   guardarEdicionCorreo,
   ocultarGrupo,
@@ -205,6 +206,10 @@ export async function cambiarEstadoAction(formData: FormData) {
   const estado = String(formData.get('estado') ?? '') as EstadoSolicitud;
   const correoCorporativoAsignado = String(formData.get('correoCorporativoAsignado') ?? '').trim();
   const passwordCorreo = String(formData.get('passwordCorreo') ?? '').trim() || undefined;
+  const bpHojaId = String(formData.get('bpHojaId') ?? '').trim() || undefined;
+  const bpGrupoNombre = String(formData.get('bpGrupoNombre') ?? '').trim() || undefined;
+  const bpSlack = formData.get('bpSlack') === 'true';
+  const bpJira = formData.get('bpJira') === 'true';
 
   const [solicitudes, plataformas] = await Promise.all([leerSolicitudes(), leerPlataformas()]);
   const solicitud = solicitudes.find((s) => s.id === id);
@@ -228,6 +233,22 @@ export async function cambiarEstadoAction(formData: FormData) {
   } else if (estado === 'completada') {
     const correo = construirCorreoCompletada(solicitudFinal, plataformas, passwordCorreo);
     await enviarCorreo(correo.to, correo.subject, correo.body);
+
+    if (solicitudFinal.tipo === 'crear' && correoCorporativoAsignado && bpHojaId && bpGrupoNombre) {
+      const d = solicitudFinal.datos as import('@/types').DatosCreacion;
+      const nombreCompleto = [d.nombre, d.segundoNombre, d.apellidoPaterno, d.apellidoMaterno]
+        .filter(Boolean)
+        .join(' ');
+      await crearMiembroExtra(
+        bpHojaId,
+        bpGrupoNombre,
+        nombreCompleto,
+        correoCorporativoAsignado,
+        bpSlack,
+        bpJira,
+        '',
+      );
+    }
   }
 
   revalidatePath('/');

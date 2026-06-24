@@ -143,6 +143,52 @@ export async function ocultarGrupo(hojaId: string, nombre: string): Promise<void
   if (error) throw new Error(`ocultarGrupo: ${error.message}`);
 }
 
+export interface MiembroExtra {
+  id: string;
+  hojaId: string;
+  grupoNombre: string;
+  nombre: string;
+  correo: string;
+  slack: boolean;
+  jira: boolean;
+  sf: string;
+  estado: string;
+}
+
+export async function leerMiembrosExtra(): Promise<MiembroExtra[]> {
+  const { data, error } = await supabase
+    .from('miembros_extra')
+    .select('id, hoja_id, grupo_nombre, nombre, correo, slack, jira, sf, estado')
+    .order('created_at');
+  if (error) throw new Error(`leerMiembrosExtra: ${error.message}`);
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    hojaId: row.hoja_id as string,
+    grupoNombre: row.grupo_nombre as string,
+    nombre: row.nombre as string,
+    correo: row.correo as string,
+    slack: row.slack as boolean,
+    jira: row.jira as boolean,
+    sf: row.sf as string,
+    estado: row.estado as string,
+  }));
+}
+
+export async function crearMiembroExtra(
+  hojaId: string,
+  grupoNombre: string,
+  nombre: string,
+  correo: string,
+  slack: boolean,
+  jira: boolean,
+  sf: string,
+): Promise<void> {
+  const { error } = await supabase
+    .from('miembros_extra')
+    .insert({ hoja_id: hojaId, grupo_nombre: grupoNombre, nombre, correo, slack, jira, sf });
+  if (error) throw new Error(`crearMiembroExtra: ${error.message}`);
+}
+
 export async function borrarEdicionesEliminado(correo: string): Promise<void> {
   const { error } = await supabase
     .from('correos_edits')

@@ -71,10 +71,26 @@ export function CompletarCreacionForm({
   const bpOptions = useMemo(() => buildBPOptions(gruposExtra), [gruposExtra]);
   const selectedBP = bpOptions.find((bp) => bp.key === bpKey);
 
+  const bpHojaId = useMemo(() => {
+    if (!bpKey) return '';
+    if (bpKey.startsWith('static::')) return bpKey.split('::')[1] ?? '';
+    if (bpKey.startsWith('dynamic::')) {
+      const dynamicId = bpKey.slice('dynamic::'.length);
+      return gruposExtra.find((g) => g.id === dynamicId)?.hojaId ?? '';
+    }
+    return '';
+  }, [bpKey, gruposExtra]);
+
+  const bpGrupoNombre = selectedBP?.label ?? '';
+
   return (
     <form action={cambiarEstadoAction}>
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="estado" value="completada" />
+      <input type="hidden" name="bpHojaId" value={bpHojaId} />
+      <input type="hidden" name="bpGrupoNombre" value={bpGrupoNombre} />
+      <input type="hidden" name="bpSlack" value={String(selectedBP?.usaSlack ?? false)} />
+      <input type="hidden" name="bpJira" value={String(selectedBP?.usaJira ?? false)} />
       <div className="flex flex-wrap items-end gap-3">
         <div>
           <label htmlFor={`correo-${id}`} className="block text-[11px] text-muted-foreground mb-1">

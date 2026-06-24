@@ -3,6 +3,7 @@ import {
   leerEdicionesCorreos,
   leerGruposExtra,
   leerGruposOcultos,
+  leerMiembrosExtra,
   leerPlataformas,
   leerSolicitudes,
 } from '@/lib/db';
@@ -27,13 +28,15 @@ export default async function Home({
   const { creada } = await searchParams;
   const esEquipo = sesion.rol === 'equipo' || sesion.rol === 'admin';
 
-  const [plataformas, todas, edicionesCorreos, gruposExtra, gruposOcultos] = await Promise.all([
-    leerPlataformas(),
-    leerSolicitudes(),
-    esEquipo ? leerEdicionesCorreos() : Promise.resolve({}),
-    sesion.rol === 'admin' ? leerGruposExtra() : Promise.resolve([]),
-    sesion.rol === 'admin' ? leerGruposOcultos() : Promise.resolve([]),
-  ]);
+  const [plataformas, todas, edicionesCorreos, gruposExtra, gruposOcultos, miembrosExtra] =
+    await Promise.all([
+      leerPlataformas(),
+      leerSolicitudes(),
+      esEquipo ? leerEdicionesCorreos() : Promise.resolve({}),
+      sesion.rol === 'admin' ? leerGruposExtra() : Promise.resolve([]),
+      sesion.rol === 'admin' ? leerGruposOcultos() : Promise.resolve([]),
+      sesion.rol === 'admin' ? leerMiembrosExtra() : Promise.resolve([]),
+    ]);
 
   const countEliminados = Object.entries(edicionesCorreos).filter(
     ([k, v]) => k.endsWith('||eliminado') && v === 'true',
@@ -119,6 +122,7 @@ export default async function Home({
                         edits={edicionesCorreos}
                         gruposExtra={gruposExtra}
                         gruposOcultos={gruposOcultos}
+                        miembrosExtra={miembrosExtra}
                       />
                     ),
                   },
