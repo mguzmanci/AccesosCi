@@ -108,11 +108,11 @@ export function EliminadosPanel({
         <table className="w-full table-fixed text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/40 text-left">
-              <th className="w-[20%] px-3 py-2 font-semibold text-foreground">Nombre</th>
-              <th className="w-[26%] px-3 py-2 font-semibold text-foreground">Correo</th>
+              <th className="w-[22%] px-3 py-2 font-semibold text-foreground">Nombre</th>
+              <th className="w-[28%] px-3 py-2 font-semibold text-foreground">Correo</th>
               <th className="w-[18%] px-3 py-2 font-semibold text-foreground">Equipo</th>
-              <th className="w-[20%] px-3 py-2 font-semibold text-foreground">Eliminado por</th>
-              <th className="w-[130px] whitespace-nowrap px-3 py-2 font-semibold text-foreground">
+              <th className="w-[16%] px-3 py-2 font-semibold text-foreground">Eliminado por</th>
+              <th className="w-[140px] whitespace-nowrap px-3 py-2 font-semibold text-foreground">
                 Fecha
               </th>
               {esAdmin && <th className="w-[90px] px-3 py-2" />}
@@ -123,7 +123,10 @@ export function EliminadosPanel({
               <tr key={e.correo} className="border-b border-border last:border-0 hover:bg-muted/20">
                 <td className="px-3 py-2 text-foreground">{e.nombre}</td>
                 <td className="max-w-0 px-3 py-2">
-                  <span className="block truncate font-mono text-xs text-muted-foreground">
+                  <span
+                    title={e.correo}
+                    className="block truncate font-mono text-xs text-muted-foreground"
+                  >
                     {e.correo}
                   </span>
                 </td>
@@ -131,8 +134,10 @@ export function EliminadosPanel({
                   <div className="text-xs text-muted-foreground">{e.grupo}</div>
                   <div className="text-xs text-muted-foreground/60">{e.hoja}</div>
                 </td>
-                <td className="max-w-0 px-3 py-2">
-                  <span className="block truncate text-xs text-muted-foreground">{e.por}</span>
+                <td className="px-3 py-2">
+                  <span title={e.por} className="text-xs text-muted-foreground">
+                    {e.por.split('@')[0]}
+                  </span>
                 </td>
                 <td className="whitespace-nowrap px-3 py-2 text-xs text-muted-foreground">
                   {formatTimestamp(e.en)}
