@@ -80,6 +80,105 @@ function bloqueDatosHtml(solicitud: Solicitud): string {
   ]);
 }
 
+export function construirCorreoEnProceso(solicitud: Solicitud): CorreoSimulado {
+  const etiqueta = ETIQUETA_TIPO[solicitud.tipo] ?? solicitud.tipo;
+  return {
+    to: solicitud.solicitanteEmail,
+    subject: `[En proceso] Ticket ${solicitud.id} — ${etiqueta}`,
+    body: `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#111">
+        <h2 style="margin-bottom:4px">Tu solicitud está siendo procesada</h2>
+        <p style="color:#888;margin-top:0">Ticket <strong>${solicitud.id}</strong> · Tipo: ${etiqueta}</p>
+        <p>Tu solicitud está <strong>en proceso</strong>. El equipo de accesos está trabajando en ella y te avisaremos cuando esté lista.</p>
+        <p style="margin-top:24px;font-size:0.8rem;color:#aaa">Este mensaje fue generado automáticamente por Solicitudes de Accesos · Capital Inteligente.</p>
+      </div>
+    `,
+  };
+}
+
+export function construirCorreoCompletada(
+  solicitud: Solicitud,
+  plataformas: Plataforma[],
+): CorreoSimulado {
+  const etiqueta = ETIQUETA_TIPO[solicitud.tipo] ?? solicitud.tipo;
+  const fecha = new Date(solicitud.fechaCreacion).toLocaleString('es-CL', {
+    timeZone: 'America/Santiago',
+    dateStyle: 'long',
+    timeStyle: 'short',
+  });
+
+  const filasPlataformas = solicitud.accesos
+    .map(
+      (a) =>
+        `<tr><td style="padding:6px 12px;color:#111">· ${nombrePlataforma(a.plataformaId, plataformas)}</td></tr>`,
+    )
+    .join('');
+
+  const bloqueCorreoAsignado = solicitud.correoCorporativoAsignado
+    ? `
+      <table style="width:100%;border-collapse:collapse;margin-top:16px;background:#f0fdf4;border-radius:8px;overflow:hidden;border:1px solid #bbf7d0">
+        <thead>
+          <tr><th style="padding:10px 12px;text-align:left;background:#dcfce7;font-size:0.85rem;color:#166534">✅ CORREO CORPORATIVO ASIGNADO</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:12px;font-size:1.15rem;font-weight:700;color:#15803d;font-family:monospace">${solicitud.correoCorporativoAsignado}</td></tr>
+        </tbody>
+      </table>`
+    : '';
+
+  const body = `
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#111">
+      <h2 style="margin-bottom:4px">Tu solicitud fue completada</h2>
+      <p style="color:#888;margin-top:0">Ticket <strong>${solicitud.id}</strong> · ${fecha}</p>
+
+      ${bloqueCorreoAsignado}
+
+      <table style="width:100%;border-collapse:collapse;margin-top:16px;background:#f9f9f9;border-radius:8px;overflow:hidden">
+        <thead>
+          <tr><th colspan="2" style="padding:10px 12px;text-align:left;background:#eee;font-size:0.85rem;color:#555">DATOS DE LA SOLICITUD</th></tr>
+        </thead>
+        <tbody>
+          ${filas([
+            ['Tipo', etiqueta],
+            ['Solicitante', solicitud.solicitanteEmail],
+          ])}
+          ${bloqueDatosHtml(solicitud)}
+        </tbody>
+      </table>
+
+      <table style="width:100%;border-collapse:collapse;margin-top:16px;background:#f9f9f9;border-radius:8px;overflow:hidden">
+        <thead>
+          <tr><th style="padding:10px 12px;text-align:left;background:#eee;font-size:0.85rem;color:#555">PLATAFORMAS</th></tr>
+        </thead>
+        <tbody>
+          ${filasPlataformas}
+        </tbody>
+      </table>
+
+      ${
+        solicitud.comentario
+          ? `<table style="width:100%;border-collapse:collapse;margin-top:16px;background:#fffbe6;border-radius:8px;overflow:hidden;border:1px solid #f0e68c">
+        <thead>
+          <tr><th style="padding:10px 12px;text-align:left;background:#f5e642;font-size:0.85rem;color:#555">COMENTARIOS</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:10px 12px;color:#111">${solicitud.comentario}</td></tr>
+        </tbody>
+      </table>`
+          : ''
+      }
+
+      <p style="margin-top:24px;font-size:0.8rem;color:#aaa">Este mensaje fue generado automáticamente por Solicitudes de Accesos · Capital Inteligente.</p>
+    </div>
+  `;
+
+  return {
+    to: solicitud.solicitanteEmail,
+    subject: `[Completada] Ticket ${solicitud.id} — ${etiqueta}`,
+    body,
+  };
+}
+
 export function construirCorreoSolicitud(
   solicitud: Solicitud,
   plataformas: Plataforma[],

@@ -24,7 +24,11 @@ import {
   validarEntradaSolicitud,
   type NuevaSolicitudInput,
 } from '@/lib/services/solicitudes.service';
-import { construirCorreoSolicitud } from '@/lib/services/notificaciones.service';
+import {
+  construirCorreoSolicitud,
+  construirCorreoEnProceso,
+  construirCorreoCompletada,
+} from '@/lib/services/notificaciones.service';
 import type { DatosSolicitud, EstadoSolicitud, TipoSolicitud } from '@/types';
 
 export async function solicitarCodigoAction(_prev: unknown, formData: FormData) {
@@ -201,7 +205,7 @@ export async function cambiarEstadoAction(formData: FormData) {
   const estado = String(formData.get('estado') ?? '') as EstadoSolicitud;
   const correoCorporativoAsignado = String(formData.get('correoCorporativoAsignado') ?? '').trim();
 
-  const solicitudes = await leerSolicitudes();
+  const [solicitudes, plataformas] = await Promise.all([leerSolicitudes(), leerPlataformas()]);
   const solicitud = solicitudes.find((s) => s.id === id);
   if (!solicitud) throw new Error(`Solicitud no encontrada: ${id}`);
 
@@ -212,8 +216,18 @@ export async function cambiarEstadoAction(formData: FormData) {
   }
 
   const actualizada = cambiarEstadoSolicitud(solicitud, estado);
-  await actualizarSolicitud(
-    correoCorporativoAsignado ? { ...actualizada, correoCorporativoAsignado } : actualizada,
-  );
+  const solicitudFinal = correoCorporativoAsignado
+    ? { ...actualizada, correoCorporativoAsignado }
+    : actualizada;
+  await actualizarSolicitud(solicitudFinal);
+
+  if (estado === 'en_proceso') {
+    const correo = construirCorreoEnProceso(solicitudFinal);
+    await enviarCorreo(correo.to, correo.subject, correo.body);
+  } else if (estado === 'completada') {
+    const correo = construirCorreoCompletada(solicitudFinal, plataformas);
+    await enviarCorreo(correo.to, correo.subject, correo.body);
+  }
+
   revalidatePath('/');
 }

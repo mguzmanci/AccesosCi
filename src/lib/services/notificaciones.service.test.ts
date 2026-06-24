@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import type { Plataforma, Solicitud } from '@/types';
-import { construirCorreoSolicitud, BUZON_ACCESOS } from './notificaciones.service';
+import {
+  construirCorreoSolicitud,
+  construirCorreoEnProceso,
+  construirCorreoCompletada,
+  BUZON_ACCESOS,
+} from './notificaciones.service';
 
 const plataformas: Plataforma[] = [
   { id: 'gmail', nombre: 'Gmail @capitalinteligente.cl', facturable: true, activa: true },
@@ -50,5 +55,58 @@ describe('construirCorreoSolicitud', () => {
     expect(correo.body).toContain('Juan');
     expect(correo.body).toContain('Pérez');
     expect(correo.body).toContain('+56912345678');
+  });
+});
+
+describe('construirCorreoEnProceso', () => {
+  it('dirige el correo al solicitante', () => {
+    const correo = construirCorreoEnProceso(solicitud);
+    expect(correo.to).toBe('ana@capitalinteligente.cl');
+  });
+
+  it('incluye el id del ticket en el asunto', () => {
+    const correo = construirCorreoEnProceso(solicitud);
+    expect(correo.subject).toContain('sol_1');
+  });
+
+  it('menciona que está en proceso en el cuerpo', () => {
+    const correo = construirCorreoEnProceso(solicitud);
+    expect(correo.body).toContain('en proceso');
+  });
+});
+
+describe('construirCorreoCompletada', () => {
+  const solicitudCompletada: Solicitud = {
+    ...solicitud,
+    estado: 'completada',
+    correoCorporativoAsignado: 'jperez@capitalinteligente.cl',
+  };
+
+  it('dirige el correo al solicitante', () => {
+    const correo = construirCorreoCompletada(solicitudCompletada, plataformas);
+    expect(correo.to).toBe('ana@capitalinteligente.cl');
+  });
+
+  it('incluye el id del ticket en el asunto', () => {
+    const correo = construirCorreoCompletada(solicitudCompletada, plataformas);
+    expect(correo.subject).toContain('sol_1');
+  });
+
+  it('incluye el correo corporativo asignado en el cuerpo', () => {
+    const correo = construirCorreoCompletada(solicitudCompletada, plataformas);
+    expect(correo.body).toContain('jperez@capitalinteligente.cl');
+  });
+
+  it('incluye los datos personales en el cuerpo', () => {
+    const correo = construirCorreoCompletada(solicitudCompletada, plataformas);
+    expect(correo.body).toContain('Juan');
+    expect(correo.body).toContain('Pérez');
+    expect(correo.body).toContain('+56912345678');
+  });
+
+  it('incluye las plataformas solicitadas', () => {
+    const correo = construirCorreoCompletada(solicitudCompletada, plataformas);
+    expect(correo.body).toContain('Gmail @capitalinteligente.cl');
+    expect(correo.body).toContain('Slack');
   });
 });
