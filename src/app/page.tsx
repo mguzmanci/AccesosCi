@@ -35,7 +35,7 @@ export default async function Home({
       esEquipo ? leerEdicionesCorreos() : Promise.resolve({}),
       sesion.rol === 'admin' ? leerGruposExtra() : Promise.resolve([]),
       sesion.rol === 'admin' ? leerGruposOcultos() : Promise.resolve([]),
-      sesion.rol === 'admin' ? leerMiembrosExtra() : Promise.resolve([]),
+      esEquipo ? leerMiembrosExtra() : Promise.resolve([]),
     ]);
 
   const countEliminados = Object.entries(edicionesCorreos).filter(
@@ -135,7 +135,11 @@ export default async function Home({
                     label: 'Eliminados',
                     badge: countEliminados || undefined,
                     content: (
-                      <EliminadosPanel edits={edicionesCorreos} esAdmin={sesion.rol === 'admin'} />
+                      <EliminadosPanel
+                        edits={edicionesCorreos}
+                        esAdmin={sesion.rol === 'admin'}
+                        miembrosExtra={miembrosExtra}
+                      />
                     ),
                   },
                 ]

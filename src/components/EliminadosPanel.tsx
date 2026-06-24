@@ -3,6 +3,7 @@
 import { startTransition, useMemo, useOptimistic } from 'react';
 import correosData from '@/data/correos.json';
 import { restaurarCorreoAction } from '@/app/actions';
+import type { MiembroExtra } from '@/lib/db';
 
 interface Asesor {
   nombre: string;
@@ -48,8 +49,12 @@ interface EliminadoInfo {
   en: string;
 }
 
-function buildEliminados(edits: Record<string, string>): EliminadoInfo[] {
+function buildEliminados(
+  edits: Record<string, string>,
+  miembrosExtra: MiembroExtra[],
+): EliminadoInfo[] {
   const result: EliminadoInfo[] = [];
+
   for (const hoja of data.hojas) {
     for (const grupo of hoja.grupos) {
       for (const asesor of grupo.asesores) {
@@ -66,22 +71,38 @@ function buildEliminados(edits: Record<string, string>): EliminadoInfo[] {
       }
     }
   }
+
+  for (const m of miembrosExtra) {
+    if (edits[estKey(m.correo, 'eliminado')] === 'true') {
+      result.push({
+        correo: m.correo,
+        nombre: edits[estKey(m.correo, 'nombre')] ?? m.nombre,
+        hoja: m.hojaId,
+        grupo: m.grupoNombre,
+        por: edits[estKey(m.correo, 'eliminado_por')] ?? '—',
+        en: edits[estKey(m.correo, 'eliminado_en')] ?? '—',
+      });
+    }
+  }
+
   return result.sort((a, b) => b.en.localeCompare(a.en));
 }
 
 export function EliminadosPanel({
   edits: editsInicial,
   esAdmin,
+  miembrosExtra = [],
 }: {
   edits: Record<string, string>;
   esAdmin: boolean;
+  miembrosExtra?: MiembroExtra[];
 }) {
   const [edits, actualizarEdits] = useOptimistic(
     editsInicial,
     (prev, update: { key: string; valor: string }) => ({ ...prev, [update.key]: update.valor }),
   );
 
-  const eliminados = useMemo(() => buildEliminados(edits), [edits]);
+  const eliminados = useMemo(() => buildEliminados(edits, miembrosExtra), [edits, miembrosExtra]);
 
   function handleRestaurar(correo: string) {
     startTransition(() => {
