@@ -1,0 +1,3487 @@
+{
+  "actualizado": "2026-06-24",
+  "hojas": [
+    {
+      "id": "mbp-forza-capital",
+      "nombre": "MBP Forza Capital",
+      "grupos": [
+        {
+          "nombre": "Equipo Forza Capital",
+          "asesores": [
+            {
+              "nombre": "Carolina Angélica Vásquez Tapia",
+              "correo": "cvasquez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Cristian Figueroa",
+              "correo": "cfigueroa@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Florencia Cortés",
+              "correo": "fcortes@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Forza Capital",
+              "correo": "forzacapital@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "German Sebastian Mackenney Esquerre",
+              "correo": "gmackenney@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Ignacio Ruiz",
+              "correo": "iruiz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Luisana Leon",
+              "correo": "lleon@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Mariana Samarotto",
+              "correo": "msamarotto@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Pablo Carreño Pizarro",
+              "correo": "pcarreno@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Patricia Maldonado",
+              "correo": "pmaldonado@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Sebastian Ramirez",
+              "correo": "sramirez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Nancy Andrea Jaques Rojas",
+              "correo": "njaques@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 10
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 8
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 2
+            }
+          ]
+        },
+        {
+          "nombre": "Denyz Leyton / Tramagestion",
+          "asesores": [
+            {
+              "nombre": "Alex Antonio Quero Lotzen",
+              "correo": "aquero@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-15"
+            },
+            {
+              "nombre": "Claudia Andra Lorca Berrios",
+              "correo": "clorca@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Denyz Leyton Crisostomo",
+              "correo": "dleyton@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Gloria Mercedes Vargas Alvira",
+              "correo": "gvargas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Lency Jacqueline Fuenzalida Undurraga.",
+              "correo": "lfuenzalida@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Jaime Ignacio Escudero Alvarado",
+              "correo": "jescudero@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-15"
+            },
+            {
+              "nombre": "Karen Francisca fuentes Pérez",
+              "correo": "Kfuentes@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-15"
+            },
+            {
+              "nombre": "Marcela Huilipan Duran",
+              "correo": "mhuilipan@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Marcela Sepulveda Candia",
+              "correo": "msepulveda@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Rolando Rafael Carbullanca Correa",
+              "correo": "rcarbullanca@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-02"
+            },
+            {
+              "nombre": "Trama Gestion",
+              "correo": "tramagestion@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 6
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 5
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mbp-marisio-inversiones",
+      "nombre": "MBP Marisio Inversiones",
+      "grupos": [
+        {
+          "nombre": "Areli Marisio / Inversion 360",
+          "asesores": [
+            {
+              "nombre": "Areli Marisio",
+              "correo": "amarisio@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Aurora de las Mercedes Klausen Hernández",
+              "correo": "aklausen@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Claudia Sepulveda Escobedo",
+              "correo": "csepulveda@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Cristian Gonzalo Tronche Torres",
+              "correo": "ctronche@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Daphny Sotelo",
+              "correo": "dsotelo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Edith Del Rosario Torres Ronceros",
+              "correo": "etorres@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Inversión 360",
+              "correo": "i360@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Ivan Quezada",
+              "correo": "iquezada@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Karla Flores",
+              "correo": "kflores@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": true
+            },
+            {
+              "nombre": "Rodrigo Alejandro Palma Peña",
+              "correo": "rpalma@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "",
+              "correo": "trubilar@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Paola Osorio",
+              "correo": "posorio@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Paulina Riquelme",
+              "correo": "priquelme@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Vanessa Bustos",
+              "correo": "v.bustos@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 18
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 14
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Emily Rivero / Select Capital",
+          "asesores": [
+            {
+              "nombre": "Candy Pernia",
+              "correo": "cpernia@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Carlos Rivas",
+              "correo": "crivas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Catherine Norambuena",
+              "correo": "cnorambuena@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Elkis Daza",
+              "correo": "edaza@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Emily Rossy Rivero Hernandez",
+              "correo": "e.rivero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Jorge Hormazabal",
+              "correo": "jhormazabal@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Marianella Iriarte",
+              "correo": "miriarte@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Marianny Mujica",
+              "correo": "mmujica@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Matilde Perez",
+              "correo": "mperezc@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Richard Marquez",
+              "correo": "rmarquez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 12
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 9
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Jimena Tapia / JTF Invest",
+          "asesores": [
+            {
+              "nombre": "Aldo Portilla Pérez",
+              "correo": "aportilla@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Aurimar Edani Morillo Ramirez",
+              "correo": "amorillo@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-02"
+            },
+            {
+              "nombre": "Christopher Gerbier",
+              "correo": "cgerbier@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-02"
+            },
+            {
+              "nombre": "César Alejandro Puga Velasquez",
+              "correo": "cpuga@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "David Berrueta Avendaño",
+              "correo": "dberrueta@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-22"
+            },
+            {
+              "nombre": "Iris del Carmen Lara",
+              "correo": "ilara@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Isabel Sainz",
+              "correo": "isainz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Jimena Tapia",
+              "correo": "jtapia@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Marcel Garrido",
+              "correo": "mgarrido@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Paz Vidal Morales",
+              "correo": "pvidal@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Tamara Monzon Olavarría",
+              "correo": "tmonzon@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 8
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 6
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Paulina Contreras / Capital Growth",
+          "asesores": [
+            {
+              "nombre": "Beatriz Loreto Sánchez González",
+              "correo": "b.sanchez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Capital Wrowth",
+              "correo": "capitalgrowth@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Daniela Cordero Campos",
+              "correo": "dcordero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Erika Cardozo",
+              "correo": "ecardozo@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Francisca Cortés",
+              "correo": "fcortesa@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Gabriel Salazar",
+              "correo": "gsalazar@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Makarena Laraine",
+              "correo": "mlaraine@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Paulina Contreras",
+              "correo": "pcontreras@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Victoria Cristina Loyola Fernández",
+              "correo": "vloyola@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 9
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 4
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Giovanni Marisio / RISE",
+          "asesores": [
+            {
+              "nombre": "Rodrigo Aguayo",
+              "correo": "raguayo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Ignacia Garrido Ruiz",
+              "correo": "igarrido@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Franco Scarafile",
+              "correo": "fscarafile@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 3
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Nicole Del Pilar / Prop Inversiones",
+          "asesores": [
+            {
+              "nombre": "Nicole Del Pilar Fuentes Sanzana",
+              "correo": "nfuentes@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Pamela Hernandez Lagos",
+              "correo": "phernandezl@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Scarlet Villarroel",
+              "correo": "svillaroel@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 2
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 2
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mbp-mendoza",
+      "nombre": "MBP Mendoza",
+      "grupos": [
+        {
+          "nombre": "Bastián Rodriguez / IRC",
+          "asesores": [
+            {
+              "nombre": "Ariel Ignacio Núñez Salinas",
+              "correo": "anunez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Andrea Orellana Hernandez",
+              "correo": "aorellana@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Bastián Rodriguez",
+              "correo": "brodriguez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Camila Bernal Huispe",
+              "correo": "cbernal@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Claudia Jimena Hoyos Cardona",
+              "correo": "ccardona@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Daphne Claudia Ashley Maturana Moya",
+              "correo": "dmaturana@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Lorena Dayana Acosta Villegas",
+              "correo": "lacosta@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Marcelo Rodríguez",
+              "correo": "mrodriguez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": true
+            },
+            {
+              "nombre": "María Luz Herrera Guzmán",
+              "correo": "mherrera@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Nicolas Alberto Ruiz Quilodran",
+              "correo": "nruiz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Paloma Almendra de Lourdes Gómez Palma",
+              "correo": "pgomez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Paz Daniela Henriquez",
+              "correo": "phenriquez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 11
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 11
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Debora Mendez",
+          "asesores": [
+            {
+              "nombre": "Dan Eleazar Olguín Painevilo",
+              "correo": "dolguin@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Debora Capital",
+              "correo": "deboracapitalinmobiliario@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Debora Méndez Contreras",
+              "correo": "dmendez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Escarlet Geldez Méndez",
+              "correo": "egeldez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Maribel Angela Salinas Olguin",
+              "correo": "m.salinas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Grecia Lugo",
+              "correo": "glugo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Liz nayda huaraka puma",
+              "correo": "lhuaraka@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "René Saúl rojas salinas",
+              "correo": "rrojas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Samuel Salinas Olguín",
+              "correo": "ssalinas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": true
+            },
+            {
+              "nombre": "Sugey Merly Rodriguez Navas",
+              "correo": "srodriguez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 10
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 10
+            }
+          ]
+        },
+        {
+          "nombre": "Francisco Mendoza / Mendoza Real State",
+          "asesores": [
+            {
+              "nombre": "Broker En propiedades",
+              "correo": "brokerenpropiedades@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Carol Maldonado",
+              "correo": "cmaldonado@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Diego Ignacio Arredondo Torres",
+              "correo": "darredondo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Diego Luis Diaz Padilla",
+              "correo": "ddiaz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Fernanda Cerezo",
+              "correo": "fernanda@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Francisca Moreno",
+              "correo": "fmoreno@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Francisco Mendoza",
+              "correo": "fmendoza@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Francisco Mendoza",
+              "correo": "francisco@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Guillermo Montenegro",
+              "correo": "gmontenegro@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-01"
+            },
+            {
+              "nombre": "Joel Muñoz",
+              "correo": "jmunoz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "José Miguel Velásquez Remolcoy",
+              "correo": "jvelasquez@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-08"
+            },
+            {
+              "nombre": "Juan Rubén Huenulaf",
+              "correo": "juanruben@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": true
+            },
+            {
+              "nombre": "Leonardo Andrés Toledo Toledo",
+              "correo": "ltoledo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Marcelo Escobar Fabre",
+              "correo": "iescobar@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "María Eugenia Carreño Silva",
+              "correo": "mcarreno@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Mathias Nicolas Gallardo Gaete",
+              "correo": "mgallardo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Mauro Vargas",
+              "correo": "mvargas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Miguel Herrera Bascuñan",
+              "correo": "mherrerab@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Nebenka Ottesen Altamirano",
+              "correo": "nottesen@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Nicole Betsabe Chavez Muñoz",
+              "correo": "nchavez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Nora Milena Vera Bolívar",
+              "correo": "nvera@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Paula Andrea Vargas Gaete",
+              "correo": "pvargas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Sandra Mendoza",
+              "correo": "smendoza@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Sonia Diaz",
+              "correo": "sdiaz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Viviana Isabel Iturralde Iturralde",
+              "correo": "viturralde@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 21
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 21
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Olmar Lugo / Invest U",
+          "asesores": [
+            {
+              "nombre": "Irina Zerpa",
+              "correo": "izerpa@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Olmar Lugo",
+              "correo": "olmar@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-05-28"
+            },
+            {
+              "nombre": "Yolanny Leon",
+              "correo": "yleon@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 3
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 2
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Rafael Cordero / House Family",
+          "asesores": [
+            {
+              "nombre": "Aracelli Cordero Corrales",
+              "correo": "acorderoc@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": true
+            },
+            {
+              "nombre": "Elizabeth Pamela Muñoz Barrera",
+              "correo": "emunoz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Erika Muñoz Maldonado",
+              "correo": "emunozm@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Fernando Silva Figueroa",
+              "correo": "fsilva@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-16"
+            },
+            {
+              "nombre": "Gabriela Estrella Romero Urrutia",
+              "correo": "gromerou@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "House Family RRSS",
+              "correo": "housefamily_rrss@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Jose maria reyes Muñoz",
+              "correo": "jreyes@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Marcelo Andres Frez Bustamante",
+              "correo": "mfrez@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-16"
+            },
+            {
+              "nombre": "Mario Marcelo Gomez Quezada",
+              "correo": "mgomez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Ninette Blanco Acuña",
+              "correo": "nblanco@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Paula Sandoval Flores",
+              "correo": "psandoval@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-16"
+            },
+            {
+              "nombre": "Rafael Andres Cordero Corrales",
+              "correo": "rcordero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Valeria Alejandra Fernandez Vallejos",
+              "correo": "vfernandezv@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-16"
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 12
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 7
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Daniela Deocares / Invierte y Acierta",
+          "asesores": [
+            {
+              "nombre": "Daniela Deocares",
+              "correo": "ddeocares@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Claudio Alejandro Barrientos Bustamante",
+              "correo": "cbarrientos@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-05"
+            },
+            {
+              "nombre": "Natalia Carolina Venegas Peña",
+              "correo": "nvenegas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Raúl Alfonso Soto Villagra",
+              "correo": "rsoto@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Diego Yañez",
+              "correo": "dyanez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 3
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 2
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mbp-servicios-integrales",
+      "nombre": "MBP Servicios Integrales",
+      "grupos": [
+        {
+          "nombre": "Carmen René / Greca Consultores",
+          "asesores": [
+            {
+              "nombre": "Bastián Ignacio Oñate Faúndez",
+              "correo": "bonate@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Carmen Pacheco",
+              "correo": "cpacheco@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Claudia Allende",
+              "correo": "callende@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-19"
+            },
+            {
+              "nombre": "Daniela Pino",
+              "correo": "dpino@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-01"
+            },
+            {
+              "nombre": "Greca Consultores",
+              "correo": "grecaconsultores@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Javier Recabarren",
+              "correo": "jrecabarren@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Jesús Enrique Blanco Monro",
+              "correo": "jblanco@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Manuel Andres Martínez Carmona",
+              "correo": "mmartinez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Michel Sabida",
+              "correo": "msibada@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Monica María Padilla Nuñez",
+              "correo": "mpadilla@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Rene Ricardo Granados Noriega",
+              "correo": "rgranados@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Sandra Hernandez",
+              "correo": "shernandez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 11
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 10
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Neumann Stanley / Neuman Stanley Group",
+          "asesores": [
+            {
+              "nombre": "Alvaro Carrillo",
+              "correo": "acarrillo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Cristian Neumann",
+              "correo": "cneumann@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Denisse Vega Peña",
+              "correo": "dvega@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Neumann-Stanley Group",
+              "correo": "nsg@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 5
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 2
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Olivero Partners / Camilo, JP y Felipe",
+          "asesores": [
+            {
+              "nombre": "Amanda Isabel Toro González",
+              "correo": "atoro@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Angélica Betsabé Aguilera Riffo",
+              "correo": "aaguilera@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Anngle Olenny Rojas Lugo",
+              "correo": "arojas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Carlos Guillermo Bórquez Espinoza",
+              "correo": "cborquez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Carol Romina Ríos Bernales",
+              "correo": "crios@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Christian Alarcon",
+              "correo": "calarcon@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Felipe Olivero Larson",
+              "correo": "folivero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Felipe Ignacio Gamboa Mandiola",
+              "correo": "fgamboa@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Juan Pablo Olivero",
+              "correo": "jpolivero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Karen Elizabeth Quezada Quezada",
+              "correo": "kquezada@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Loretto Stephanie Castro Durán",
+              "correo": "lcastro@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Matias Olivero",
+              "correo": "molivero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "opi g",
+              "correo": "opig@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Patricia Nicole Escobar Marín",
+              "correo": "pescobar@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Santiago Nicolás Díaz Angeloni",
+              "correo": "sdiaza@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Sofía Inostroza Luttecke",
+              "correo": "sinostroza@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Gonzalo Bittelman",
+              "correo": "gbittelman@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 15
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 15
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Ynes Lastra / SION",
+          "asesores": [
+            {
+              "nombre": "Mayfel Andreina Escobar Barroso",
+              "correo": "mescobar@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": true
+            },
+            {
+              "nombre": "Natalia Miranda",
+              "correo": "nmiranda@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false,
+              "fechaEliminacion": "2026-06-08"
+            },
+            {
+              "nombre": "SION BP",
+              "correo": "sion@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Ynes maria Lastra fuentes",
+              "correo": "ylastra@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 5
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 1
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "CAMILO OLIVERO",
+          "asesores": [
+            {
+              "nombre": "Camilo Olivero",
+              "correo": "colivero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Camilo Olivero",
+              "correo": "CAOF@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 1
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 1
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mbp-cfm",
+      "nombre": "MBP CFM",
+      "grupos": [
+        {
+          "nombre": "Cristian Farías / CFM inversiones",
+          "asesores": [
+            {
+              "nombre": "Asesores CFM",
+              "correo": "asesores.cfm@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "CFM inversiones",
+              "correo": "cfminversiones@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Cristian Farias",
+              "correo": "cfarias@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Créditos CFM",
+              "correo": "creditoscfm@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Cynthia Belén Narváez Escobar",
+              "correo": "cnarvaez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Daniel Espinoza",
+              "correo": "despinoza@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Gabriela Hidalgo",
+              "correo": "ghidalgo@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-01"
+            },
+            {
+              "nombre": "Jonathan Marin",
+              "correo": "jmarin@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Leslie Geraldine Santis Verdugo",
+              "correo": "lsantis@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": true
+            },
+            {
+              "nombre": "Manuel Rojas Latud",
+              "correo": "mrojasl@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Matias Bobadilla",
+              "correo": "mbobadilla@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Pamela Marin",
+              "correo": "pmarin@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Paz Guajardo",
+              "correo": "pguajardo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Pia Carvajal Marchant",
+              "correo": "pcarvajal@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Soporte CFM",
+              "correo": "soportecomercialcfm@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Valeria Bravo Lillo",
+              "correo": "vbravo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Yasna Valenzuela",
+              "correo": "yvalenzuela@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 12
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 12
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mbp-sinapsis",
+      "nombre": "MBP Sinapsis",
+      "grupos": [
+        {
+          "nombre": "Equipo Sinapsis / Leandro Rios y Francisco Reyes",
+          "asesores": [
+            {
+              "nombre": "Alejandro Ernesto Correa Gonzalez",
+              "correo": "acorrea@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Catalina Andrea Viaux Guzmán",
+              "correo": "cviaux@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Cristobal Alonzo Bustos Gonzalez",
+              "correo": "cbustos@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Daniela Riffo",
+              "correo": "driffo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": true
+            },
+            {
+              "nombre": "Diego Sandoval",
+              "correo": "dsandoval@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Francisco Reyes",
+              "correo": "freyes@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Hugo Arturo Gallardo Ravanal",
+              "correo": "hgallardo@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false,
+              "fechaEliminacion": "2026-06-16"
+            },
+            {
+              "nombre": "Ignacio Rocco",
+              "correo": "irocco@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "José Miguel Calcagni Ortega",
+              "correo": "jcalcagni@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Juan Carlos Parra",
+              "correo": "jparra@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Kevin Martinez",
+              "correo": "kmartinez@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-02"
+            },
+            {
+              "nombre": "Leandro Ríos",
+              "correo": "lrios@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Marlene Leonor Legal Castro",
+              "correo": "mlegal@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Natalia Pinto",
+              "correo": "npinto@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Pablo Recabarren",
+              "correo": "precabarren@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Rodrigo Andrés Quintana Loyola",
+              "correo": "rquintana@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Sebastian Salazar Muñoz",
+              "correo": "smunoz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Sinapsis Ci",
+              "correo": "sinapsis@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "Cloud",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 13
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 13
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Domca / Hermanos Dominguez",
+          "asesores": [
+            {
+              "nombre": "Alfonso Esteban Robles Valdés",
+              "correo": "arobles@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Alonso Dominguez",
+              "correo": "adominguez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Carolina Vergara Gonzalez",
+              "correo": "cvergara@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Carolina Fuentes",
+              "correo": "cfuentes@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Claudio Alberto Díaz Tapia",
+              "correo": "cdiaz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Daniela Jimenez",
+              "correo": "djimenez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Domca ci",
+              "correo": "domca@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Felipe Donoso",
+              "correo": "fdonoso@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Evelyn Carrillo",
+              "correo": "ecarrillo@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-03"
+            },
+            {
+              "nombre": "Macarena Dominguez",
+              "correo": "mdominguez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Macarena Jeldres",
+              "correo": "mjeldres@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Mauricio Figueroa Pizarro",
+              "correo": "mfigueroa@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Natalia Zambrano Ortega",
+              "correo": "nzambrano@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-01"
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 12
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 10
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Claudia Nazar / Nazar Property",
+          "asesores": [
+            {
+              "nombre": "Alejandra Colmenares Urbina",
+              "correo": "acolmenares@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Andrés Mauricio Mardones Ojeda",
+              "correo": "amardones@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Claudia Andrea Nazar Fuentes",
+              "correo": "cnazar@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Diana Cleofe Caballero Soria",
+              "correo": "dcaballero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Matías Andrés Calvache Fernández",
+              "correo": "mcalvache@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Nazar Properties",
+              "correo": "nazar@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Cloud",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 4
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 4
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Fernando Ipinza / Inm e Inv FIR",
+          "asesores": [
+            {
+              "nombre": "Alice Marschhausen",
+              "correo": "amarschhausen@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-10"
+            },
+            {
+              "nombre": "Fernando Ipinza",
+              "correo": "fipinza@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Iván Enrique Primus Moreno",
+              "correo": "iprimus@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Maria Ines Giorgio",
+              "correo": "mgiorgio@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-10"
+            },
+            {
+              "nombre": "Mohammad Taher Perez",
+              "correo": "mtaher@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-10"
+            },
+            {
+              "nombre": "Pablo Mauricio Toro Vargas",
+              "correo": "ptoro@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-10"
+            },
+            {
+              "nombre": "Sandra Díaz Bustamante",
+              "correo": "sbustamante@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-10"
+            },
+            {
+              "nombre": "Silvia Paola Chaparro Serey",
+              "correo": "schaparro@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": false,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-10"
+            },
+            {
+              "nombre": "Waleska Birkner Cerda",
+              "correo": "wbirkner@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-10"
+            },
+            {
+              "nombre": "Yésica Marcela Gaona Cifuentes",
+              "correo": "ygaona@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 9
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 1
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mbp-skala",
+      "nombre": "MBP Skala",
+      "grupos": [
+        {
+          "nombre": "Equipo Rosicela Fernandez",
+          "asesores": [
+            {
+              "nombre": "BP Rosicela Fernández",
+              "correo": "skala.realty@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Macarena Iturrieta",
+              "correo": "miturrieta@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Nelsi Lopez",
+              "correo": "nlopez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Osmelia Pernia",
+              "correo": "opernia@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Rosicela Fernández",
+              "correo": "rfernandez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Rudy Troncoso",
+              "correo": "rtroncoso@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Victor Manuel Fernandez Castro",
+              "correo": "vfernandez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Cristofher Alvarado",
+              "correo": "calvarador@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": true
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 15
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 5
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Avanti Invest MC / Maria Carolina Pinto",
+          "asesores": [
+            {
+              "nombre": "Avanti Invest",
+              "correo": "avanti@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Leonardo Jose Vivas Perez",
+              "correo": "lvivas@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "María Carolina Pinto Mota",
+              "correo": "mpintom@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Cloud",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 6
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 2
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mbp-vanema",
+      "nombre": "MBP Vanema",
+      "grupos": [
+        {
+          "nombre": "Vanessa Chirinos / VANEMA",
+          "asesores": [
+            {
+              "nombre": "Adriana Paola Hernandez Castellon",
+              "correo": "ahernandez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Gina Romero",
+              "correo": "gromero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Marcko Espinoza",
+              "correo": "marcko@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Maria Pravia Palacios",
+              "correo": "praviap@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Mauricio Neira",
+              "correo": "mneira@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Scarleth Garcia",
+              "correo": "sgarcia@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Vanema Ci",
+              "correo": "vanema@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": false,
+              "sf": "Cloud",
+              "tl": false
+            },
+            {
+              "nombre": "Vanessa Chirinos",
+              "correo": "vchirinos@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Creadas",
+              "valor": 13
+            },
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 7
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nombre": "Manuel Duran / Vivvoen",
+          "asesores": [
+            {
+              "nombre": "Douglas Rojo",
+              "correo": "drojo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Edgar David Carrillo Dávila",
+              "correo": "ecarrillod@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Gabriel Chacon",
+              "correo": "gchacon@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Juan Jose Suarez Hernandez",
+              "correo": "jsuarez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Manuel Alejandro Duran Rojo",
+              "correo": "mduran@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": true,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false
+            },
+            {
+              "nombre": "Valentina Isidora Ortega Fuentealba",
+              "correo": "vortega@capitalinteligente.cl",
+              "estado": "Eliminado",
+              "jira": false,
+              "slack": true,
+              "sf": "Portal",
+              "tl": false,
+              "fechaEliminacion": "2026-06-11"
+            },
+            {
+              "nombre": "Vivvo en",
+              "correo": "vivvoen@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "Cloud",
+              "tl": false
+            }
+          ],
+          "metricas": [
+            {
+              "label": "Cuentas Portal Activo",
+              "valor": 5
+            },
+            {
+              "label": "Cuentas SalesCloud",
+              "valor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "planta",
+      "nombre": "Planta",
+      "grupos": [
+        {
+          "nombre": "Planta administrativa",
+          "asesores": [
+            {
+              "nombre": "Lia Elizabeth Bravo Orellana",
+              "correo": "lbravo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Ana Lucía Jácome Ramos",
+              "correo": "ajacome@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Andrea Dinamarca",
+              "correo": "adinamarca@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Andres Peña",
+              "correo": "apena@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Angélica Lugo",
+              "correo": "alugo@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Claudia Carrasco",
+              "correo": "ccarrasco@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Claudia Bocchieri",
+              "correo": "cbocchieri@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Clemente Peede Rademacher",
+              "correo": "cpeede@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Constanza Alvarez",
+              "correo": "constanza@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Cristian Salazar",
+              "correo": "csalazar@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Cristobal Hormazabal",
+              "correo": "cristobal@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Daniela Jeanette Deocares Parada",
+              "correo": "ddeocares@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Francisco Javier Pérez Mondaca",
+              "correo": "fperez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Genesis Cid",
+              "correo": "gcid@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Ginneth Garcia",
+              "correo": "ggarcia@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Giovanni Marisio",
+              "correo": "gmarisio@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Ipsen David Guzman Rodriguez",
+              "correo": "iguzman@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Ivis García",
+              "correo": "igarcia@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Javier Ramírez Silva",
+              "correo": "jramirez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Javiera Romero",
+              "correo": "jromero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Javiera Durán Romero",
+              "correo": "jduran@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Jhoanny Paez Gutiérrez",
+              "correo": "jpaez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Jocelyn Torres",
+              "correo": "jtorres@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Josiel María Matheus García",
+              "correo": "jmatheus@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Josmarym Marcano Rondon",
+              "correo": "jmarcano@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "José Lara",
+              "correo": "jlara@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Katherine Lettich Mora",
+              "correo": "klettich@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Keila Nieto",
+              "correo": "knieto@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Kimberlin Diaz",
+              "correo": "kdiaz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Macarena San Juan",
+              "correo": "msanjuan@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Marcela Torres",
+              "correo": "mtorres@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Maria Pía Valenzuela",
+              "correo": "pvalenzuela@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Martha Quintero",
+              "correo": "mquintero@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Matilde Perez",
+              "correo": "mperezc@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Natalia Rubio",
+              "correo": "natalia@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Nicole Alzerreca",
+              "correo": "nalzerreca@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Nicole Sanchez",
+              "correo": "nsanchez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Pablo Rivera",
+              "correo": "privera@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Pablo Segura",
+              "correo": "psegura@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Paola Leyba",
+              "correo": "pleyba@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Raimundo Díaz",
+              "correo": "rdiaz@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Roquelina Ayola Pérez",
+              "correo": "rayola@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Rosmary Hernandez Alvarez",
+              "correo": "rosmary@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Rubén Moreno",
+              "correo": "rmoreno@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Sandra Jerez",
+              "correo": "sjerez@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Tomás Deocares",
+              "correo": "tdeocares@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Tomás Mallea",
+              "correo": "tmallea@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Valentina Adones Calderon",
+              "correo": "vadones@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            },
+            {
+              "nombre": "Maria Paz Gonzalez Federici",
+              "correo": "mpgonzalezf@capitalinteligente.cl",
+              "estado": "Activo",
+              "jira": false,
+              "slack": false,
+              "sf": "",
+              "tl": false
+            }
+          ],
+          "metricas": []
+        }
+      ]
+    }
+  ]
+}

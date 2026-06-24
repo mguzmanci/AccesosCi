@@ -6,6 +6,7 @@ import { SolicitudForm } from '@/components/SolicitudForm';
 import { SolicitudesList } from '@/components/SolicitudesList';
 import { DashboardTabs } from '@/components/DashboardTabs';
 import { DirectorioEquipos } from '@/components/DirectorioEquipos';
+import { ListaCorreos } from '@/components/ListaCorreos';
 import { construirDirectorio } from '@/lib/services/solicitudes.service';
 
 export default async function Home({
@@ -87,6 +88,15 @@ export default async function Home({
                         plataformas={plataformas}
                       />
                     ),
+                  },
+                ]
+              : []),
+            ...(sesion.rol === 'admin'
+              ? [
+                  {
+                    id: 'correos',
+                    label: 'Lista de correos',
+                    content: <ListaCorreos />,
                   },
                 ]
               : []),
