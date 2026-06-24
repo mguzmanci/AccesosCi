@@ -132,6 +132,19 @@ export function construirCorreoSolicitud(
         </tbody>
       </table>
 
+      ${
+        solicitud.comentario
+          ? `<table style="width:100%;border-collapse:collapse;margin-top:16px;background:#fffbe6;border-radius:8px;overflow:hidden;border:1px solid #f0e68c">
+        <thead>
+          <tr><th style="padding:10px 12px;text-align:left;background:#f5e642;font-size:0.85rem;color:#555">COMENTARIOS</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:10px 12px;color:#111">${solicitud.comentario}</td></tr>
+        </tbody>
+      </table>`
+          : ''
+      }
+
       <p style="margin-top:24px;font-size:0.8rem;color:#aaa">Este mensaje fue generado automáticamente por Solicitudes de Accesos · Capital Inteligente.</p>
     </div>
   `;
