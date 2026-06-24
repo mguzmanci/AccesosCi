@@ -108,24 +108,21 @@ export function EliminadosPanel({
         <table className="w-full table-fixed text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/40 text-left">
-              <th className="w-[22%] px-3 py-2 font-semibold text-foreground">Nombre</th>
-              <th className="w-[28%] px-3 py-2 font-semibold text-foreground">Correo</th>
+              <th className="w-[42%] px-3 py-2 font-semibold text-foreground">Nombre / Correo</th>
               <th className="w-[18%] px-3 py-2 font-semibold text-foreground">Equipo</th>
-              <th className="w-[16%] px-3 py-2 font-semibold text-foreground">Eliminado por</th>
-              <th className="w-[140px] whitespace-nowrap px-3 py-2 font-semibold text-foreground">
+              <th className="w-[13%] px-3 py-2 font-semibold text-foreground">Eliminado por</th>
+              <th className="w-[17%] whitespace-nowrap px-3 py-2 font-semibold text-foreground">
                 Fecha
               </th>
-              {esAdmin && <th className="w-[90px] px-3 py-2" />}
+              {esAdmin && <th className="w-[10%] px-3 py-2" />}
             </tr>
           </thead>
           <tbody>
             {eliminados.map((e) => (
               <tr key={e.correo} className="border-b border-border last:border-0 hover:bg-muted/20">
-                <td className="px-3 py-2 text-foreground">{e.nombre}</td>
                 <td className="px-3 py-2">
-                  <span className="break-all font-mono text-xs text-muted-foreground">
-                    {e.correo}
-                  </span>
+                  <div className="font-medium text-foreground">{e.nombre}</div>
+                  <div className="font-mono text-xs text-muted-foreground">{e.correo}</div>
                 </td>
                 <td className="px-3 py-2">
                   <div className="text-xs text-muted-foreground">{e.grupo}</div>
