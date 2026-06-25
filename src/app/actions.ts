@@ -296,7 +296,13 @@ export async function cambiarEstadoAction(formData: FormData) {
     const solicitudFinal = cambiarEstadoSolicitud(solicitud, 'completada');
     await actualizarSolicitud(solicitudFinal);
     const correo = construirCorreoCompletada(solicitudFinal, plataformas, passwordAlmacenada);
-    await enviarCorreo(correo.to, correo.subject, correo.body);
+    const correoPersonalSf = (solicitudFinal.datos as DatosCreacion).correoPersonal;
+    await Promise.all([
+      enviarCorreo(correo.to, correo.subject, correo.body),
+      ...(correoPersonalSf && correoPersonalSf !== correo.to
+        ? [enviarCorreo(correoPersonalSf, correo.subject, correo.body)]
+        : []),
+    ]);
     revalidatePath('/');
     return;
   }
@@ -319,7 +325,16 @@ export async function cambiarEstadoAction(formData: FormData) {
     await enviarCorreo(correo.to, correo.subject, correo.body);
   } else if (estado === 'completada') {
     const correo = construirCorreoCompletada(solicitudFinal, plataformas, passwordCorreo);
-    await enviarCorreo(correo.to, correo.subject, correo.body);
+    const correoPersonalNormal =
+      solicitudFinal.tipo === 'crear'
+        ? (solicitudFinal.datos as DatosCreacion).correoPersonal
+        : undefined;
+    await Promise.all([
+      enviarCorreo(correo.to, correo.subject, correo.body),
+      ...(correoPersonalNormal && correoPersonalNormal !== correo.to
+        ? [enviarCorreo(correoPersonalNormal, correo.subject, correo.body)]
+        : []),
+    ]);
 
     if (solicitudFinal.tipo === 'crear' && correoCorporativoAsignado && bpHojaId && bpGrupoNombre) {
       const d = solicitudFinal.datos as DatosCreacion;
