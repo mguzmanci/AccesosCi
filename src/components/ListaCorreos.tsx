@@ -622,7 +622,7 @@ function TablaGrupo({
                   Fecha baja
                 </th>
               )}
-              <th className="w-8" />
+              <th className="w-16" />
             </tr>
           </thead>
           <tbody>
