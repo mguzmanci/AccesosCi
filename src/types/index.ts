@@ -8,6 +8,8 @@ export interface Usuario {
   rol: Rol;
   // Hash simple para login del MVP (no producción).
   passwordHash: string;
+  // Para BPs: "hojaId|grupoNombre" — grupo que pueden ver en Lista de correos.
+  grupoBp?: string;
 }
 
 export interface Plataforma {

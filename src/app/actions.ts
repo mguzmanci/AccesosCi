@@ -80,8 +80,9 @@ export async function verificarCodigoAction(_prev: unknown, formData: FormData) 
 
   const nombre = usuario?.nombre ?? email.split('@')[0];
   const rol = usuario?.rol ?? 'solicitante';
+  const grupoBp = usuario?.grupoBp;
 
-  await setSesion({ email, nombre, rol });
+  await setSesion({ email, nombre, rol, ...(grupoBp ? { grupoBp } : {}) });
   redirect('/');
 }
 

@@ -31,6 +31,13 @@ export default async function Home({
   const esEquipo = sesion.rol === 'equipo' || sesion.rol === 'admin';
   const esBP = sesion.rol === 'bp';
 
+  const filtroGrupo = (() => {
+    if (!esBP || !sesion.grupoBp) return undefined;
+    const sep = sesion.grupoBp.indexOf('|');
+    if (sep === -1) return undefined;
+    return { hojaId: sesion.grupoBp.slice(0, sep), grupoNombre: sesion.grupoBp.slice(sep + 1) };
+  })();
+
   const [
     plataformas,
     todas,
@@ -131,7 +138,7 @@ export default async function Home({
                         miembrosExtra={miembrosExtra}
                         hojasExtra={hojasExtra}
                         soloLectura={esBP}
-                        filtroCorreo={esBP ? sesion.email : undefined}
+                        filtroGrupo={filtroGrupo}
                       />
                     ),
                   },

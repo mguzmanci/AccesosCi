@@ -985,7 +985,7 @@ export function ListaCorreos({
   miembrosExtra = [],
   hojasExtra = [],
   soloLectura = false,
-  filtroCorreo,
+  filtroGrupo,
 }: {
   edits: Record<string, string>;
   gruposExtra?: GrupoExtra[];
@@ -993,7 +993,7 @@ export function ListaCorreos({
   miembrosExtra?: MiembroExtra[];
   hojasExtra?: HojaExtra[];
   soloLectura?: boolean;
-  filtroCorreo?: string;
+  filtroGrupo?: { hojaId: string; grupoNombre: string };
 }) {
   const todasHojas = useMemo(
     () => [
@@ -1004,24 +1004,12 @@ export function ListaCorreos({
   );
 
   const hojasVisibles = useMemo(() => {
-    if (!filtroCorreo) return todasHojas;
-    return todasHojas.filter((h) => {
-      const hData = data.hojas.find((d) => d.id === h.id);
-      if (hData) {
-        return (
-          hData.grupos.some((g) => g.asesores.some((a) => a.correo === filtroCorreo)) ||
-          miembrosExtra.some((m) => m.hojaId === h.id && m.correo === filtroCorreo)
-        );
-      }
-      return miembrosExtra.some((m) => m.hojaId === h.id && m.correo === filtroCorreo);
-    });
-  }, [todasHojas, filtroCorreo, miembrosExtra]);
+    if (!filtroGrupo) return todasHojas;
+    return todasHojas.filter((h) => h.id === filtroGrupo.hojaId);
+  }, [todasHojas, filtroGrupo]);
 
   const [hojaActiva, setHojaActiva] = useState(() => {
-    if (!filtroCorreo) return data.hojas[0]?.id;
-    for (const h of data.hojas) {
-      if (h.grupos.some((g) => g.asesores.some((a) => a.correo === filtroCorreo))) return h.id;
-    }
+    if (filtroGrupo) return filtroGrupo.hojaId;
     return data.hojas[0]?.id;
   });
   const [creandoMBP, setCreandoMBP] = useState(false);
@@ -1086,8 +1074,8 @@ export function ListaCorreos({
         }));
       return extras.length > 0 ? { ...g, asesores: [...g.asesores, ...extras] } : g;
     });
-    const porFiltro = filtroCorreo
-      ? todos.filter((g) => g.asesores.some((a) => a.correo === filtroCorreo))
+    const porFiltro = filtroGrupo
+      ? todos.filter((g) => g.nombre === filtroGrupo.grupoNombre)
       : todos;
     const q = busqueda.trim().toLowerCase();
     if (!q) return porFiltro;
@@ -1099,7 +1087,7 @@ export function ListaCorreos({
         ),
       }))
       .filter((g) => g.asesores.length > 0);
-  }, [hoja, gruposDinamicos, ocultoSet, busqueda, miembrosExtra, filtroCorreo]);
+  }, [hoja, gruposDinamicos, ocultoSet, busqueda, miembrosExtra, filtroGrupo]);
 
   const columnas = useMemo(() => {
     const all = grupos.flatMap((g) => g.asesores);

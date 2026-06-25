@@ -36,12 +36,15 @@ function rowToSolicitud(row: SolicitudRow): Solicitud {
 }
 
 export async function leerUsuarios(): Promise<Usuario[]> {
-  const { data, error } = await getSupabase().from('usuarios').select('email, nombre, rol');
+  const { data, error } = await getSupabase()
+    .from('usuarios')
+    .select('email, nombre, rol, grupo_bp');
   if (error) throw new Error(`leerUsuarios: ${error.message}`);
   return (data ?? []).map((row) => ({
     email: row.email as string,
     nombre: row.nombre as string,
     rol: row.rol as Usuario['rol'],
+    grupoBp: (row.grupo_bp as string | null) ?? undefined,
     passwordHash: '',
   }));
 }
