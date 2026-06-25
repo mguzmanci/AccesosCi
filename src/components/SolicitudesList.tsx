@@ -11,6 +11,7 @@ import { cambiarEstadoAction } from '@/app/actions';
 import { agruparPorTipo } from '@/lib/services/solicitudes.service';
 import { DashboardTabs } from '@/components/DashboardTabs';
 import { CompletarCreacionForm } from '@/components/CompletarCreacionForm';
+import { BotonSubmit } from '@/components/BotonSubmit';
 import type { GrupoExtra } from '@/lib/db';
 
 const RESPONSABLE_CORREO = 'tmallea@capitalinteligente.cl';
@@ -348,12 +349,7 @@ function BotonEstado({
     <form action={cambiarEstadoAction}>
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="estado" value={estado} />
-      <button
-        type="submit"
-        className="rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted"
-      >
-        {label}
-      </button>
+      <BotonSubmit label={label} />
     </form>
   );
 }
