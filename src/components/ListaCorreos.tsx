@@ -479,17 +479,20 @@ function calcularMetricasDinamicas(
   const portalActivo = asesores.filter((a) => a.sf === 'Portal' && a.estado === 'activo').length;
   const salesCloud = asesores.filter((a) => a.sf === 'Cloud' && a.estado === 'activo').length;
 
-  return grupo.metricas.map((m) => {
-    if (m.label === 'Cuentas Portal Activo') return { ...m, valor: portalActivo };
-    if (m.label === 'Cuentas SalesCloud') return { ...m, valor: salesCloud };
-    if (m.label === 'Cuentas Portal Creadas') {
-      // Baseline editable por el usuario; si no hay override usa el del JSON
-      const rawBaseline = edits[metricaKey(grupo.nombre, 'Cuentas Portal Creadas')];
-      const baseline = rawBaseline !== undefined ? parseInt(rawBaseline, 10) : m.valor;
-      return { ...m, valor: Math.max(baseline, portalActivo) };
-    }
-    return m;
-  });
+  // Baseline editable para Portal Creadas; si no hay override usa el del JSON (o portalActivo)
+  const jsonBaseline =
+    grupo.metricas.find((m) => m.label === 'Cuentas Portal Creadas')?.valor ?? portalActivo;
+  const rawBaseline = edits[metricaKey(grupo.nombre, 'Cuentas Portal Creadas')];
+  const portalCreadas =
+    rawBaseline !== undefined
+      ? Math.max(parseInt(rawBaseline, 10), portalActivo)
+      : Math.max(jsonBaseline, portalActivo);
+
+  return [
+    { label: 'Cuentas Portal Activo', valor: portalActivo },
+    { label: 'Cuentas Portal Creadas', valor: portalCreadas },
+    { label: 'Cuentas SalesCloud', valor: salesCloud },
+  ];
 }
 
 // ─── Número editable en badge ─────────────────────────────────────────────────
