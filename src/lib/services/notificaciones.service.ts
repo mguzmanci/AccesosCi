@@ -149,7 +149,10 @@ export function construirCorreoCompletada(
   const filasPlataformas = solicitud.accesos
     .map(
       (a) =>
-        `<tr><td style="padding:6px 12px;color:#111">· ${nombrePlataforma(a.plataformaId, plataformas)}</td></tr>`,
+        `<tr>
+          <td style="padding:6px 12px;color:#111;white-space:nowrap">· ${nombrePlataforma(a.plataformaId, plataformas)}</td>
+          <td style="padding:6px 12px;color:#166534;font-size:0.82rem">✅ Credenciales enviadas al correo</td>
+        </tr>`,
     )
     .join('');
 
@@ -198,7 +201,7 @@ export function construirCorreoCompletada(
 
       <table style="width:100%;border-collapse:collapse;margin-top:16px;background:#f9f9f9;border-radius:8px;overflow:hidden">
         <thead>
-          <tr><th style="padding:10px 12px;text-align:left;background:#eee;font-size:0.85rem;color:#555">PLATAFORMAS</th></tr>
+          <tr><th colspan="2" style="padding:10px 12px;text-align:left;background:#eee;font-size:0.85rem;color:#555">PLATAFORMAS</th></tr>
         </thead>
         <tbody>
           ${filasPlataformas}
