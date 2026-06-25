@@ -85,7 +85,14 @@ function buildEliminados(
     }
   }
 
-  return result.sort((a, b) => b.en.localeCompare(a.en));
+  const vistos = new Set<string>();
+  return result
+    .filter((e) => {
+      if (vistos.has(e.correo)) return false;
+      vistos.add(e.correo);
+      return true;
+    })
+    .sort((a, b) => b.en.localeCompare(a.en));
 }
 
 export function EliminadosPanel({

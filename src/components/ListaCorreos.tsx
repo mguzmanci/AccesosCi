@@ -572,7 +572,10 @@ function TablaGrupo({
   );
 
   const asesoresVisibles = grupo.asesores.filter(
-    (a) => !eliminadas.has(a.correo) && edits[estKey(a.correo, 'eliminado')] !== 'true',
+    (a) =>
+      !eliminadas.has(a.correo) &&
+      edits[estKey(a.correo, 'eliminado')] !== 'true' &&
+      edits[estKey(a.correo, 'transferido')] !== 'true',
   );
 
   return (

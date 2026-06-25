@@ -289,11 +289,9 @@ export async function transferirCorreoAction(
   if (esDinamico) {
     await transferirMiembroExtra(correo, targetHojaId, targetGrupoNombre);
   } else {
-    await Promise.all([
-      guardarEdicionCorreo(correo, 'eliminado', 'true'),
-      guardarEdicionCorreo(correo, 'eliminado_por', sesion.email),
-      guardarEdicionCorreo(correo, 'eliminado_en', new Date().toISOString()),
-    ]);
+    // Para miembros estáticos usamos 'transferido' (no 'eliminado') para que
+    // no aparezcan en el panel Eliminados ni filtren la nueva entrada en miembros_extra.
+    await guardarEdicionCorreo(correo, 'transferido', 'true');
     await crearMiembroExtra(
       targetHojaId,
       targetGrupoNombre,
