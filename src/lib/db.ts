@@ -183,7 +183,7 @@ export async function leerMiembrosExtra(): Promise<MiembroExtra[]> {
     .select('id, hoja_id, grupo_nombre, nombre, correo, slack, jira, sf, estado')
     .order('created_at');
   if (error) throw new Error(`leerMiembrosExtra: ${error.message}`);
-  return (data ?? []).map((row) => ({
+  const todos = (data ?? []).map((row) => ({
     id: row.id as string,
     hojaId: row.hoja_id as string,
     grupoNombre: row.grupo_nombre as string,
@@ -194,6 +194,10 @@ export async function leerMiembrosExtra(): Promise<MiembroExtra[]> {
     sf: row.sf as string,
     estado: row.estado as string,
   }));
+  // Deduplicar por correo: conservar el último insertado (más reciente)
+  const vistos = new Map<string, MiembroExtra>();
+  for (const m of todos) vistos.set(m.correo, m);
+  return Array.from(vistos.values());
 }
 
 export async function crearMiembroExtra(
