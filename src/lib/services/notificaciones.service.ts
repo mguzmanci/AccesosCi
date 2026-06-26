@@ -376,9 +376,9 @@ export function construirCorreoSolicitud(
         </tbody>
       </table>
 
-      <table style="width:100%;border-collapse:collapse;margin-top:16px;background:#f9f9f9;border-radius:8px;overflow:hidden">
+      <table style="width:100%;border-collapse:collapse;margin-top:16px;${solicitud.tipo === 'baja' ? 'background:#fff5f5;border:1px solid #fecaca;' : 'background:#f9f9f9;'}border-radius:8px;overflow:hidden">
         <thead>
-          <tr><th colspan="2" style="padding:10px 12px;text-align:left;background:#eee;font-size:0.85rem;color:#555">DATOS DE LA PERSONA</th></tr>
+          <tr><th colspan="2" style="padding:10px 12px;text-align:left;${solicitud.tipo === 'baja' ? 'background:#fee2e2;color:#991b1b;' : 'background:#eee;color:#555;'}font-size:0.85rem">DATOS DE LA PERSONA</th></tr>
         </thead>
         <tbody>
           ${bloqueDatosHtml(solicitud)}
