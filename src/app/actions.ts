@@ -50,6 +50,13 @@ export async function solicitarCodigoAction(_prev: unknown, formData: FormData) 
     return { error: 'Solo se permiten cuentas @capitalinteligente.cl.' };
   }
 
+  const usuarios = await leerUsuarios();
+  const usuario = usuarios.find((u) => u.email.toLowerCase() === email);
+  const rol = usuario?.rol ?? 'solicitante';
+  if (rol !== 'bp' && rol !== 'admin') {
+    return { error: 'No tienes acceso a esta plataforma.' };
+  }
+
   const otp = generarOtp();
   await guardarOtp(email, otp);
 
