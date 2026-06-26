@@ -51,6 +51,19 @@ function formatFecha(raw: string): string {
   return m ? `${m[3]}-${m[2]}-${m[1]}` : raw;
 }
 
+function formatFechaChile(iso: string): string {
+  try {
+    return new Intl.DateTimeFormat('es-CL', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      timeZone: 'America/Santiago',
+    }).format(new Date(iso));
+  } catch {
+    return formatFecha(iso);
+  }
+}
+
 function estKey(correo: string, campo: string) {
   return `${correo}||${campo}`;
 }
@@ -1375,8 +1388,8 @@ export function ListaCorreos({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <p className="text-xs text-muted-foreground">
-            {totalGeneral} correos en {data.hojas.length} hojas · actualizado{' '}
-            {formatFecha(data.actualizado)}
+            {totalGeneral} correos en {data.hojas.length} hojas · Actualizado{' '}
+            {formatFechaChile(edits['__meta__||lastUpdated'] ?? data.actualizado)}
           </p>
           {!soloLectura && (
             <button

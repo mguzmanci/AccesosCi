@@ -101,10 +101,21 @@ export async function guardarEdicionCorreo(
   campo: string,
   valor: string,
 ): Promise<void> {
-  const { error } = await getSupabase()
+  const supabase = getSupabase();
+  const { error } = await supabase
     .from('correos_edits')
     .upsert({ correo, campo, valor }, { onConflict: 'correo,campo' });
   if (error) throw new Error(`guardarEdicionCorreo: ${error.message}`);
+
+  // Actualizar timestamp de última modificación (excepto cuando ya estamos guardando el propio timestamp)
+  if (correo !== '__meta__') {
+    await supabase
+      .from('correos_edits')
+      .upsert(
+        { correo: '__meta__', campo: 'lastUpdated', valor: new Date().toISOString() },
+        { onConflict: 'correo,campo' },
+      );
+  }
 }
 
 export interface HojaExtra {
