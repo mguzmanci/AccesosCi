@@ -2,6 +2,7 @@
 
 import { startTransition, useEffect, useMemo, useOptimistic, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import * as XLSX from 'xlsx';
 import { cn } from '@/lib/utils';
 import correosData from '@/data/correos.json';
 import {
@@ -57,6 +58,85 @@ function estKey(correo: string, campo: string) {
 
 function metricaKey(grupoNombre: string, label: string) {
   return `__metrica__:${grupoNombre}||${label}`;
+}
+
+// ─── Exportación XLSX ────────────────────────────────────────────────────────
+
+const PRECIOS = {
+  google: 7.0,
+  jira: 7.91,
+  slack: 7.25,
+  sfCloud: 175.0,
+  sfPortal: 25.0,
+};
+
+function exportarGrupoXlsx(
+  grupo: Grupo,
+  edits: Record<string, string>,
+  eliminadas: Set<string>,
+) {
+  const cabecera = [
+    'Nombre', 'Correo', 'Estado', 'Jira', 'Slack', 'Salesforce', 'Fecha Baja', 'Comentario',
+    '', '',
+    'Google Workspace (USD)', 'Jira (USD)', 'Slack (USD)', 'Salesforce (USD)', 'Total (USD)',
+  ];
+
+  let totG = 0, totJ = 0, totS = 0, totSF = 0, totTotal = 0;
+
+  const filas = grupo.asesores
+    .filter(
+      (a) =>
+        !eliminadas.has(a.correo) &&
+        edits[estKey(a.correo, 'eliminado')] !== 'true' &&
+        (a.esDinamico || edits[estKey(a.correo, 'transferido')] !== 'true'),
+    )
+    .map((a) => {
+      const nombre    = edits[estKey(a.correo, 'nombre')]          ?? a.nombre          ?? '';
+      const correo    = edits[estKey(a.correo, 'correo')]          ?? a.correo          ?? '';
+      const estado    = edits[estKey(a.correo, 'estado')]          ?? a.estado          ?? 'Activo';
+      const jira      = (edits[estKey(a.correo, 'jira')]           ?? (a.jira ? 'true' : 'false')) === 'true';
+      const slack     = (edits[estKey(a.correo, 'slack')]          ?? (a.slack ? 'true' : 'false')) === 'true';
+      const sf        = edits[estKey(a.correo, 'sf')]              ?? a.sf              ?? '';
+      const fecha     = edits[estKey(a.correo, 'fechaEliminacion')]?? a.fechaEliminacion ?? '';
+      const comentario= edits[estKey(a.correo, 'comentario')]      ?? a.comentario      ?? '';
+
+      const cG  = PRECIOS.google;
+      const cJ  = jira  ? PRECIOS.jira    : 0;
+      const cS  = slack ? PRECIOS.slack   : 0;
+      const cSF = sf === 'Cloud' ? PRECIOS.sfCloud : sf === 'Portal' ? PRECIOS.sfPortal : 0;
+      const cT  = cG + cJ + cS + cSF;
+
+      totG += cG; totJ += cJ; totS += cS; totSF += cSF; totTotal += cT;
+
+      return [
+        nombre, correo, estado,
+        jira  ? 'Sí' : 'No',
+        slack ? 'Sí' : 'No',
+        sf || '—',
+        fecha ? formatFecha(fecha) : '—',
+        comentario,
+        '', '',
+        cG, cJ, cS, cSF, cT,
+      ];
+    });
+
+  const filaTotal = [
+    'TOTAL', '', '', '', '', '', '', '', '', '',
+    totG, totJ, totS, totSF, totTotal,
+  ];
+
+  const ws = XLSX.utils.aoa_to_sheet([cabecera, ...filas, filaTotal]);
+
+  // Ancho de columnas
+  ws['!cols'] = [
+    { wch: 30 }, { wch: 36 }, { wch: 10 }, { wch: 6 }, { wch: 6 }, { wch: 10 },
+    { wch: 12 }, { wch: 30 }, { wch: 4 }, { wch: 4 },
+    { wch: 22 }, { wch: 12 }, { wch: 12 }, { wch: 18 }, { wch: 12 },
+  ];
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, grupo.nombre.slice(0, 31));
+  XLSX.writeFile(wb, `${grupo.nombre}.xlsx`);
 }
 
 // ─── Celda editable (texto / select) ────────────────────────────────────────
@@ -694,6 +774,17 @@ function TablaGrupo({
             </span>
           ),
         )}
+        <button
+          type="button"
+          title="Exportar a Excel"
+          onClick={() => exportarGrupoXlsx(grupo, edits, eliminadas)}
+          className="ml-auto flex items-center gap-1 rounded-md border border-border bg-background px-2 py-0.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Exportar XLSX
+        </button>
       </div>
 
       <div className="rounded-lg border border-border">
