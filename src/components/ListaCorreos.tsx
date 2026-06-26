@@ -74,6 +74,13 @@ function metricaKey(grupoNombre: string, label: string) {
 
 // ─── Exportación XLSX (vía API route — exceljs corre en servidor) ────────────
 
+function fechaDescarga(): string {
+  return new Intl.DateTimeFormat('es-CL', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    timeZone: 'America/Santiago',
+  }).format(new Date()).replace(/\//g, '-');
+}
+
 function filtrarEdits(correos: string[], edits: Record<string, string>): Record<string, string> {
   const set = new Set(correos);
   const out: Record<string, string> = {};
@@ -112,7 +119,7 @@ async function exportarGrupoXlsx(
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${grupo.nombre}.xlsx`;
+  a.download = `${grupo.nombre} ${fechaDescarga()}.xlsx`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -177,7 +184,7 @@ async function exportarHojaXlsx(
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${etiqueta}.xlsx`;
+  a.download = `${etiqueta} ${fechaDescarga()}.xlsx`;
   a.click();
   URL.revokeObjectURL(url);
 }
