@@ -82,6 +82,10 @@ export async function verificarCodigoAction(_prev: unknown, formData: FormData) 
   const rol = usuario?.rol ?? 'solicitante';
   const grupoBp = usuario?.grupoBp;
 
+  if (rol !== 'bp' && rol !== 'admin') {
+    return { error: 'No tienes acceso a esta plataforma.', email };
+  }
+
   await setSesion({ email, nombre, rol, ...(grupoBp ? { grupoBp } : {}) });
   redirect('/');
 }
