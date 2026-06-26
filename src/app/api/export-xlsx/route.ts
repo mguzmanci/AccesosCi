@@ -46,7 +46,9 @@ export async function POST(req: NextRequest) {
   const eliminadas = new Set<string>(eliminadasArr ?? []);
 
   const wb = new ExcelJS.Workbook();
-  const ws = wb.addWorksheet(grupoNombre.slice(0, 31));
+  // Excel no permite * ? : \ / [ ] en nombres de hoja
+  const nombreHoja = grupoNombre.replace(/[*?:\\/[\]]/g, '-').slice(0, 31);
+  const ws = wb.addWorksheet(nombreHoja);
 
   ws.columns = [
     { key: 'nombre',  width: 30 },

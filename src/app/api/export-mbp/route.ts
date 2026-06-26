@@ -181,7 +181,7 @@ export async function POST(req: NextRequest) {
   const eliminadas = new Set<string>(eliminadasArr ?? []);
 
   const wb = new ExcelJS.Workbook();
-  const ws = wb.addWorksheet(hojaLabel.slice(0, 31));
+  const ws = wb.addWorksheet(hojaLabel.replace(/[*?:\\/[\]]/g, '-').slice(0, 31));
   ws.columns = COLS;
 
   const gruposArr = grupos as { grupoNombre: string; asesores: Asesor[] }[];
