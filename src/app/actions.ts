@@ -251,9 +251,6 @@ export async function cambiarEstadoAction(formData: FormData) {
   if (!solicitud) throw new Error(`Solicitud no encontrada: ${id}`);
 
   const idsAccesos = new Set(solicitud.accesos.map((a) => a.plataformaId));
-  const tieneSalesforce = plataformas.some(
-    (p) => idsAccesos.has(p.id) && p.nombre.toLowerCase().includes('salesforce'),
-  );
   const tieneJira = plataformas.some(
     (p) => idsAccesos.has(p.id) && p.nombre.toLowerCase().includes('jira'),
   );

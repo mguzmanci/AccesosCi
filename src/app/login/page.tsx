@@ -18,14 +18,9 @@ export default function LoginPage() {
 
   const emailEnviado = manualReset ? undefined : step1?.emailEnviado;
 
-  useEffect(() => {
-    if (step1?.emailEnviado && !step1?.error) {
-      setCooldown(COOLDOWN_S);
-    }
-    // step1 cambia de referencia cada vez que la acción termina, incluso al reenviar
-    // con el mismo correo, así que esto se dispara en cada envío exitoso.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step1]);
+  function iniciarCooldown() {
+    setCooldown(COOLDOWN_S);
+  }
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -71,7 +66,12 @@ export default function LoginPage() {
               </p>
             )}
 
-            <button type="submit" disabled={step1Pending} className={cn(BTN_PRIMARY, 'w-full')}>
+            <button
+              type="submit"
+              onClick={iniciarCooldown}
+              disabled={step1Pending}
+              className={cn(BTN_PRIMARY, 'w-full')}
+            >
               {step1Pending ? 'Enviando código…' : 'Enviar código de acceso'}
             </button>
           </form>
@@ -129,6 +129,7 @@ export default function LoginPage() {
               type="submit"
               formAction={step1Action}
               formNoValidate
+              onClick={iniciarCooldown}
               disabled={step1Pending || cooldown > 0}
               className="w-full text-center text-sm text-muted-foreground hover:text-foreground disabled:opacity-40"
             >
