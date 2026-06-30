@@ -49,6 +49,38 @@ export async function leerUsuarios(): Promise<Usuario[]> {
   }));
 }
 
+export async function crearUsuario(
+  email: string,
+  nombre: string,
+  rol: Usuario['rol'],
+  grupoBp?: string,
+): Promise<void> {
+  const { error } = await getSupabase()
+    .from('usuarios')
+    .upsert(
+      { email, nombre, rol, grupo_bp: grupoBp ?? null },
+      { onConflict: 'email' },
+    );
+  if (error) throw new Error(`crearUsuario: ${error.message}`);
+}
+
+export async function actualizarRolUsuario(
+  email: string,
+  rol: Usuario['rol'],
+  grupoBp?: string,
+): Promise<void> {
+  const { error } = await getSupabase()
+    .from('usuarios')
+    .update({ rol, grupo_bp: grupoBp ?? null })
+    .eq('email', email);
+  if (error) throw new Error(`actualizarRolUsuario: ${error.message}`);
+}
+
+export async function eliminarUsuario(email: string): Promise<void> {
+  const { error } = await getSupabase().from('usuarios').delete().eq('email', email);
+  if (error) throw new Error(`eliminarUsuario: ${error.message}`);
+}
+
 export async function leerPlataformas(): Promise<Plataforma[]> {
   const { data, error } = await getSupabase()
     .from('plataformas')

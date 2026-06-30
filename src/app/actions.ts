@@ -3,12 +3,15 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import {
+  actualizarRolUsuario,
   actualizarSolicitud,
   borrarEdicionesEliminado,
   crearGrupoExtra,
   crearHojaExtra,
   crearMiembroExtra,
+  crearUsuario,
   eliminarGrupoExtra,
+  eliminarUsuario,
   guardarEdicionCorreo,
   ocultarGrupo,
   guardarSolicitud,
@@ -37,7 +40,7 @@ import {
   RESPONSABLE_SALESFORCE,
   RESPONSABLE_JIRA,
 } from '@/lib/services/notificaciones.service';
-import type { DatosCreacion, DatosSolicitud, EstadoSolicitud, TipoSolicitud } from '@/types';
+import type { DatosCreacion, DatosSolicitud, EstadoSolicitud, Rol, TipoSolicitud } from '@/types';
 
 const RESPONSABLE_CORREO = 'tmallea@capitalinteligente.cl';
 
@@ -440,5 +443,50 @@ export async function transferirCorreoAction(
     );
   }
 
+  revalidatePath('/');
+}
+
+// ─── Administración de usuarios (solo admin) ──────────────────────────────────
+
+export async function crearUsuarioAction(
+  email: string,
+  nombre: string,
+  rol: Rol,
+  grupoBp?: string,
+): Promise<{ error?: string }> {
+  const sesion = await getSesion();
+  if (!sesion || sesion.rol !== 'admin') throw new Error('No autorizado.');
+
+  const correo = email.trim().toLowerCase();
+  if (!esCorreoCorporativo(correo)) {
+    return { error: 'Solo se permiten cuentas @capitalinteligente.cl.' };
+  }
+  if (!nombre.trim()) {
+    return { error: 'El nombre no puede estar vacío.' };
+  }
+
+  await crearUsuario(correo, nombre.trim(), rol, grupoBp?.trim() || undefined);
+  revalidatePath('/');
+  return {};
+}
+
+export async function actualizarRolUsuarioAction(
+  email: string,
+  rol: Rol,
+  grupoBp?: string,
+): Promise<void> {
+  const sesion = await getSesion();
+  if (!sesion || sesion.rol !== 'admin') throw new Error('No autorizado.');
+  await actualizarRolUsuario(email.trim().toLowerCase(), rol, grupoBp?.trim() || undefined);
+  revalidatePath('/');
+}
+
+export async function eliminarUsuarioAction(email: string): Promise<void> {
+  const sesion = await getSesion();
+  if (!sesion || sesion.rol !== 'admin') throw new Error('No autorizado.');
+  if (email.trim().toLowerCase() === sesion.email.toLowerCase()) {
+    throw new Error('No puedes eliminar tu propia cuenta.');
+  }
+  await eliminarUsuario(email.trim().toLowerCase());
   revalidatePath('/');
 }

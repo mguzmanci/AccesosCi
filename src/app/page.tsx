@@ -9,6 +9,7 @@ import {
   leerMiembrosExtra,
   leerPlataformas,
   leerSolicitudes,
+  leerUsuarios,
 } from '@/lib/db';
 import { getSesion } from '@/lib/session';
 import { logoutAction } from '@/app/actions';
@@ -17,6 +18,7 @@ import { SolicitudesList } from '@/components/SolicitudesList';
 import { DashboardTabs } from '@/components/DashboardTabs';
 import { ListaCorreos } from '@/components/ListaCorreos';
 import { EliminadosPanel } from '@/components/EliminadosPanel';
+import { AdminUsuarios } from '@/components/AdminUsuarios';
 import { AutoRefresh } from '@/components/AutoRefresh';
 
 export default async function Home({
@@ -31,6 +33,7 @@ export default async function Home({
   const esEquipo = sesion.rol === 'equipo' || sesion.rol === 'admin';
   const esBP = sesion.rol === 'bp';
   const esFinanzas = sesion.rol === 'finanzas';
+  const esAdmin = sesion.rol === 'admin';
 
   const filtroGrupo = (() => {
     if (!esBP || !sesion.grupoBp) return undefined;
@@ -47,6 +50,7 @@ export default async function Home({
     gruposOcultos,
     miembrosExtra,
     hojasExtra,
+    usuarios,
   ] = await Promise.all([
     leerPlataformas(),
     leerSolicitudes(),
@@ -55,6 +59,7 @@ export default async function Home({
     sesion.rol === 'admin' ? leerGruposOcultos() : Promise.resolve([]),
     esEquipo || esBP || esFinanzas ? leerMiembrosExtra() : Promise.resolve([]),
     sesion.rol === 'admin' ? leerHojasExtra() : Promise.resolve([]),
+    esAdmin ? leerUsuarios() : Promise.resolve([]),
   ]);
 
   const plataformasActivas = plataformas.filter((p) => p.activa);
@@ -157,6 +162,22 @@ export default async function Home({
                         edits={edicionesCorreos}
                         esAdmin={sesion.rol === 'admin'}
                         miembrosExtra={miembrosExtra}
+                      />
+                    ),
+                  },
+                ]
+              : []),
+            ...(esAdmin
+              ? [
+                  {
+                    id: 'usuarios',
+                    label: 'Administración',
+                    content: (
+                      <AdminUsuarios
+                        usuarios={usuarios}
+                        hojasExtra={hojasExtra}
+                        gruposExtra={gruposExtra}
+                        usuarioActual={sesion.email}
                       />
                     ),
                   },
