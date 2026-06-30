@@ -284,6 +284,21 @@ function toIsoDate(raw: string): string {
   return '';
 }
 
+/** Acepta "16-06-2026" o "16/06/2026" y devuelve ISO (YYYY-MM-DD), o null si no es una fecha válida. */
+function parseFechaInput(input: string): string | null {
+  const m = input.trim().match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$/);
+  if (!m) return null;
+  const dd = m[1].padStart(2, '0');
+  const mm = m[2].padStart(2, '0');
+  const yyyy = m[3];
+  const iso = `${yyyy}-${mm}-${dd}`;
+  const d = new Date(iso);
+  if (isNaN(d.getTime()) || d.getUTCDate() !== Number(dd) || d.getUTCMonth() + 1 !== Number(mm)) {
+    return null;
+  }
+  return iso;
+}
+
 function CeldaFecha({
   valor,
   onSave,
@@ -294,17 +309,30 @@ function CeldaFecha({
   className?: string;
 }) {
   const [editando, setEditando] = useState(false);
+  const [draft, setDraft] = useState('');
   const ref = useRef<HTMLInputElement>(null);
-  const isoActual = toIsoDate(valor);
 
   function iniciar() {
+    const f = formatFecha(valor);
+    setDraft(f === '—' ? '' : f);
     setEditando(true);
-    setTimeout(() => ref.current?.showPicker?.(), 0);
+    setTimeout(() => ref.current?.select(), 0);
   }
 
-  function guardar(nuevoIso: string) {
+  function confirmar() {
+    if (!draft.trim()) {
+      setEditando(false);
+      if (toIsoDate(valor) !== '') onSave('');
+      return;
+    }
+    const parsed = parseFechaInput(draft);
+    if (parsed === null) {
+      alert('Fecha inválida. Usa el formato DD-MM-AAAA (ej: 16-06-2026).');
+      setTimeout(() => ref.current?.focus(), 0);
+      return;
+    }
     setEditando(false);
-    if (nuevoIso !== isoActual) onSave(nuevoIso);
+    if (parsed !== toIsoDate(valor)) onSave(parsed);
   }
 
   if (!editando) {
@@ -328,12 +356,15 @@ function CeldaFecha({
   return (
     <input
       ref={ref}
-      type="date"
-      defaultValue={isoActual}
+      value={draft}
       autoFocus
-      onBlur={(e) => guardar(e.target.value)}
-      onChange={(e) => guardar(e.target.value)}
-      onKeyDown={(e) => e.key === 'Escape' && setEditando(false)}
+      placeholder="DD-MM-AAAA"
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={confirmar}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') confirmar();
+        if (e.key === 'Escape') setEditando(false);
+      }}
       className="w-full rounded border border-primary bg-background px-1 py-0.5 text-xs text-foreground outline-none ring-1 ring-primary/50"
     />
   );
