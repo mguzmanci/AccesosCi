@@ -54,6 +54,31 @@ const GRUPO_TITULO: Record<TipoSolicitud, string> = {
   baja: 'Eliminación de accesos',
 };
 
+function EstadoVacio({ mensaje }: { mensaje: string }) {
+  return (
+    <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-border bg-card py-12 text-center">
+      <svg
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="text-muted-foreground/40"
+      >
+        <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+        <path d="m3.3 7 8.7 5 8.7-5" />
+        <path d="M12 22V12" />
+      </svg>
+      <p className="text-sm text-muted-foreground">{mensaje}</p>
+    </div>
+  );
+}
+
 function nombrePlataforma(id: string, plataformas: Plataforma[]): string {
   return plataformas.find((p) => p.id === id)?.nombre ?? id;
 }
@@ -141,11 +166,7 @@ export function SolicitudesList({
   usuarioEmail?: string;
 }) {
   if (solicitudes.length === 0) {
-    return (
-      <p className="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">
-        No hay solicitudes aún.
-      </p>
-    );
+    return <EstadoVacio mensaje="No hay solicitudes aún." />;
   }
 
   const grupos = agruparPorTipo(solicitudes);
@@ -158,9 +179,7 @@ export function SolicitudesList({
         label: GRUPO_TITULO[grupo.tipo],
         content:
           grupo.solicitudes.length === 0 ? (
-            <p className="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">
-              No hay solicitudes de este tipo.
-            </p>
+            <EstadoVacio mensaje="No hay solicitudes de este tipo." />
           ) : (
             <ul className="space-y-3">
               {grupo.solicitudes.map((s) => (
@@ -227,8 +246,8 @@ function SolicitudCard({
   return (
     <li className="overflow-hidden rounded-xl border border-border bg-card">
       {/* Cabecera */}
-      <div className="flex items-center justify-between gap-3 border-b border-border bg-muted/20 px-5 py-3">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-muted/20 px-5 py-3">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
             {TIPO_LABEL[s.tipo]}
           </span>
@@ -238,8 +257,10 @@ function SolicitudCard({
             {ESTADO_LABEL[s.estado]}
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-xs text-muted-foreground">{s.id}</span>
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="truncate font-mono text-xs text-muted-foreground" title={s.id}>
+            {s.id}
+          </span>
           <span className="text-xs text-muted-foreground">{fmtFecha(s.fechaCreacion)}</span>
         </div>
       </div>

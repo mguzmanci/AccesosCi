@@ -199,6 +199,7 @@ async function exportarHojaXlsx(
 function Spinner({ className }: { className?: string }) {
   return (
     <svg
+      aria-hidden="true"
       className={cn('animate-spin', className)}
       xmlns="http://www.w3.org/2000/svg"
       width="12"
@@ -247,7 +248,7 @@ function CeldaTexto({
         onClick={iniciar}
         onKeyDown={(e) => e.key === 'Enter' && iniciar()}
         className={cn(
-          'cursor-pointer rounded px-0.5 hover:bg-muted/60 hover:underline hover:decoration-dotted',
+          'cursor-pointer rounded px-0.5 hover:bg-muted/60 hover:underline hover:decoration-dotted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50',
           className,
         )}
       >
@@ -325,7 +326,9 @@ function ToggleBool({ valor, onToggle }: { valor: boolean; onToggle: () => void 
       type="button"
       onClick={onToggle}
       title={valor ? 'Sí — clic para quitar' : 'No — clic para agregar'}
-      className="text-base leading-none focus:outline-none"
+      aria-label={valor ? 'Sí — clic para quitar' : 'No — clic para agregar'}
+      aria-pressed={valor}
+      className="rounded text-base leading-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
     >
       {valor ? (
         <span className="text-emerald-600 dark:text-emerald-400">✓</span>
@@ -349,11 +352,11 @@ function ConfirmModal({
 }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={onCancelar}
     >
       <div
-        className="w-80 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
+        className="w-full max-w-xs space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="space-y-1">
@@ -492,9 +495,10 @@ function FilaAsesor({
             ) : (
               <button
                 type="button"
-                title="T.L — clic para quitar"
+                title="Team Leader — clic para quitar"
+                aria-label="Quitar marca de Team Leader"
                 onClick={() => onEdit('tl', 'false')}
-                className="rounded bg-amber-100 px-1 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-950 dark:text-amber-400"
+                className="rounded bg-amber-100 px-1 py-0.5 text-[10px] font-semibold text-amber-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 dark:bg-amber-950 dark:text-amber-400"
               >
                 T.L
               </button>
@@ -503,8 +507,9 @@ function FilaAsesor({
             <button
               type="button"
               title="Marcar como Team Leader"
+              aria-label="Marcar como Team Leader"
               onClick={() => onEdit('tl', 'true')}
-              className="hidden rounded px-1 py-0.5 text-[10px] text-muted-foreground/30 hover:bg-muted hover:text-muted-foreground group-hover:inline"
+              className="hidden rounded px-1 py-0.5 text-[10px] text-muted-foreground/30 hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 group-hover:inline"
             >
               T.L
             </button>
@@ -625,6 +630,7 @@ function FilaAsesor({
             <button
               type="button"
               title="Transferir a otro BP"
+              aria-label={`Transferir a ${nombre} a otro BP`}
               onClick={() =>
                 onTransferir({
                   correo: orig,
@@ -636,7 +642,7 @@ function FilaAsesor({
                   esDinamico: !!asesor.esDinamico,
                 })
               }
-              className="rounded p-1 text-muted-foreground/40 opacity-0 transition-opacity hover:bg-sky-50 hover:text-sky-600 group-hover:opacity-100 dark:hover:bg-sky-950/40"
+              className="rounded p-1 text-muted-foreground/40 opacity-0 transition-opacity hover:bg-sky-50 hover:text-sky-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 group-hover:opacity-100 dark:hover:bg-sky-950/40"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -656,8 +662,9 @@ function FilaAsesor({
             <button
               type="button"
               title="Eliminar asesor"
+              aria-label={`Eliminar a ${nombre}`}
               onClick={onEliminar}
-              className="rounded p-1 text-muted-foreground/40 opacity-0 transition-opacity hover:bg-rose-50 hover:text-rose-600 group-hover:opacity-100 dark:hover:bg-rose-950/40"
+              className="rounded p-1 text-muted-foreground/40 opacity-0 transition-opacity hover:bg-rose-50 hover:text-rose-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 group-hover:opacity-100 dark:hover:bg-rose-950/40"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -868,9 +875,10 @@ function BadgeNumeroEditable({
           role="button"
           tabIndex={0}
           title="Clic para editar"
+          aria-label={`${label}: ${valor}. Clic para editar`}
           onClick={iniciar}
           onKeyDown={(e) => e.key === 'Enter' && iniciar()}
-          className="cursor-pointer rounded hover:underline hover:decoration-dotted"
+          className="cursor-pointer rounded hover:underline hover:decoration-dotted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
         >
           {valor}
         </strong>
@@ -964,8 +972,8 @@ function TablaGrupo({
         </button>
       </div>
 
-      <div className="rounded-lg border border-border">
-        <table className="w-full table-fixed text-sm">
+      <div className="overflow-x-auto rounded-lg border border-border">
+        <table className="w-full min-w-[720px] table-fixed text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/40 text-left">
               <th className="w-[22%] px-3 py-2 font-semibold text-foreground">Nombre</th>
@@ -1037,11 +1045,11 @@ function ModalEliminarBP({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={onCerrar}
     >
       <div
-        className="w-96 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
+        className="w-full max-w-sm space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="space-y-1">
@@ -1128,11 +1136,11 @@ function ModalNuevoEquipo({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={() => !pending && onCancelar()}
     >
       <div
-        className="w-80 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
+        className="w-full max-w-xs space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="space-y-1">
@@ -1211,11 +1219,11 @@ function ModalTransferirBP({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={() => !pending && onCancelar()}
     >
       <div
-        className="flex max-h-[80vh] w-96 flex-col space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
+        className="flex max-h-[80vh] w-full max-w-sm flex-col space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="space-y-1">
@@ -1589,7 +1597,7 @@ export function ListaCorreos({
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
           placeholder="Buscar por nombre o correo…"
-          className="w-56 rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+          className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 sm:w-56"
         />
       </div>
 
@@ -1779,11 +1787,11 @@ export function ListaCorreos({
       {confirmandoEliminarGrupo &&
         createPortal(
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
             onClick={() => !eliminarGrupoPending && setConfirmandoEliminarGrupo(null)}
           >
             <div
-              className="w-80 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
+              className="w-full max-w-xs space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="space-y-1">

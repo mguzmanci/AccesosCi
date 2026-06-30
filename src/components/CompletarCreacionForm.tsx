@@ -96,8 +96,8 @@ export function CompletarCreacionForm({
       <input type="hidden" name="bpSlack" value={String(selectedBP?.usaSlack ?? false)} />
       <input type="hidden" name="bpJira" value={String(selectedBP?.usaJira ?? false)} />
       <div className="flex flex-wrap items-end gap-3">
-        <div>
-          <label htmlFor={`correo-${id}`} className="block text-[11px] text-muted-foreground mb-1">
+        <div className="w-full sm:w-60">
+          <label htmlFor={`correo-${id}`} className="block text-xs text-muted-foreground mb-1">
             Correo creado
           </label>
           <input
@@ -106,14 +106,14 @@ export function CompletarCreacionForm({
             type="email"
             required
             placeholder="usuario@capitalinteligente.cl"
-            className="w-60 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-sky-400 dark:focus:border-sky-600"
+            className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-primary"
           />
         </div>
 
-        <div>
+        <div className="w-full sm:w-44">
           <label
             htmlFor={`password-${id}`}
-            className="block text-[11px] text-muted-foreground mb-1"
+            className="block text-xs text-muted-foreground mb-1"
           >
             Contraseña
           </label>
@@ -123,19 +123,19 @@ export function CompletarCreacionForm({
             type="text"
             required
             placeholder="Contraseña del correo"
-            className="w-44 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-sky-400 dark:focus:border-sky-600"
+            className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-primary"
           />
         </div>
 
-        <div>
-          <label htmlFor={`bp-${id}`} className="block text-[11px] text-muted-foreground mb-1">
+        <div className="w-full sm:w-auto">
+          <label htmlFor={`bp-${id}`} className="block text-xs text-muted-foreground mb-1">
             BP asignado
           </label>
           <select
             id={`bp-${id}`}
             value={bpKey}
             onChange={(e) => setBpKey(e.target.value)}
-            className="rounded-md border border-border bg-background px-2.5 py-1.5 text-xs text-foreground outline-none focus:border-sky-400 dark:focus:border-sky-600 max-w-[200px]"
+            className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs text-foreground outline-none focus:border-primary sm:max-w-[200px]"
           >
             <option value="">Seleccionar BP…</option>
             {bpOptions.map((bp) => (

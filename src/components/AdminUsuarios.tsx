@@ -117,11 +117,11 @@ function ModalNuevoUsuario({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={onCerrar}
     >
       <div
-        className="w-96 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
+        className="w-full max-w-sm space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-base font-semibold text-foreground">Nuevo usuario</h2>
@@ -200,6 +200,7 @@ function ModalNuevoUsuario({
 function Spinner({ className = '' }: { className?: string }) {
   return (
     <svg
+      aria-hidden="true"
       className={`animate-spin ${className}`}
       xmlns="http://www.w3.org/2000/svg"
       width="12"
@@ -369,8 +370,8 @@ export function AdminUsuarios({
         </button>
       </div>
 
-      <div className="rounded-lg border border-border">
-        <table className="w-full table-fixed text-sm">
+      <div className="overflow-x-auto rounded-lg border border-border">
+        <table className="w-full min-w-[640px] table-fixed text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/40 text-left">
               <th className="w-[35%] px-3 py-2 font-semibold text-foreground">Nombre / Correo</th>
@@ -402,11 +403,11 @@ export function AdminUsuarios({
 
       {confirmandoEliminar && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
           onClick={() => !eliminarPending && setConfirmandoEliminar(null)}
         >
           <div
-            className="w-80 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
+            className="w-full max-w-xs space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <p className="text-sm text-foreground">

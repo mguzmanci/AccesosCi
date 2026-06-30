@@ -135,8 +135,8 @@ export function EliminadosPanel({
         {eliminados.length} correo{eliminados.length !== 1 ? 's' : ''} eliminado
         {eliminados.length !== 1 ? 's' : ''}
       </p>
-      <div className="rounded-lg border border-border">
-        <table className="w-full table-fixed text-sm">
+      <div className="overflow-x-auto rounded-lg border border-border">
+        <table className="w-full min-w-[560px] table-fixed text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/40 text-left">
               <th className="w-[42%] px-3 py-2 font-semibold text-foreground">Nombre / Correo</th>
@@ -177,6 +177,7 @@ export function EliminadosPanel({
                     >
                       {restaurando === e.correo && (
                         <svg
+                          aria-hidden="true"
                           className="h-3 w-3 animate-spin"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
