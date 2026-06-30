@@ -1,6 +1,6 @@
 'use client';
 
-import { startTransition, useMemo, useOptimistic } from 'react';
+import { startTransition, useMemo, useOptimistic, useState } from 'react';
 import correosData from '@/data/correos.json';
 import { restaurarCorreoAction } from '@/app/actions';
 import type { MiembroExtra } from '@/lib/db';
@@ -108,13 +108,16 @@ export function EliminadosPanel({
     editsInicial,
     (prev, update: { key: string; valor: string }) => ({ ...prev, [update.key]: update.valor }),
   );
+  const [restaurando, setRestaurando] = useState<string | null>(null);
 
   const eliminados = useMemo(() => buildEliminados(edits, miembrosExtra), [edits, miembrosExtra]);
 
   function handleRestaurar(correo: string) {
+    if (restaurando) return;
+    setRestaurando(correo);
     startTransition(() => {
       actualizarEdits({ key: estKey(correo, 'eliminado'), valor: 'false' });
-      restaurarCorreoAction(correo);
+      restaurarCorreoAction(correo).finally(() => setRestaurando(null));
     });
   }
 
@@ -168,10 +171,22 @@ export function EliminadosPanel({
                   <td className="px-3 py-2 text-center">
                     <button
                       type="button"
+                      disabled={restaurando === e.correo}
                       onClick={() => handleRestaurar(e.correo)}
-                      className="rounded-md border border-border px-2 py-1 text-xs text-foreground hover:bg-muted"
+                      className="flex items-center gap-1.5 rounded-md border border-border px-2 py-1 text-xs text-foreground hover:bg-muted disabled:opacity-50"
                     >
-                      Restaurar
+                      {restaurando === e.correo && (
+                        <svg
+                          className="h-3 w-3 animate-spin"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                        >
+                          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
+                          <path d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                        </svg>
+                      )}
+                      {restaurando === e.correo ? 'Restaurando…' : 'Restaurar'}
                     </button>
                   </td>
                 )}

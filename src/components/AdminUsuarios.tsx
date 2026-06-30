@@ -197,10 +197,27 @@ function ModalNuevoUsuario({
   );
 }
 
+function Spinner({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      className={`animate-spin ${className}`}
+      xmlns="http://www.w3.org/2000/svg"
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
+      <path d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function FilaUsuario({
   usuario,
   hojas,
   esYo,
+  pending,
   onCambiarRol,
   onCambiarGrupo,
   onEliminar,
@@ -208,6 +225,7 @@ function FilaUsuario({
   usuario: Usuario;
   hojas: { id: string; nombre: string; grupos: string[] }[];
   esYo: boolean;
+  pending: boolean;
   onCambiarRol: (email: string, rol: Rol) => void;
   onCambiarGrupo: (email: string, hojaId: string, grupoNombre: string) => void;
   onEliminar: (email: string) => void;
@@ -228,14 +246,18 @@ function FilaUsuario({
   return (
     <tr className="border-b border-border last:border-0 hover:bg-muted/20">
       <td className="px-3 py-2">
-        <div className="font-medium text-foreground">{usuario.nombre}</div>
+        <div className="flex items-center gap-1.5">
+          <div className="font-medium text-foreground">{usuario.nombre}</div>
+          {pending && <Spinner className="text-muted-foreground" />}
+        </div>
         <div className="font-mono text-xs text-muted-foreground">{usuario.email}</div>
       </td>
       <td className="px-3 py-2">
         <select
           value={usuario.rol}
+          disabled={pending}
           onChange={(e) => onCambiarRol(usuario.email, e.target.value as Rol)}
-          className="rounded-md border border-border bg-background px-2 py-1 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+          className="rounded-md border border-border bg-background px-2 py-1 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-50"
         >
           {ROLES.map((r) => (
             <option key={r.value} value={r.value}>
@@ -246,12 +268,14 @@ function FilaUsuario({
       </td>
       <td className="px-3 py-2">
         {usuario.rol === 'bp' ? (
-          <SelectorGrupoBp
-            hojaId={hojaId}
-            grupoNombre={grupoNombre}
-            hojas={hojas}
-            onChange={handleSelectorChange}
-          />
+          <fieldset disabled={pending} className="contents">
+            <SelectorGrupoBp
+              hojaId={hojaId}
+              grupoNombre={grupoNombre}
+              hojas={hojas}
+              onChange={handleSelectorChange}
+            />
+          </fieldset>
         ) : (
           <span className="text-xs text-muted-foreground">—</span>
         )}
@@ -259,7 +283,7 @@ function FilaUsuario({
       <td className="px-3 py-2 text-center">
         <button
           type="button"
-          disabled={esYo}
+          disabled={esYo || pending}
           title={esYo ? 'No puedes eliminar tu propia cuenta' : 'Eliminar usuario'}
           onClick={() => onEliminar(usuario.email)}
           className="rounded-md border border-border px-2 py-1 text-xs text-foreground hover:bg-muted disabled:cursor-not-allowed disabled:opacity-30"
@@ -284,7 +308,8 @@ export function AdminUsuarios({
 }) {
   const [mostrandoModal, setMostrandoModal] = useState(false);
   const [confirmandoEliminar, setConfirmandoEliminar] = useState<string | null>(null);
-  const [, startTransition] = useTransition();
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
+  const [eliminarPending, setEliminarPending] = useState(false);
 
   const hojas = useHojasDisponibles(hojasExtra, gruposExtra);
 
@@ -293,28 +318,37 @@ export function AdminUsuarios({
     [usuarios],
   );
 
-  function handleCambiarRol(email: string, rol: Rol) {
-    startTransition(() => {
-      actualizarRolUsuarioAction(email, rol, undefined);
-    });
+  async function handleCambiarRol(email: string, rol: Rol) {
+    setPendingEmail(email);
+    try {
+      await actualizarRolUsuarioAction(email, rol, undefined);
+    } finally {
+      setPendingEmail(null);
+    }
   }
 
-  function handleCambiarGrupo(email: string, hojaId: string, grupoNombre: string) {
+  async function handleCambiarGrupo(email: string, hojaId: string, grupoNombre: string) {
     const usuario = usuarios.find((u) => u.email === email);
     if (!usuario) return;
     const grupoBp = hojaId && grupoNombre ? `${hojaId}|${grupoNombre}` : undefined;
-    startTransition(() => {
-      actualizarRolUsuarioAction(email, usuario.rol, grupoBp);
-    });
+    setPendingEmail(email);
+    try {
+      await actualizarRolUsuarioAction(email, usuario.rol, grupoBp);
+    } finally {
+      setPendingEmail(null);
+    }
   }
 
-  function handleEliminar() {
-    if (!confirmandoEliminar) return;
+  async function handleEliminar() {
+    if (!confirmandoEliminar || eliminarPending) return;
     const email = confirmandoEliminar;
-    setConfirmandoEliminar(null);
-    startTransition(() => {
-      eliminarUsuarioAction(email);
-    });
+    setEliminarPending(true);
+    try {
+      await eliminarUsuarioAction(email);
+      setConfirmandoEliminar(null);
+    } finally {
+      setEliminarPending(false);
+    }
   }
 
   return (
@@ -352,6 +386,7 @@ export function AdminUsuarios({
                 usuario={u}
                 hojas={hojas}
                 esYo={u.email.toLowerCase() === usuarioActual.toLowerCase()}
+                pending={pendingEmail === u.email}
                 onCambiarRol={handleCambiarRol}
                 onCambiarGrupo={handleCambiarGrupo}
                 onEliminar={setConfirmandoEliminar}
@@ -368,7 +403,7 @@ export function AdminUsuarios({
       {confirmandoEliminar && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-          onClick={() => setConfirmandoEliminar(null)}
+          onClick={() => !eliminarPending && setConfirmandoEliminar(null)}
         >
           <div
             className="w-80 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
@@ -381,16 +416,19 @@ export function AdminUsuarios({
               <button
                 type="button"
                 onClick={() => setConfirmandoEliminar(null)}
-                className="rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-muted"
+                disabled={eliminarPending}
+                className="rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-muted disabled:opacity-40"
               >
                 Cancelar
               </button>
               <button
                 type="button"
                 onClick={handleEliminar}
-                className="rounded-md bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700"
+                disabled={eliminarPending}
+                className="flex items-center gap-1.5 rounded-md bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700 disabled:opacity-40"
               >
-                Eliminar
+                {eliminarPending && <Spinner />}
+                {eliminarPending ? 'Eliminando…' : 'Eliminar'}
               </button>
             </div>
           </div>

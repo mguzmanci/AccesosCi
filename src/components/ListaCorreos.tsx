@@ -193,6 +193,24 @@ async function exportarHojaXlsx(
   URL.revokeObjectURL(url);
 }
 
+// ─── Spinner de carga ─────────────────────────────────────────────────────────
+
+function Spinner({ className }: { className?: string }) {
+  return (
+    <svg
+      className={cn('animate-spin', className)}
+      xmlns="http://www.w3.org/2000/svg"
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
+      <path d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 // ─── Celda editable (texto / select) ────────────────────────────────────────
 
 function CeldaTexto({
@@ -792,6 +810,7 @@ function TablaGrupo({
   soloLectura?: boolean;
   esAdmin?: boolean;
 }) {
+  const [exportando, setExportando] = useState(false);
   const metricas = useMemo(
     () => calcularMetricasDinamicas(grupo, edits, eliminadas),
     [grupo, edits, eliminadas],
@@ -831,13 +850,25 @@ function TablaGrupo({
         <button
           type="button"
           title="Exportar a Excel"
-          onClick={() => exportarGrupoXlsx(grupo, edits, eliminadas)}
-          className="ml-auto flex items-center gap-1 rounded-md border border-border bg-background px-2 py-0.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
+          disabled={exportando}
+          onClick={async () => {
+            setExportando(true);
+            try {
+              await exportarGrupoXlsx(grupo, edits, eliminadas);
+            } finally {
+              setExportando(false);
+            }
+          }}
+          className="ml-auto flex items-center gap-1 rounded-md border border-border bg-background px-2 py-0.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Exportar XLSX
+          {exportando ? (
+            <Spinner />
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          )}
+          {exportando ? 'Exportando…' : 'Exportar XLSX'}
         </button>
       </div>
 
@@ -981,25 +1012,32 @@ function ModalNuevoEquipo({
   titulo?: string;
   descripcion?: string;
   placeholder?: string;
-  onCrear: (nombre: string) => void;
+  onCrear: (nombre: string) => Promise<void>;
   onCancelar: () => void;
 }) {
   const [nombre, setNombre] = useState('');
+  const [pending, setPending] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     ref.current?.focus();
   }, []);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (nombre.trim()) onCrear(nombre.trim());
+    if (!nombre.trim() || pending) return;
+    setPending(true);
+    try {
+      await onCrear(nombre.trim());
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-      onClick={onCancelar}
+      onClick={() => !pending && onCancelar()}
     >
       <div
         className="w-80 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
@@ -1014,24 +1052,27 @@ function ModalNuevoEquipo({
             ref={ref}
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            onKeyDown={(e) => e.key === 'Escape' && onCancelar()}
+            onKeyDown={(e) => e.key === 'Escape' && !pending && onCancelar()}
             placeholder={placeholder}
-            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+            disabled={pending}
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60"
           />
           <div className="flex justify-end gap-2">
             <button
               type="button"
               onClick={onCancelar}
-              className="rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-muted"
+              disabled={pending}
+              className="rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-muted disabled:opacity-40"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              disabled={!nombre.trim()}
-              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-40"
+              disabled={!nombre.trim() || pending}
+              className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-40"
             >
-              Crear
+              {pending && <Spinner />}
+              {pending ? 'Creando…' : 'Crear'}
             </button>
           </div>
         </form>
@@ -1051,11 +1092,13 @@ interface BPDisponible {
 function ModalTransferirBP({
   nombre,
   todosBPs,
+  pending = false,
   onTransferir,
   onCancelar,
 }: {
   nombre: string;
   todosBPs: BPDisponible[];
+  pending?: boolean;
   onTransferir: (hojaId: string, grupoNombre: string) => void;
   onCancelar: () => void;
 }) {
@@ -1077,7 +1120,7 @@ function ModalTransferirBP({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-      onClick={onCancelar}
+      onClick={() => !pending && onCancelar()}
     >
       <div
         className="flex max-h-[80vh] w-96 flex-col space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
@@ -1104,9 +1147,10 @@ function ModalTransferirBP({
                     <button
                       key={g}
                       type="button"
+                      disabled={pending}
                       onClick={() => setSeleccionado({ hojaId: hoja.hojaId, grupoNombre: g })}
                       className={cn(
-                        'w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors',
+                        'w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors disabled:opacity-40',
                         activo
                           ? 'border-primary bg-primary/10 text-foreground'
                           : 'border-border text-foreground hover:bg-muted',
@@ -1125,19 +1169,21 @@ function ModalTransferirBP({
           <button
             type="button"
             onClick={onCancelar}
-            className="rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-muted"
+            disabled={pending}
+            className="rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-muted disabled:opacity-40"
           >
             Cancelar
           </button>
           <button
             type="button"
-            disabled={!seleccionado}
+            disabled={!seleccionado || pending}
             onClick={() =>
               seleccionado && onTransferir(seleccionado.hojaId, seleccionado.grupoNombre)
             }
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-40"
+            className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-40"
           >
-            Transferir
+            {pending && <Spinner />}
+            {pending ? 'Transfiriendo…' : 'Transferir'}
           </button>
         </div>
       </div>
@@ -1197,6 +1243,9 @@ export function ListaCorreos({
     nombre: string;
   } | null>(null);
   const [mostrandoEliminarBP, setMostrandoEliminarBP] = useState(false);
+  const [transferirPending, setTransferirPending] = useState(false);
+  const [eliminarGrupoPending, setEliminarGrupoPending] = useState(false);
+  const [exportandoHojaId, setExportandoHojaId] = useState<string | null>(null);
 
   const [edits, actualizarEdits] = useOptimistic(
     editsInicial,
@@ -1350,57 +1399,57 @@ export function ListaCorreos({
     setUndoItem(null);
   }
 
-  function handleTransferir(hojaId: string, grupoNombre: string) {
-    if (!transfiriendo) return;
+  async function handleTransferir(hojaId: string, grupoNombre: string) {
+    if (!transfiriendo || transferirPending) return;
     const datos = transfiriendo;
-    setTransfiriendo(null);
     setErrorTransferir(null);
-    startTransition(async () => {
-      try {
-        await transferirCorreoAction(
-          datos.correo,
-          {
-            nombre: datos.nombre,
-            slack: datos.slack,
-            jira: datos.jira,
-            sf: datos.sf,
-            estado: datos.estado,
-          },
-          hojaId,
-          grupoNombre,
-          datos.esDinamico,
-        );
-      } catch (e) {
-        setErrorTransferir(e instanceof Error ? e.message : 'Error al transferir el correo.');
-      }
-    });
+    setTransferirPending(true);
+    try {
+      await transferirCorreoAction(
+        datos.correo,
+        {
+          nombre: datos.nombre,
+          slack: datos.slack,
+          jira: datos.jira,
+          sf: datos.sf,
+          estado: datos.estado,
+        },
+        hojaId,
+        grupoNombre,
+        datos.esDinamico,
+      );
+      setTransfiriendo(null);
+    } catch (e) {
+      setErrorTransferir(e instanceof Error ? e.message : 'Error al transferir el correo.');
+    } finally {
+      setTransferirPending(false);
+    }
   }
 
-  function handleCrearEquipo(nombre: string) {
+  async function handleCrearEquipo(nombre: string) {
+    await crearGrupoAction(hoja.id, nombre);
     setCreandoEquipo(false);
-    startTransition(() => {
-      crearGrupoAction(hoja.id, nombre);
-    });
   }
 
-  function handleCrearMBP(nombre: string) {
+  async function handleCrearMBP(nombre: string) {
+    await crearHojaAction(nombre);
     setCreandoMBP(false);
-    startTransition(() => {
-      crearHojaAction(nombre);
-    });
   }
 
-  function handleConfirmarEliminarGrupo() {
-    if (!confirmandoEliminarGrupo) return;
+  async function handleConfirmarEliminarGrupo() {
+    if (!confirmandoEliminarGrupo || eliminarGrupoPending) return;
     const { extraId, nombre } = confirmandoEliminarGrupo;
-    setConfirmandoEliminarGrupo(null);
-    startTransition(() => {
+    setEliminarGrupoPending(true);
+    try {
       if (extraId) {
-        eliminarGrupoAction(extraId);
+        await eliminarGrupoAction(extraId);
       } else {
-        ocultarGrupoAction(hoja.id, nombre);
+        await ocultarGrupoAction(hoja.id, nombre);
       }
-    });
+      setConfirmandoEliminarGrupo(null);
+    } finally {
+      setEliminarGrupoPending(false);
+    }
   }
 
   function handleEditMetrica(grupoNombre: string, label: string, valor: number) {
@@ -1473,22 +1522,35 @@ export function ListaCorreos({
               <button
                 type="button"
                 title={`Exportar ${etiqueta}`}
-                onClick={() =>
-                  exportarHojaXlsx(
-                    h,
-                    gruposExtra,
-                    gruposOcultos,
-                    miembrosExtra,
-                    edits,
-                    eliminadas,
-                    etiqueta,
-                  )
-                }
-                className="mb-1.5 flex items-center gap-1 rounded border border-border bg-background px-1.5 py-0.5 text-xs text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:bg-muted hover:text-foreground"
+                disabled={exportandoHojaId === h.id}
+                onClick={async () => {
+                  setExportandoHojaId(h.id);
+                  try {
+                    await exportarHojaXlsx(
+                      h,
+                      gruposExtra,
+                      gruposOcultos,
+                      miembrosExtra,
+                      edits,
+                      eliminadas,
+                      etiqueta,
+                    );
+                  } finally {
+                    setExportandoHojaId(null);
+                  }
+                }}
+                className={cn(
+                  'mb-1.5 flex items-center gap-1 rounded border border-border bg-background px-1.5 py-0.5 text-xs text-muted-foreground transition-opacity hover:bg-muted hover:text-foreground disabled:opacity-50',
+                  exportandoHojaId === h.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
+                )}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
+                {exportandoHojaId === h.id ? (
+                  <Spinner />
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                )}
                 XLSX
               </button>
             </div>
@@ -1579,6 +1641,7 @@ export function ListaCorreos({
           <ModalTransferirBP
             nombre={transfiriendo.nombre}
             todosBPs={todosBPs}
+            pending={transferirPending}
             onTransferir={handleTransferir}
             onCancelar={() => setTransfiriendo(null)}
           />,
@@ -1623,7 +1686,7 @@ export function ListaCorreos({
         createPortal(
           <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-            onClick={() => setConfirmandoEliminarGrupo(null)}
+            onClick={() => !eliminarGrupoPending && setConfirmandoEliminarGrupo(null)}
           >
             <div
               className="w-80 space-y-4 rounded-xl border border-border bg-card p-6 shadow-2xl"
@@ -1639,16 +1702,19 @@ export function ListaCorreos({
                 <button
                   type="button"
                   onClick={() => setConfirmandoEliminarGrupo(null)}
-                  className="rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-muted"
+                  disabled={eliminarGrupoPending}
+                  className="rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-muted disabled:opacity-40"
                 >
                   Cancelar
                 </button>
                 <button
                   type="button"
                   onClick={handleConfirmarEliminarGrupo}
-                  className="rounded-md bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700"
+                  disabled={eliminarGrupoPending}
+                  className="flex items-center gap-1.5 rounded-md bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700 disabled:opacity-40"
                 >
-                  Sí, eliminar
+                  {eliminarGrupoPending && <Spinner />}
+                  {eliminarGrupoPending ? 'Eliminando…' : 'Sí, eliminar'}
                 </button>
               </div>
             </div>
