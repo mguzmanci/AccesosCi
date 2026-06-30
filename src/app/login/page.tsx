@@ -1,16 +1,35 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { solicitarCodigoAction, verificarCodigoAction } from '@/app/actions';
 
 const initialStep1 = {} as { error?: string; emailEnviado?: string };
 const initialStep2 = {} as { error?: string; email?: string };
 
+const COOLDOWN_S = 30;
+
 export default function LoginPage() {
   const [step1, step1Action, step1Pending] = useActionState(solicitarCodigoAction, initialStep1);
   const [step2, step2Action, step2Pending] = useActionState(verificarCodigoAction, initialStep2);
+  const [manualReset, setManualReset] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
 
-  const emailEnviado = step1?.emailEnviado;
+  const emailEnviado = manualReset ? undefined : step1?.emailEnviado;
+
+  useEffect(() => {
+    if (step1?.emailEnviado && !step1?.error) {
+      setCooldown(COOLDOWN_S);
+    }
+    // step1 cambia de referencia cada vez que la acción termina, incluso al reenviar
+    // con el mismo correo, así que esto se dispara en cada envío exitoso.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step1]);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const id = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(id);
+  }, [cooldown]);
 
   return (
     <main className="flex min-h-full flex-1 items-center justify-center bg-background p-6">
@@ -21,7 +40,11 @@ export default function LoginPage() {
         </p>
 
         {!emailEnviado ? (
-          <form action={step1Action} className="mt-6 space-y-4">
+          <form
+            action={step1Action}
+            onSubmit={() => setManualReset(false)}
+            className="mt-6 space-y-4"
+          >
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-foreground">
                 Correo corporativo
@@ -31,13 +54,17 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 required
+                autoFocus
                 placeholder="tucorreo@capitalinteligente.cl"
                 className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary"
               />
             </div>
 
             {step1?.error && (
-              <p className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-400">
+              <p
+                role="alert"
+                className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-400"
+              >
                 {step1.error}
               </p>
             )}
@@ -79,13 +106,19 @@ export default function LoginPage() {
             </div>
 
             {step2?.error && (
-              <p className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-400">
+              <p
+                role="alert"
+                className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-400"
+              >
                 {step2.error}
               </p>
             )}
 
             {step1?.error && (
-              <p className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-400">
+              <p
+                role="alert"
+                className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-400"
+              >
                 {step1.error}
               </p>
             )}
@@ -102,15 +135,19 @@ export default function LoginPage() {
               type="submit"
               formAction={step1Action}
               formNoValidate
-              disabled={step1Pending}
+              disabled={step1Pending || cooldown > 0}
               className="w-full text-center text-sm text-muted-foreground hover:text-foreground disabled:opacity-60"
             >
-              {step1Pending ? 'Reenviando código…' : 'Volver a enviar código'}
+              {step1Pending
+                ? 'Reenviando código…'
+                : cooldown > 0
+                  ? `Reenviar en ${cooldown}s`
+                  : 'Volver a enviar código'}
             </button>
 
             <button
               type="button"
-              onClick={() => window.location.reload()}
+              onClick={() => setManualReset(true)}
               className="w-full text-center text-sm text-muted-foreground hover:text-foreground"
             >
               Usar otro correo
