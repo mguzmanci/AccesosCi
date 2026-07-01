@@ -1736,7 +1736,10 @@ export function ListaCorreos({
     return todosGrupos.map((g) => ({
       nombre: g.nombre,
       correos: g.asesores.filter(
-        (a) => !eliminadas.has(a.correo) && edits[estKey(a.correo, 'eliminado')] !== 'true',
+        (a) =>
+          !eliminadas.has(a.correo) &&
+          edits[estKey(a.correo, 'eliminado')] !== 'true' &&
+          (a.esDinamico || edits[estKey(a.correo, 'transferido')] !== 'true'),
       ).length,
       extraId: 'extraId' in g ? (g.extraId as string) : undefined,
     }));
