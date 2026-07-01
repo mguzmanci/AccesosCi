@@ -55,10 +55,10 @@ export default async function Home({
     leerPlataformas(),
     leerSolicitudes(),
     esEquipo || esBP || esFinanzas ? leerEdicionesCorreos() : Promise.resolve({}),
-    sesion.rol === 'admin' ? leerGruposExtra() : Promise.resolve([]),
-    sesion.rol === 'admin' ? leerGruposOcultos() : Promise.resolve([]),
+    esAdmin || esBP || esFinanzas ? leerGruposExtra() : Promise.resolve([]),
+    esAdmin || esBP || esFinanzas ? leerGruposOcultos() : Promise.resolve([]),
     esEquipo || esBP || esFinanzas ? leerMiembrosExtra() : Promise.resolve([]),
-    sesion.rol === 'admin' ? leerHojasExtra() : Promise.resolve([]),
+    esAdmin || esBP || esFinanzas ? leerHojasExtra() : Promise.resolve([]),
     esAdmin ? leerUsuarios() : Promise.resolve([]),
   ]);
 
