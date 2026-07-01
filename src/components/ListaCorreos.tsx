@@ -1734,9 +1734,17 @@ export function ListaCorreos({
     };
   }, [gruposSinBusqueda]);
 
-  const totalHoja =
-    hoja.grupos.reduce((n, g) => n + g.asesores.length, 0) +
-    miembrosExtra.filter((m) => m.hojaId === hoja.id).length;
+  const totalHoja = gruposSinBusqueda.reduce(
+    (n, g) =>
+      n +
+      g.asesores.filter(
+        (a) =>
+          !eliminadas.has(a.correo) &&
+          edits[estKey(a.correo, 'eliminado')] !== 'true' &&
+          (a.esDinamico || edits[estKey(a.correo, 'transferido')] !== 'true'),
+      ).length,
+    0,
+  );
 
   const bpsInfo = useMemo(() => {
     const todosGrupos = [...hoja.grupos, ...gruposDinamicos];
@@ -1751,10 +1759,45 @@ export function ListaCorreos({
       extraId: 'extraId' in g ? (g.extraId as string) : undefined,
     }));
   }, [hoja.grupos, gruposDinamicos, edits, eliminadas]);
-  const totalGeneral = data.hojas.reduce(
-    (n, h) => n + h.grupos.reduce((m, g) => m + g.asesores.length, 0),
-    0,
-  );
+  const totalGeneral = useMemo(() => {
+    return todasHojas.reduce((total, h) => {
+      const ocultosH = new Set(gruposOcultos.filter((g) => g.hojaId === h.id).map((g) => g.nombre));
+      const estaticos = h.grupos.filter((g) => !ocultosH.has(g.nombre));
+      const dinamicos = gruposExtra
+        .filter((g) => g.hojaId === h.id)
+        .map((g) => ({ nombre: g.nombre, asesores: [] as Grupo['asesores'] }));
+      const todosGruposH = [...estaticos, ...dinamicos].map((g) => {
+        const extras = miembrosExtra
+          .filter((m) => m.hojaId === h.id && m.grupoNombre === g.nombre)
+          .map((m) => ({
+            nombre: m.nombre,
+            correo: m.correo,
+            estado: m.estado,
+            jira: m.jira,
+            slack: m.slack,
+            sf: m.sf,
+            tl: false as boolean,
+            fechaEliminacion: undefined as string | undefined,
+            esDinamico: true,
+          }));
+        return extras.length > 0 ? { ...g, asesores: [...g.asesores, ...extras] } : g;
+      });
+      return (
+        total +
+        todosGruposH.reduce(
+          (n, g) =>
+            n +
+            g.asesores.filter(
+              (a) =>
+                !eliminadas.has(a.correo) &&
+                edits[estKey(a.correo, 'eliminado')] !== 'true' &&
+                (a.esDinamico || edits[estKey(a.correo, 'transferido')] !== 'true'),
+            ).length,
+          0,
+        )
+      );
+    }, 0);
+  }, [todasHojas, gruposOcultos, gruposExtra, miembrosExtra, edits, eliminadas]);
 
   const todosBPs = useMemo<BPDisponible[]>(() => {
     const result: BPDisponible[] = [];
