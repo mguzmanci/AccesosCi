@@ -15,10 +15,12 @@ import {
   guardarEdicionCorreo,
   ocultarGrupo,
   guardarSolicitud,
+  leerHojasExtra,
   leerMiembrosExtra,
   leerPlataformas,
   leerSolicitudes,
   leerUsuarios,
+  registrarHistorial,
   SolicitudIdDuplicadoError,
   transferirMiembroExtra,
 } from '@/lib/db';
@@ -54,9 +56,12 @@ interface GrupoEstaticoRaw {
   asesores: AsesorEstaticoRaw[];
 }
 interface HojaEstaticaRaw {
+  id: string;
+  nombre: string;
   grupos: GrupoEstaticoRaw[];
 }
-const correosEstaticos = (correosData as { hojas: HojaEstaticaRaw[] }).hojas.flatMap((h) =>
+const hojasEstaticas = (correosData as { hojas: HojaEstaticaRaw[] }).hojas;
+const correosEstaticos = hojasEstaticas.flatMap((h) =>
   h.grupos.flatMap((g) => g.asesores.map((a) => a.correo.toLowerCase())),
 );
 
@@ -65,6 +70,14 @@ async function existeCorreoEnAlgunGrupo(correo: string): Promise<boolean> {
   if (correosEstaticos.includes(buscado)) return true;
   const miembros = await leerMiembrosExtra();
   return miembros.some((m) => m.correo.toLowerCase() === buscado);
+}
+
+async function etiquetaHojaGrupo(hojaId: string, grupoNombre: string): Promise<string> {
+  const estatica = hojasEstaticas.find((h) => h.id === hojaId);
+  if (estatica) return `${estatica.nombre.replace(/^MBP\s+/, '')} · ${grupoNombre}`;
+  const dinamicas = await leerHojasExtra();
+  const dinamica = dinamicas.find((h) => h.id === hojaId);
+  return `${dinamica?.nombre ?? hojaId} · ${grupoNombre}`;
 }
 
 // Evita filas duplicadas si se reintenta el mismo paso del ticket (doble clic, F5).
@@ -226,10 +239,15 @@ export async function editarCorreoAction(
   correo: string,
   campo: string,
   valor: string,
+  valorAnterior?: string,
 ): Promise<void> {
   const sesion = await getSesion();
   if (!sesion || sesion.rol !== 'admin') throw new Error('No autorizado.');
   await guardarEdicionCorreo(correo, campo, valor);
+  // Las claves de métricas (__metrica__:...) no son correos reales, no se registran en el historial.
+  if (correo.includes('@') && valor !== valorAnterior) {
+    await registrarHistorial(correo, campo, valorAnterior ?? null, valor, sesion.email);
+  }
   revalidatePath('/');
 }
 
@@ -488,6 +506,8 @@ export async function transferirCorreoAction(
   targetHojaId: string,
   targetGrupoNombre: string,
   esDinamico: boolean,
+  origenHojaId?: string,
+  origenGrupoNombre?: string,
 ): Promise<void> {
   const sesion = await getSesion();
   if (!sesion || sesion.rol !== 'admin') throw new Error('No autorizado.');
@@ -508,6 +528,12 @@ export async function transferirCorreoAction(
       datos.sf,
     );
   }
+
+  const [origenLabel, destinoLabel] = await Promise.all([
+    origenHojaId && origenGrupoNombre ? etiquetaHojaGrupo(origenHojaId, origenGrupoNombre) : null,
+    etiquetaHojaGrupo(targetHojaId, targetGrupoNombre),
+  ]);
+  await registrarHistorial(correo, 'mbp_bp', origenLabel, destinoLabel, sesion.email);
 
   revalidatePath('/');
 }

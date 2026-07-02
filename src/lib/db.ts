@@ -296,6 +296,51 @@ export async function borrarEdicionesEliminado(correo: string): Promise<void> {
   if (error) throw new Error(`borrarEdicionesEliminado: ${error.message}`);
 }
 
+export interface HistorialEntry {
+  id: string;
+  correo: string;
+  campo: string;
+  valorAnterior: string | null;
+  valorNuevo: string;
+  usuarioEmail: string;
+  creadoEn: string;
+}
+
+export async function registrarHistorial(
+  correo: string,
+  campo: string,
+  valorAnterior: string | null,
+  valorNuevo: string,
+  usuarioEmail: string,
+): Promise<void> {
+  const { error } = await getSupabase().from('correos_historial').insert({
+    correo,
+    campo,
+    valor_anterior: valorAnterior,
+    valor_nuevo: valorNuevo,
+    usuario_email: usuarioEmail,
+  });
+  if (error) throw new Error(`registrarHistorial: ${error.message}`);
+}
+
+export async function leerHistorial(): Promise<HistorialEntry[]> {
+  const { data, error } = await getSupabase()
+    .from('correos_historial')
+    .select('id, correo, campo, valor_anterior, valor_nuevo, usuario_email, creado_en')
+    .order('creado_en', { ascending: false })
+    .limit(500);
+  if (error) throw new Error(`leerHistorial: ${error.message}`);
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    correo: row.correo as string,
+    campo: row.campo as string,
+    valorAnterior: (row.valor_anterior as string | null) ?? null,
+    valorNuevo: row.valor_nuevo as string,
+    usuarioEmail: row.usuario_email as string,
+    creadoEn: row.creado_en as string,
+  }));
+}
+
 export async function actualizarSolicitud(actualizada: Solicitud): Promise<void> {
   const { error } = await getSupabase()
     .from('solicitudes')

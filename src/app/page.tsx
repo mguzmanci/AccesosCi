@@ -5,6 +5,7 @@ import {
   leerEdicionesCorreos,
   leerGruposExtra,
   leerGruposOcultos,
+  leerHistorial,
   leerHojasExtra,
   leerMiembrosExtra,
   leerPlataformas,
@@ -19,6 +20,7 @@ import { DashboardTabs } from '@/components/DashboardTabs';
 import { ListaCorreos } from '@/components/ListaCorreos';
 import { EliminadosPanel } from '@/components/EliminadosPanel';
 import { AdminUsuarios } from '@/components/AdminUsuarios';
+import { HistorialPanel } from '@/components/HistorialPanel';
 import { AutoRefresh } from '@/components/AutoRefresh';
 
 export default async function Home({
@@ -51,6 +53,7 @@ export default async function Home({
     miembrosExtra,
     hojasExtra,
     usuarios,
+    historial,
   ] = await Promise.all([
     leerPlataformas(),
     leerSolicitudes(),
@@ -60,6 +63,7 @@ export default async function Home({
     esEquipo || esBP || esFinanzas ? leerMiembrosExtra() : Promise.resolve([]),
     esAdmin || esBP || esFinanzas ? leerHojasExtra() : Promise.resolve([]),
     esAdmin ? leerUsuarios() : Promise.resolve([]),
+    esAdmin ? leerHistorial() : Promise.resolve([]),
   ]);
 
   const plataformasActivas = plataformas.filter((p) => p.activa);
@@ -180,6 +184,11 @@ export default async function Home({
                         usuarioActual={sesion.email}
                       />
                     ),
+                  },
+                  {
+                    id: 'historial',
+                    label: 'Historial',
+                    content: <HistorialPanel historial={historial} />,
                   },
                 ]
               : []),

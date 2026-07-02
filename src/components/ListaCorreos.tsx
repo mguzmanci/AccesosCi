@@ -605,6 +605,8 @@ interface TransferirDatos {
   sf: string;
   estado: string;
   esDinamico: boolean;
+  origenHojaId?: string;
+  origenGrupoNombre?: string;
 }
 
 function FilaAsesor({
@@ -620,7 +622,7 @@ function FilaAsesor({
   asesor: Asesor;
   columnas: { jira: boolean; slack: boolean; sf: boolean; fecha: boolean };
   edits: Record<string, string>;
-  onEdit: (campo: string, valor: string) => void;
+  onEdit: (campo: string, valor: string, valorAnterior: string) => void;
   onEliminar: () => void;
   onTransferir: (datos: TransferirDatos) => void;
   soloLectura?: boolean;
@@ -654,7 +656,7 @@ function FilaAsesor({
           {soloLectura ? (
             <span className="truncate">{nombre}</span>
           ) : (
-            <CeldaTexto valor={nombre} onSave={(v) => onEdit('nombre', v)} className="truncate" />
+            <CeldaTexto valor={nombre} onSave={(v) => onEdit('nombre', v, nombre)} className="truncate" />
           )}
           {tl &&
             (soloLectura ? (
@@ -666,7 +668,7 @@ function FilaAsesor({
                 type="button"
                 title="Team Leader — clic para quitar"
                 aria-label="Quitar marca de Team Leader"
-                onClick={() => onEdit('tl', 'false')}
+                onClick={() => onEdit('tl', 'false', 'true')}
                 className="rounded bg-amber-100 px-1 py-0.5 text-[10px] font-semibold text-amber-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 dark:bg-amber-950 dark:text-amber-400"
               >
                 T.L
@@ -677,7 +679,7 @@ function FilaAsesor({
               type="button"
               title="Marcar como Team Leader"
               aria-label="Marcar como Team Leader"
-              onClick={() => onEdit('tl', 'true')}
+              onClick={() => onEdit('tl', 'true', 'false')}
               className="hidden rounded px-1 py-0.5 text-[10px] text-muted-foreground/30 hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 group-hover:inline"
             >
               T.L
@@ -693,7 +695,7 @@ function FilaAsesor({
         ) : (
           <CeldaTexto
             valor={correo}
-            onSave={(v) => onEdit('correo', v)}
+            onSave={(v) => onEdit('correo', v, correo)}
             className="block truncate font-mono text-xs text-muted-foreground"
           />
         )}
@@ -713,7 +715,7 @@ function FilaAsesor({
             {estado || 'Activo'}
           </span>
         ) : (
-          <EstadoBadge estado={estado || 'Activo'} onSave={(v) => onEdit('estado', v)} />
+          <EstadoBadge estado={estado || 'Activo'} onSave={(v) => onEdit('estado', v, estado || 'Activo')} />
         )}
       </td>
 
@@ -729,7 +731,7 @@ function FilaAsesor({
               )}
             </span>
           ) : (
-            <ToggleBool valor={jira} onToggle={() => onEdit('jira', jira ? 'false' : 'true')} />
+            <ToggleBool valor={jira} onToggle={() => onEdit('jira', jira ? 'false' : 'true', jira ? 'true' : 'false')} />
           )}
         </td>
       )}
@@ -746,7 +748,7 @@ function FilaAsesor({
               )}
             </span>
           ) : (
-            <ToggleBool valor={slack} onToggle={() => onEdit('slack', slack ? 'false' : 'true')} />
+            <ToggleBool valor={slack} onToggle={() => onEdit('slack', slack ? 'false' : 'true', slack ? 'true' : 'false')} />
           )}
         </td>
       )}
@@ -760,7 +762,7 @@ function FilaAsesor({
             <CeldaSelect
               valor={sf}
               opciones={['', 'Portal', 'Cloud']}
-              onSave={(v) => onEdit('sf', v)}
+              onSave={(v) => onEdit('sf', v, sf)}
             />
           )}
         </td>
@@ -774,7 +776,7 @@ function FilaAsesor({
           ) : (
             <CeldaFecha
               valor={fecha}
-              onSave={(v) => onEdit('fechaEliminacion', v)}
+              onSave={(v) => onEdit('fechaEliminacion', v, fecha)}
               className="text-xs text-muted-foreground"
             />
           )}
@@ -786,7 +788,7 @@ function FilaAsesor({
         <td className="px-3 py-2">
           <CeldaTexto
             valor={val('comentario')}
-            onSave={(v) => onEdit('comentario', v)}
+            onSave={(v) => onEdit('comentario', v, val('comentario'))}
             className="text-xs text-muted-foreground"
           />
         </td>
@@ -1074,7 +1076,7 @@ function TablaGrupo({
   columnas: { jira: boolean; slack: boolean; sf: boolean; fecha: boolean };
   edits: Record<string, string>;
   eliminadas: Set<string>;
-  onEdit: (correoOrig: string, campo: string, valor: string) => void;
+  onEdit: (correoOrig: string, campo: string, valor: string, valorAnterior: string) => void;
   onEditMetrica: (label: string, valor: number) => void;
   onEliminar: (correo: string, nombre: string) => void;
   onTransferir: (datos: TransferirDatos) => void;
@@ -1201,11 +1203,13 @@ function TablaGrupo({
                 asesor={a}
                 columnas={columnas}
                 edits={edits}
-                onEdit={(campo, valor) => onEdit(a.correo, campo, valor)}
+                onEdit={(campo, valor, anterior) => onEdit(a.correo, campo, valor, anterior)}
                 onEliminar={() =>
                   onEliminar(a.correo, edits[estKey(a.correo, 'nombre')] ?? a.nombre)
                 }
-                onTransferir={onTransferir}
+                onTransferir={(datos) =>
+                  onTransferir({ ...datos, origenHojaId: hojaId, origenGrupoNombre: grupo.nombre })
+                }
                 soloLectura={soloLectura}
                 esAdmin={esAdmin}
               />
@@ -1815,15 +1819,15 @@ export function ListaCorreos({
     return result;
   }, [gruposOcultos, gruposExtra, todasHojas]);
 
-  function handleEdit(correoOrig: string, campo: string, valor: string) {
+  function handleEdit(correoOrig: string, campo: string, valor: string, valorAnterior: string) {
     const key = estKey(correoOrig, campo);
-    const anterior = edits[key];
+    const anteriorOverride = edits[key];
     startTransition(() => {
       actualizarEdits({ key, valor });
     });
-    editarCorreoAction(correoOrig, campo, valor).catch((err) => {
+    editarCorreoAction(correoOrig, campo, valor, valorAnterior).catch((err) => {
       startTransition(() => {
-        actualizarEdits({ key, valor: anterior ?? '' });
+        actualizarEdits({ key, valor: anteriorOverride ?? '' });
       });
       alert(`No se pudo guardar el cambio: ${err instanceof Error ? err.message : 'Error desconocido'}`);
     });
@@ -1901,6 +1905,8 @@ export function ListaCorreos({
         hojaId,
         grupoNombre,
         datos.esDinamico,
+        datos.origenHojaId,
+        datos.origenGrupoNombre,
       );
       setTransfiriendo(null);
     } catch (e) {
