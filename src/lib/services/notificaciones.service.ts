@@ -237,10 +237,7 @@ export function construirCorreoParaSalesforce(
   plataformas: Plataforma[],
 ): CorreoSimulado {
   const etiqueta = ETIQUETA_TIPO[solicitud.tipo] ?? solicitud.tipo;
-  const d = solicitud.datos as DatosCreacion;
-  const nombreCompleto = [d.nombre, d.segundoNombre, d.apellidoPaterno, d.apellidoMaterno]
-    .filter(Boolean)
-    .join(' ');
+  const esBaja = solicitud.tipo === 'baja';
 
   const filasPlataformas = solicitud.accesos
     .map(
@@ -248,6 +245,48 @@ export function construirCorreoParaSalesforce(
         `<tr><td style="padding:6px 12px;color:#111">· ${nombrePlataforma(a.plataformaId, plataformas)}</td></tr>`,
     )
     .join('');
+
+  if (esBaja) {
+    const d = solicitud.datos as DatosBaja;
+    return {
+      to: RESPONSABLE_SALESFORCE,
+      subject: `[Pendiente Salesforce] Ticket ${solicitud.id}`,
+      body: `
+        <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#111">
+          <h2 style="margin-bottom:4px">Paso 2: Eliminar cuenta en Salesforce</h2>
+          <p style="color:#888;margin-top:0">Ticket <strong>${solicitud.id}</strong> · ${etiqueta}</p>
+          <p>Gmail y Slack ya fueron dados de baja. Por favor elimina la cuenta en Salesforce y luego marca el ticket como completado en el sistema.</p>
+
+          <table style="width:100%;border-collapse:collapse;margin-top:16px;background:#fef2f2;border-radius:8px;overflow:hidden;border:1px solid #fecaca">
+            <thead>
+              <tr><th colspan="2" style="padding:10px 12px;text-align:left;background:#fee2e2;font-size:0.85rem;color:#991b1b">🚫 CUENTA A ELIMINAR</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:8px 12px;font-weight:600;color:#991b1b;white-space:nowrap;width:1%">Correo corporativo</td>
+                <td style="padding:8px 12px;font-size:1.05rem;font-weight:700;color:#b91c1c;font-family:monospace">${d.correoCorporativo}</td>
+              </tr>
+              ${
+                d.redistribucionSalesforce
+                  ? `<tr>
+                <td style="padding:8px 12px;font-weight:600;color:#991b1b;white-space:nowrap">Redistribución</td>
+                <td style="padding:8px 12px;color:#991b1b">${d.redistribucionSalesforce}</td>
+              </tr>`
+                  : ''
+              }
+            </tbody>
+          </table>
+
+          <p style="margin-top:24px;font-size:0.8rem;color:#aaa">Este mensaje fue generado automáticamente por Solicitudes de Accesos · Capital Inteligente.</p>
+        </div>
+      `,
+    };
+  }
+
+  const d = solicitud.datos as DatosCreacion;
+  const nombreCompleto = [d.nombre, d.segundoNombre, d.apellidoPaterno, d.apellidoMaterno]
+    .filter(Boolean)
+    .join(' ');
 
   return {
     to: RESPONSABLE_SALESFORCE,
@@ -292,10 +331,7 @@ export function construirCorreoParaJira(
   plataformas: Plataforma[],
 ): CorreoSimulado {
   const etiqueta = ETIQUETA_TIPO[solicitud.tipo] ?? solicitud.tipo;
-  const d = solicitud.datos as DatosCreacion;
-  const nombreCompleto = [d.nombre, d.segundoNombre, d.apellidoPaterno, d.apellidoMaterno]
-    .filter(Boolean)
-    .join(' ');
+  const esBaja = solicitud.tipo === 'baja';
 
   const filasPlataformas = solicitud.accesos
     .map(
@@ -303,6 +339,40 @@ export function construirCorreoParaJira(
         `<tr><td style="padding:6px 12px;color:#111">· ${nombrePlataforma(a.plataformaId, plataformas)}</td></tr>`,
     )
     .join('');
+
+  if (esBaja) {
+    const d = solicitud.datos as DatosBaja;
+    return {
+      to: RESPONSABLE_JIRA,
+      subject: `[Pendiente Jira] Ticket ${solicitud.id}`,
+      body: `
+        <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#111">
+          <h2 style="margin-bottom:4px">Paso 3: Eliminar cuenta en Jira</h2>
+          <p style="color:#888;margin-top:0">Ticket <strong>${solicitud.id}</strong> · ${etiqueta}</p>
+          <p>Gmail y Slack (y Salesforce, si aplicaba) ya fueron dados de baja. Por favor elimina la cuenta en Jira y luego marca el ticket como completado en el sistema.</p>
+
+          <table style="width:100%;border-collapse:collapse;margin-top:16px;background:#fef2f2;border-radius:8px;overflow:hidden;border:1px solid #fecaca">
+            <thead>
+              <tr><th colspan="2" style="padding:10px 12px;text-align:left;background:#fee2e2;font-size:0.85rem;color:#991b1b">🚫 CUENTA A ELIMINAR</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:8px 12px;font-weight:600;color:#991b1b;white-space:nowrap;width:1%">Correo corporativo</td>
+                <td style="padding:8px 12px;font-size:1.05rem;font-weight:700;color:#b91c1c;font-family:monospace">${d.correoCorporativo}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p style="margin-top:24px;font-size:0.8rem;color:#aaa">Este mensaje fue generado automáticamente por Solicitudes de Accesos · Capital Inteligente.</p>
+        </div>
+      `,
+    };
+  }
+
+  const d = solicitud.datos as DatosCreacion;
+  const nombreCompleto = [d.nombre, d.segundoNombre, d.apellidoPaterno, d.apellidoMaterno]
+    .filter(Boolean)
+    .join(' ');
 
   return {
     to: RESPONSABLE_JIRA,

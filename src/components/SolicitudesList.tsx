@@ -243,7 +243,8 @@ function SolicitudCard({
   const puedeCompletarSalesforce = esEquipo && esMguzman && enEsperaSalesforce;
   const puedeCompletarJira = esEquipo && esCpeede && enEsperaJira;
   const puedeAccionarTmallea = esEquipo && esTmallea && estadoActivo && !enEspera;
-  const puedeAccionarGeneral = esEquipo && estadoActivo && !enEspera && s.tipo !== 'crear';
+  const puedeAccionarGeneral =
+    esEquipo && estadoActivo && !enEspera && s.tipo !== 'crear' && s.tipo !== 'baja';
 
   const puedeAccionar =
     puedeAccionarTmallea || puedeAccionarGeneral || puedeCompletarSalesforce || puedeCompletarJira;
@@ -352,7 +353,16 @@ function SolicitudCard({
             </>
           )}
 
-          {/* Tickets no-crear para cualquier miembro del equipo */}
+          {/* Paso 1: tmallea saca Gmail/Slack en tickets de baja */}
+          {puedeAccionarTmallea && s.tipo === 'baja' && (
+            <div className="flex flex-wrap gap-2">
+              <BotonEstado id={s.id} estado={nextEstado} label="Completado paso 1 (Gmail/Slack)" />
+              <BotonEstado id={s.id} estado="en_proceso" label="Marcar en proceso" />
+              <BotonEstado id={s.id} estado="rechazada" label="Rechazar" />
+            </div>
+          )}
+
+          {/* Tickets no-crear/no-baja para cualquier miembro del equipo */}
           {puedeAccionarGeneral && (
             <div className="flex flex-wrap gap-2">
               <BotonEstado id={s.id} estado="en_proceso" label="Marcar en proceso" />

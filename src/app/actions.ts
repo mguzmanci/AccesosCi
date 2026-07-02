@@ -400,6 +400,26 @@ export async function cambiarEstadoAction(formData: FormData) {
     return;
   }
 
+  // ── Paso 1 (baja): tmallea saca Gmail/Slack → esperando_salesforce | esperando_jira ─
+  if (
+    (estado === 'esperando_salesforce' || estado === 'esperando_jira') &&
+    sesion.email === RESPONSABLE_CORREO &&
+    solicitud.tipo === 'baja'
+  ) {
+    const solicitudFinal = cambiarEstadoSolicitud(solicitud, estado);
+    await actualizarSolicitud(solicitudFinal);
+
+    if (estado === 'esperando_salesforce') {
+      const correoMguzman = construirCorreoParaSalesforce(solicitudFinal, plataformas);
+      await enviarCorreo(correoMguzman.to, correoMguzman.subject, correoMguzman.body);
+    } else {
+      const correoJira = construirCorreoParaJira(solicitudFinal, plataformas);
+      await enviarCorreo(correoJira.to, correoJira.subject, correoJira.body);
+    }
+    revalidatePath('/');
+    return;
+  }
+
   // ── Paso 2: mguzman completa Salesforce → esperando_jira | completada ──────
   if (
     estado === 'completada' &&
