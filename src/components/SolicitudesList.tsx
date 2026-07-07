@@ -1,3 +1,6 @@
+'use client';
+
+import { useMemo, useState } from 'react';
 import type {
   DatosBaja,
   DatosCreacion,
@@ -6,13 +9,33 @@ import type {
   Plataforma,
   Solicitud,
   TipoSolicitud,
+  Usuario,
 } from '@/types';
 import { cambiarEstadoAction } from '@/app/actions';
 import { agruparPorTipo } from '@/lib/services/solicitudes.service';
 import { DashboardTabs } from '@/components/DashboardTabs';
 import { CompletarCreacionForm } from '@/components/CompletarCreacionForm';
 import { BotonSubmit } from '@/components/BotonSubmit';
+import correosData from '@/data/correos.json';
 import type { GrupoExtra, HojaExtra } from '@/lib/db';
+
+interface HojaEstaticaRaw {
+  id: string;
+  nombre: string;
+}
+const hojasEstaticas = (correosData as { hojas: HojaEstaticaRaw[] }).hojas;
+
+function etiquetaBp(grupoBp: string, hojasExtra: HojaExtra[]): string {
+  const sep = grupoBp.indexOf('|');
+  if (sep === -1) return grupoBp;
+  const hojaId = grupoBp.slice(0, sep);
+  const grupoNombre = grupoBp.slice(sep + 1);
+  const hojaEstatica = hojasEstaticas.find((h) => h.id === hojaId);
+  const hojaLabel = hojaEstatica
+    ? hojaEstatica.nombre.replace(/^MBP\s+/, '')
+    : (hojasExtra.find((h) => h.id === hojaId)?.nombre ?? hojaId);
+  return `${hojaLabel} · ${grupoNombre}`;
+}
 
 const RESPONSABLE_CORREO = 'tmallea@capitalinteligente.cl';
 const RESPONSABLE_SALESFORCE = 'mguzman@capitalinteligente.cl';
@@ -159,6 +182,7 @@ export function SolicitudesList({
   esAdmin = false,
   gruposExtra = [],
   hojasExtra = [],
+  usuarios = [],
   usuarioEmail = '',
 }: {
   solicitudes: Solicitud[];
@@ -167,41 +191,91 @@ export function SolicitudesList({
   esAdmin?: boolean;
   gruposExtra?: GrupoExtra[];
   hojasExtra?: HojaExtra[];
+  usuarios?: Usuario[];
   usuarioEmail?: string;
 }) {
+  const [filtroBp, setFiltroBp] = useState('');
+
+  const bpPorEmail = useMemo(() => {
+    const mapa = new Map<string, string>();
+    for (const u of usuarios) {
+      if (u.grupoBp) mapa.set(u.email.toLowerCase(), u.grupoBp);
+    }
+    return mapa;
+  }, [usuarios]);
+
+  const bpOptions = useMemo(() => {
+    const vistos = new Set<string>();
+    const opciones: { valor: string; label: string }[] = [];
+    for (const grupoBp of bpPorEmail.values()) {
+      if (vistos.has(grupoBp)) continue;
+      vistos.add(grupoBp);
+      opciones.push({ valor: grupoBp, label: etiquetaBp(grupoBp, hojasExtra) });
+    }
+    return opciones.sort((a, b) => a.label.localeCompare(b.label, 'es'));
+  }, [bpPorEmail, hojasExtra]);
+
+  const solicitudesFiltradas =
+    esAdmin && filtroBp
+      ? solicitudes.filter((s) => bpPorEmail.get(s.solicitanteEmail.toLowerCase()) === filtroBp)
+      : solicitudes;
+
   if (solicitudes.length === 0) {
     return <EstadoVacio mensaje="No hay solicitudes aún." />;
   }
 
-  const grupos = agruparPorTipo(solicitudes);
+  const grupos = agruparPorTipo(solicitudesFiltradas);
 
   return (
-    <DashboardTabs
-      size="sm"
-      tabs={grupos.map((grupo) => ({
-        id: grupo.tipo,
-        label: GRUPO_TITULO[grupo.tipo],
-        content:
-          grupo.solicitudes.length === 0 ? (
-            <EstadoVacio mensaje="No hay solicitudes de este tipo." />
-          ) : (
-            <ul className="space-y-3">
-              {grupo.solicitudes.map((s) => (
-                <SolicitudCard
-                  key={s.id}
-                  solicitud={s}
-                  plataformas={plataformas}
-                  esEquipo={esEquipo}
-                  esAdmin={esAdmin}
-                  gruposExtra={gruposExtra}
-                  hojasExtra={hojasExtra}
-                  usuarioEmail={usuarioEmail}
-                />
-              ))}
-            </ul>
-          ),
-      }))}
-    />
+    <div className="space-y-3">
+      {esAdmin && bpOptions.length > 0 && (
+        <div className="flex items-center gap-2">
+          <label htmlFor="filtro-bp" className="text-xs text-muted-foreground">
+            Filtrar por BP
+          </label>
+          <select
+            id="filtro-bp"
+            value={filtroBp}
+            onChange={(e) => setFiltroBp(e.target.value)}
+            className="rounded-md border border-border bg-background px-2.5 py-1.5 text-xs text-foreground outline-none focus:border-primary"
+          >
+            <option value="">Todos los BP</option>
+            {bpOptions.map((o) => (
+              <option key={o.valor} value={o.valor}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      <DashboardTabs
+        size="sm"
+        tabs={grupos.map((grupo) => ({
+          id: grupo.tipo,
+          label: GRUPO_TITULO[grupo.tipo],
+          content:
+            grupo.solicitudes.length === 0 ? (
+              <EstadoVacio mensaje="No hay solicitudes de este tipo." />
+            ) : (
+              <ul className="space-y-3">
+                {grupo.solicitudes.map((s) => (
+                  <SolicitudCard
+                    key={s.id}
+                    solicitud={s}
+                    plataformas={plataformas}
+                    esEquipo={esEquipo}
+                    esAdmin={esAdmin}
+                    gruposExtra={gruposExtra}
+                    hojasExtra={hojasExtra}
+                    usuarioEmail={usuarioEmail}
+                  />
+                ))}
+              </ul>
+            ),
+        }))}
+      />
+    </div>
   );
 }
 

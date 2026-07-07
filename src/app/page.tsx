@@ -134,6 +134,7 @@ export default async function Home({
                   esAdmin={esAdmin}
                   gruposExtra={gruposExtra}
                   hojasExtra={hojasExtra}
+                  usuarios={usuarios}
                   usuarioEmail={sesion.email}
                 />
               ),
