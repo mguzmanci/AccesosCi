@@ -99,6 +99,30 @@ async function etiquetaHojaGrupo(hojaId: string, grupoNombre: string): Promise<s
   return `${dinamica?.nombre ?? hojaId} · ${grupoNombre}`;
 }
 
+async function marcarBajaCompletada(
+  solicitudFinal: { tipo: TipoSolicitud; datos: DatosSolicitud },
+  usuarioEmail: string,
+): Promise<void> {
+  if (solicitudFinal.tipo !== 'baja') return;
+  const correoBaja = (solicitudFinal.datos as DatosBaja).correoCorporativo;
+  const fecha = fechaHoyChile();
+  const [estadoActual, comentarioActual] = await Promise.all([
+    leerEdicionCorreo(correoBaja, 'estado'),
+    leerEdicionCorreo(correoBaja, 'comentario'),
+  ]);
+  const nuevoComentario = comentarioActual
+    ? `${comentarioActual}\nEliminado el ${fecha}`
+    : `Eliminado el ${fecha}`;
+  await Promise.all([
+    guardarEdicionCorreo(correoBaja, 'estado', 'Eliminado'),
+    guardarEdicionCorreo(correoBaja, 'comentario', nuevoComentario),
+  ]);
+  await Promise.all([
+    registrarHistorial(correoBaja, 'estado', estadoActual ?? 'Activo', 'Eliminado', usuarioEmail),
+    registrarHistorial(correoBaja, 'comentario', comentarioActual, nuevoComentario, usuarioEmail),
+  ]);
+}
+
 // Evita filas duplicadas si se reintenta el mismo paso del ticket (doble clic, F5).
 // El chequeo es solo dentro del mismo hoja+grupo: si la persona ya existia en
 // otro BP (activo o no), igual debe poder agregarse al nuevo.
@@ -469,6 +493,7 @@ export async function cambiarEstadoAction(formData: FormData) {
           ? [enviarCorreo(correoPersonalSf, correo.subject, correo.body)]
           : []),
       ]);
+      await marcarBajaCompletada(solicitudFinal, sesion.email);
     }
     revalidatePath('/');
     return;
@@ -491,6 +516,7 @@ export async function cambiarEstadoAction(formData: FormData) {
         ? [enviarCorreo(correoPersonalJira, correo.subject, correo.body)]
         : []),
     ]);
+    await marcarBajaCompletada(solicitudFinal, sesion.email);
     revalidatePath('/');
     return;
   }
@@ -546,25 +572,7 @@ export async function cambiarEstadoAction(formData: FormData) {
       );
     }
 
-    if (solicitudFinal.tipo === 'baja') {
-      const correoBaja = (solicitudFinal.datos as DatosBaja).correoCorporativo;
-      const fecha = fechaHoyChile();
-      const [estadoActual, comentarioActual] = await Promise.all([
-        leerEdicionCorreo(correoBaja, 'estado'),
-        leerEdicionCorreo(correoBaja, 'comentario'),
-      ]);
-      const nuevoComentario = comentarioActual
-        ? `${comentarioActual}\nEliminado el ${fecha}`
-        : `Eliminado el ${fecha}`;
-      await Promise.all([
-        guardarEdicionCorreo(correoBaja, 'estado', 'Eliminado'),
-        guardarEdicionCorreo(correoBaja, 'comentario', nuevoComentario),
-      ]);
-      await Promise.all([
-        registrarHistorial(correoBaja, 'estado', estadoActual ?? 'Activo', 'Eliminado', sesion.email),
-        registrarHistorial(correoBaja, 'comentario', comentarioActual, nuevoComentario, sesion.email),
-      ]);
-    }
+    await marcarBajaCompletada(solicitudFinal, sesion.email);
   }
 
   revalidatePath('/');
