@@ -35,35 +35,42 @@ interface BPOption {
 
 function buildBPOptions(gruposExtra: GrupoExtra[], hojasExtra: HojaExtra[]): BPOption[] {
   const options: BPOption[] = [];
-  for (const hoja of data.hojas) {
-    for (const grupo of hoja.grupos) {
+
+  // Todas las hojas (MBP), estaticas primero y luego las creadas dinamicamente
+  // que no tengan ya una entrada estatica, para que cada BP quede agrupado
+  // junto a los demas de su mismo MBP.
+  const todasHojas = [
+    ...data.hojas.map((h) => ({ id: h.id, nombre: h.nombre })),
+    ...hojasExtra.filter((h) => !data.hojas.some((he) => he.id === h.id)),
+  ];
+
+  for (const hoja of todasHojas) {
+    const hojaLabel = hoja.nombre.replace(/^MBP\s+/, '');
+    const hojaEstatica = data.hojas.find((h) => h.id === hoja.id);
+
+    for (const grupo of hojaEstatica?.grupos ?? []) {
       const activos = grupo.asesores.filter((a) => a.estado !== 'Eliminado');
       const total = activos.length || 1;
       options.push({
         key: `static::${hoja.id}::${grupo.nombre}`,
         label: grupo.nombre,
-        hojaLabel: hoja.nombre.replace(/^MBP\s+/, ''),
+        hojaLabel,
         usaSlack: activos.filter((a) => a.slack).length / total > 0.4,
         usaJira: activos.some((a) => a.jira),
         isDynamic: false,
       });
     }
-  }
-  for (const g of gruposExtra) {
-    const hojaEstatica = data.hojas.find((h) => h.id === g.hojaId);
-    const hojaDinamica = hojasExtra.find((h) => h.id === g.hojaId);
-    const hojaLabel = (hojaEstatica?.nombre ?? hojaDinamica?.nombre ?? 'Dinámico').replace(
-      /^MBP\s+/,
-      '',
-    );
-    options.push({
-      key: `dynamic::${g.id}`,
-      label: g.nombre,
-      hojaLabel,
-      usaSlack: false,
-      usaJira: false,
-      isDynamic: true,
-    });
+
+    for (const g of gruposExtra.filter((g) => g.hojaId === hoja.id)) {
+      options.push({
+        key: `dynamic::${g.id}`,
+        label: g.nombre,
+        hojaLabel,
+        usaSlack: false,
+        usaJira: false,
+        isDynamic: true,
+      });
+    }
   }
   return options;
 }
