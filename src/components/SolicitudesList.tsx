@@ -317,6 +317,9 @@ function SolicitudCard({
   const tieneJira = plataformas.some(
     (p) => idsAccesos.has(p.id) && p.nombre.toLowerCase().includes('jira'),
   );
+  const tieneGmail = plataformas.some(
+    (p) => idsAccesos.has(p.id) && p.nombre.toLowerCase().includes('gmail'),
+  );
 
   // Próximo estado cuando tmallea completa paso 1
   const nextEstado: EstadoSolicitud = tieneSalesforce
@@ -443,7 +446,13 @@ function SolicitudCard({
           {/* Paso 1: tmallea actúa en tickets crear activos */}
           {puedeAccionarTmallea && s.tipo === 'crear' && (
             <>
-              <CompletarCreacionForm id={s.id} gruposExtra={gruposExtra} hojasExtra={hojasExtra} nextEstado={nextEstado} />
+              <CompletarCreacionForm
+                id={s.id}
+                gruposExtra={gruposExtra}
+                hojasExtra={hojasExtra}
+                nextEstado={nextEstado}
+                tieneGmail={tieneGmail}
+              />
               <div className="flex gap-2 border-t border-border/50 pt-2">
                 <BotonEstado id={s.id} estado="en_proceso" label="Marcar en proceso" />
                 <BotonEstado id={s.id} estado="rechazada" label="Rechazar" />

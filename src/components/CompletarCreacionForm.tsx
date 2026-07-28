@@ -80,11 +80,13 @@ export function CompletarCreacionForm({
   gruposExtra = [],
   hojasExtra = [],
   nextEstado = 'completada',
+  tieneGmail = true,
 }: {
   id: string;
   gruposExtra?: GrupoExtra[];
   hojasExtra?: HojaExtra[];
   nextEstado?: EstadoSolicitud;
+  tieneGmail?: boolean;
 }) {
   const [bpKey, setBpKey] = useState('');
   const bpOptions = useMemo(() => buildBPOptions(gruposExtra, hojasExtra), [gruposExtra, hojasExtra]);
@@ -111,7 +113,7 @@ export function CompletarCreacionForm({
       <div className="flex flex-wrap items-end gap-3">
         <div className="w-full sm:w-60">
           <label htmlFor={`correo-${id}`} className="block text-xs text-muted-foreground mb-1">
-            Correo creado
+            {tieneGmail ? 'Correo creado' : 'Correo corporativo existente'}
           </label>
           <input
             id={`correo-${id}`}
@@ -123,22 +125,24 @@ export function CompletarCreacionForm({
           />
         </div>
 
-        <div className="w-full sm:w-44">
-          <label
-            htmlFor={`password-${id}`}
-            className="block text-xs text-muted-foreground mb-1"
-          >
-            Contraseña
-          </label>
-          <input
-            id={`password-${id}`}
-            name="passwordCorreo"
-            type="text"
-            required
-            placeholder="Contraseña del correo"
-            className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-primary"
-          />
-        </div>
+        {tieneGmail && (
+          <div className="w-full sm:w-44">
+            <label
+              htmlFor={`password-${id}`}
+              className="block text-xs text-muted-foreground mb-1"
+            >
+              Contraseña
+            </label>
+            <input
+              id={`password-${id}`}
+              name="passwordCorreo"
+              type="text"
+              required
+              placeholder="Contraseña del correo"
+              className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-primary"
+            />
+          </div>
+        )}
 
         <div className="w-full sm:w-auto">
           <label htmlFor={`bp-${id}`} className="block text-xs text-muted-foreground mb-1">
@@ -183,7 +187,13 @@ export function CompletarCreacionForm({
         )}
 
         <BotonSubmit
-          label={nextEstado === 'completada' ? 'Completar' : 'Completar paso 1 (correo)'}
+          label={
+            nextEstado === 'completada'
+              ? 'Completar'
+              : tieneGmail
+                ? 'Completar paso 1 (correo)'
+                : 'Completar paso 1'
+          }
           className="self-end rounded-md border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 hover:bg-emerald-100 disabled:opacity-40 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 dark:hover:bg-emerald-900"
         />
       </div>
