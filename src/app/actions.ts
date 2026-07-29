@@ -393,6 +393,9 @@ export async function cambiarEstadoAction(formData: FormData) {
   const tieneJira = plataformas.some(
     (p) => idsAccesos.has(p.id) && p.nombre.toLowerCase().includes('jira'),
   );
+  const tieneGmail = plataformas.some(
+    (p) => idsAccesos.has(p.id) && p.nombre.toLowerCase().includes('gmail'),
+  );
   // Un admin puede actuar en cualquier paso, aunque le corresponda a otra persona.
   const esAdminSesion = sesion.rol === 'admin';
 
@@ -402,21 +405,21 @@ export async function cambiarEstadoAction(formData: FormData) {
     (sesion.email === RESPONSABLE_CORREO || esAdminSesion) &&
     solicitud.tipo === 'crear'
   ) {
-    if (!correoCorporativoAsignado) {
+    if (tieneGmail && !correoCorporativoAsignado) {
       throw new Error('Debe indicar el correo @capitalinteligente.cl asignado.');
     }
     const datosActualizados: DatosCreacion = {
       ...(solicitud.datos as DatosCreacion),
-      passwordCorreo,
+      ...(tieneGmail ? { passwordCorreo } : {}),
     };
     const solicitudFinal = {
       ...cambiarEstadoSolicitud(solicitud, estado),
-      correoCorporativoAsignado,
+      ...(correoCorporativoAsignado ? { correoCorporativoAsignado } : {}),
       datos: datosActualizados,
     };
     await actualizarSolicitud(solicitudFinal);
 
-    if (bpHojaId && bpGrupoNombre) {
+    if (correoCorporativoAsignado && bpHojaId && bpGrupoNombre) {
       const d = datosActualizados;
       const nombreCompleto = [d.nombre, d.segundoNombre, d.apellidoPaterno, d.apellidoMaterno]
         .filter(Boolean)
@@ -522,7 +525,12 @@ export async function cambiarEstadoAction(formData: FormData) {
   }
 
   // ── Flujo normal (tickets sin Salesforce o que no son tipo crear) ───────────
-  if (solicitud.tipo === 'crear' && estado === 'completada' && !correoCorporativoAsignado) {
+  if (
+    solicitud.tipo === 'crear' &&
+    estado === 'completada' &&
+    tieneGmail &&
+    !correoCorporativoAsignado
+  ) {
     throw new Error(
       'Debe indicar el correo @capitalinteligente.cl asignado para completar la creación.',
     );

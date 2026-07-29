@@ -111,79 +111,81 @@ export function CompletarCreacionForm({
       <input type="hidden" name="bpHojaId" value={bpHojaId} />
       <input type="hidden" name="bpGrupoNombre" value={bpGrupoNombre} />
       <div className="flex flex-wrap items-end gap-3">
-        <div className="w-full sm:w-60">
-          <label htmlFor={`correo-${id}`} className="block text-xs text-muted-foreground mb-1">
-            {tieneGmail ? 'Correo creado' : 'Correo corporativo existente'}
-          </label>
-          <input
-            id={`correo-${id}`}
-            name="correoCorporativoAsignado"
-            type="email"
-            required
-            placeholder="usuario@capitalinteligente.cl"
-            className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-primary"
-          />
-        </div>
-
         {tieneGmail && (
-          <div className="w-full sm:w-44">
-            <label
-              htmlFor={`password-${id}`}
-              className="block text-xs text-muted-foreground mb-1"
-            >
-              Contraseña
-            </label>
-            <input
-              id={`password-${id}`}
-              name="passwordCorreo"
-              type="text"
-              required
-              placeholder="Contraseña del correo"
-              className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-primary"
-            />
-          </div>
-        )}
+          <>
+            <div className="w-full sm:w-60">
+              <label htmlFor={`correo-${id}`} className="block text-xs text-muted-foreground mb-1">
+                Correo creado
+              </label>
+              <input
+                id={`correo-${id}`}
+                name="correoCorporativoAsignado"
+                type="email"
+                required
+                placeholder="usuario@capitalinteligente.cl"
+                className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-primary"
+              />
+            </div>
 
-        <div className="w-full sm:w-auto">
-          <label htmlFor={`bp-${id}`} className="block text-xs text-muted-foreground mb-1">
-            BP asignado
-          </label>
-          <select
-            id={`bp-${id}`}
-            value={bpKey}
-            onChange={(e) => setBpKey(e.target.value)}
-            className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs text-foreground outline-none focus:border-primary sm:max-w-[200px]"
-          >
-            <option value="">Seleccionar BP…</option>
-            {bpOptions.map((bp) => (
-              <option key={bp.key} value={bp.key}>
-                {bp.hojaLabel} · {bp.label}
-              </option>
-            ))}
-          </select>
-        </div>
+            <div className="w-full sm:w-44">
+              <label
+                htmlFor={`password-${id}`}
+                className="block text-xs text-muted-foreground mb-1"
+              >
+                Contraseña
+              </label>
+              <input
+                id={`password-${id}`}
+                name="passwordCorreo"
+                type="text"
+                required
+                placeholder="Contraseña del correo"
+                className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-mono text-foreground outline-none focus:border-primary"
+              />
+            </div>
 
-        {selectedBP && !selectedBP.isDynamic && (
-          <div className="flex items-center gap-1.5 self-end pb-[7px]">
-            <span
-              className={`rounded-md border px-2 py-0.5 text-[11px] font-medium ${
-                selectedBP.usaSlack
-                  ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-400'
-                  : 'border-border bg-muted text-muted-foreground/50 line-through'
-              }`}
-            >
-              Slack
-            </span>
-            <span
-              className={`rounded-md border px-2 py-0.5 text-[11px] font-medium ${
-                selectedBP.usaJira
-                  ? 'border-sky-200 bg-sky-50 text-sky-700 dark:border-sky-800 dark:bg-sky-950 dark:text-sky-400'
-                  : 'border-border bg-muted text-muted-foreground/50 line-through'
-              }`}
-            >
-              Jira
-            </span>
-          </div>
+            <div className="w-full sm:w-auto">
+              <label htmlFor={`bp-${id}`} className="block text-xs text-muted-foreground mb-1">
+                BP asignado
+              </label>
+              <select
+                id={`bp-${id}`}
+                value={bpKey}
+                onChange={(e) => setBpKey(e.target.value)}
+                className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs text-foreground outline-none focus:border-primary sm:max-w-[200px]"
+              >
+                <option value="">Seleccionar BP…</option>
+                {bpOptions.map((bp) => (
+                  <option key={bp.key} value={bp.key}>
+                    {bp.hojaLabel} · {bp.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {selectedBP && !selectedBP.isDynamic && (
+              <div className="flex items-center gap-1.5 self-end pb-[7px]">
+                <span
+                  className={`rounded-md border px-2 py-0.5 text-[11px] font-medium ${
+                    selectedBP.usaSlack
+                      ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-400'
+                      : 'border-border bg-muted text-muted-foreground/50 line-through'
+                  }`}
+                >
+                  Slack
+                </span>
+                <span
+                  className={`rounded-md border px-2 py-0.5 text-[11px] font-medium ${
+                    selectedBP.usaJira
+                      ? 'border-sky-200 bg-sky-50 text-sky-700 dark:border-sky-800 dark:bg-sky-950 dark:text-sky-400'
+                      : 'border-border bg-muted text-muted-foreground/50 line-through'
+                  }`}
+                >
+                  Jira
+                </span>
+              </div>
+            )}
+          </>
         )}
 
         <BotonSubmit
