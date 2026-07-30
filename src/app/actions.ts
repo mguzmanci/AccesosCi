@@ -143,31 +143,17 @@ async function marcarBajaCompletada(
     return;
   }
 
-  // Baja parcial: solo se quitan los accesos puntuales solicitados, sin tocar
-  // el Estado ni mandar el correo al panel de Eliminados.
-  const quitados: string[] = [];
-  if (pide('slack')) {
-    await guardarEdicionCorreo(correoBaja, 'slack', 'false');
-    await registrarHistorial(correoBaja, 'slack', 'true', 'false', usuarioEmail);
-    quitados.push('Slack');
-  }
-  if (pide('jira')) {
-    await guardarEdicionCorreo(correoBaja, 'jira', 'false');
-    await registrarHistorial(correoBaja, 'jira', 'true', 'false', usuarioEmail);
-    quitados.push('Jira');
-  }
-  if (pide('salesforce')) {
-    const sfActual = await leerEdicionCorreo(correoBaja, 'sf');
-    await guardarEdicionCorreo(correoBaja, 'sf', '');
-    await registrarHistorial(correoBaja, 'sf', sfActual, '', usuarioEmail);
-    quitados.push('Salesforce');
-  }
-  if (quitados.length === 0) return;
+  // Baja parcial: no se apaga nada automaticamente (eso queda manual), solo
+  // se deja un comentario recordando que hay que eliminar ese acceso puntual.
+  const porQuitar: string[] = [];
+  if (pide('slack')) porQuitar.push('Slack');
+  if (pide('jira')) porQuitar.push('Jira');
+  if (pide('salesforce')) porQuitar.push('Salesforce');
+  if (porQuitar.length === 0) return;
 
+  const nota = `Eliminar ${porQuitar.join(', ')} el ${fecha}`;
   const comentarioActual = await leerEdicionCorreo(correoBaja, 'comentario');
-  const nuevoComentario = comentarioActual
-    ? `${comentarioActual}\n${quitados.join(', ')} dado de baja el ${fecha}`
-    : `${quitados.join(', ')} dado de baja el ${fecha}`;
+  const nuevoComentario = comentarioActual ? `${comentarioActual}\n${nota}` : nota;
   await guardarEdicionCorreo(correoBaja, 'comentario', nuevoComentario);
   await registrarHistorial(correoBaja, 'comentario', comentarioActual, nuevoComentario, usuarioEmail);
 }
