@@ -49,7 +49,15 @@ import {
   RESPONSABLE_SALESFORCE,
   RESPONSABLE_JIRA,
 } from '@/lib/services/notificaciones.service';
-import type { DatosBaja, DatosCreacion, DatosSolicitud, EstadoSolicitud, Rol, TipoSolicitud } from '@/types';
+import type {
+  DatosBaja,
+  DatosCreacion,
+  DatosSolicitud,
+  EstadoSolicitud,
+  Plataforma,
+  Rol,
+  TipoSolicitud,
+} from '@/types';
 
 const RESPONSABLE_CORREO = 'tmallea@capitalinteligente.cl';
 
@@ -100,27 +108,68 @@ async function etiquetaHojaGrupo(hojaId: string, grupoNombre: string): Promise<s
 }
 
 async function marcarBajaCompletada(
-  solicitudFinal: { tipo: TipoSolicitud; datos: DatosSolicitud },
+  solicitudFinal: {
+    tipo: TipoSolicitud;
+    datos: DatosSolicitud;
+    accesos: { plataformaId: string }[];
+  },
+  plataformas: Plataforma[],
   usuarioEmail: string,
 ): Promise<void> {
   if (solicitudFinal.tipo !== 'baja') return;
   const correoBaja = (solicitudFinal.datos as DatosBaja).correoCorporativo;
+  const idsAccesos = new Set(solicitudFinal.accesos.map((a) => a.plataformaId));
+  const pide = (palabra: string) =>
+    plataformas.some((p) => idsAccesos.has(p.id) && p.nombre.toLowerCase().includes(palabra));
   const fecha = fechaHoyChile();
-  const [estadoActual, comentarioActual] = await Promise.all([
-    leerEdicionCorreo(correoBaja, 'estado'),
-    leerEdicionCorreo(correoBaja, 'comentario'),
-  ]);
+
+  // Si la baja incluye Gmail, es baja completa de la cuenta.
+  if (pide('gmail')) {
+    const [estadoActual, comentarioActual] = await Promise.all([
+      leerEdicionCorreo(correoBaja, 'estado'),
+      leerEdicionCorreo(correoBaja, 'comentario'),
+    ]);
+    const nuevoComentario = comentarioActual
+      ? `${comentarioActual}\nEliminado el ${fecha}`
+      : `Eliminado el ${fecha}`;
+    await Promise.all([
+      guardarEdicionCorreo(correoBaja, 'estado', 'Eliminado'),
+      guardarEdicionCorreo(correoBaja, 'comentario', nuevoComentario),
+    ]);
+    await Promise.all([
+      registrarHistorial(correoBaja, 'estado', estadoActual ?? 'Activo', 'Eliminado', usuarioEmail),
+      registrarHistorial(correoBaja, 'comentario', comentarioActual, nuevoComentario, usuarioEmail),
+    ]);
+    return;
+  }
+
+  // Baja parcial: solo se quitan los accesos puntuales solicitados, sin tocar
+  // el Estado ni mandar el correo al panel de Eliminados.
+  const quitados: string[] = [];
+  if (pide('slack')) {
+    await guardarEdicionCorreo(correoBaja, 'slack', 'false');
+    await registrarHistorial(correoBaja, 'slack', 'true', 'false', usuarioEmail);
+    quitados.push('Slack');
+  }
+  if (pide('jira')) {
+    await guardarEdicionCorreo(correoBaja, 'jira', 'false');
+    await registrarHistorial(correoBaja, 'jira', 'true', 'false', usuarioEmail);
+    quitados.push('Jira');
+  }
+  if (pide('salesforce')) {
+    const sfActual = await leerEdicionCorreo(correoBaja, 'sf');
+    await guardarEdicionCorreo(correoBaja, 'sf', '');
+    await registrarHistorial(correoBaja, 'sf', sfActual, '', usuarioEmail);
+    quitados.push('Salesforce');
+  }
+  if (quitados.length === 0) return;
+
+  const comentarioActual = await leerEdicionCorreo(correoBaja, 'comentario');
   const nuevoComentario = comentarioActual
-    ? `${comentarioActual}\nEliminado el ${fecha}`
-    : `Eliminado el ${fecha}`;
-  await Promise.all([
-    guardarEdicionCorreo(correoBaja, 'estado', 'Eliminado'),
-    guardarEdicionCorreo(correoBaja, 'comentario', nuevoComentario),
-  ]);
-  await Promise.all([
-    registrarHistorial(correoBaja, 'estado', estadoActual ?? 'Activo', 'Eliminado', usuarioEmail),
-    registrarHistorial(correoBaja, 'comentario', comentarioActual, nuevoComentario, usuarioEmail),
-  ]);
+    ? `${comentarioActual}\n${quitados.join(', ')} dado de baja el ${fecha}`
+    : `${quitados.join(', ')} dado de baja el ${fecha}`;
+  await guardarEdicionCorreo(correoBaja, 'comentario', nuevoComentario);
+  await registrarHistorial(correoBaja, 'comentario', comentarioActual, nuevoComentario, usuarioEmail);
 }
 
 // Evita filas duplicadas si se reintenta el mismo paso del ticket (doble clic, F5).
@@ -496,7 +545,7 @@ export async function cambiarEstadoAction(formData: FormData) {
           ? [enviarCorreo(correoPersonalSf, correo.subject, correo.body)]
           : []),
       ]);
-      await marcarBajaCompletada(solicitudFinal, sesion.email);
+      await marcarBajaCompletada(solicitudFinal, plataformas, sesion.email);
     }
     revalidatePath('/');
     return;
@@ -519,7 +568,7 @@ export async function cambiarEstadoAction(formData: FormData) {
         ? [enviarCorreo(correoPersonalJira, correo.subject, correo.body)]
         : []),
     ]);
-    await marcarBajaCompletada(solicitudFinal, sesion.email);
+    await marcarBajaCompletada(solicitudFinal, plataformas, sesion.email);
     revalidatePath('/');
     return;
   }
@@ -580,7 +629,7 @@ export async function cambiarEstadoAction(formData: FormData) {
       );
     }
 
-    await marcarBajaCompletada(solicitudFinal, sesion.email);
+    await marcarBajaCompletada(solicitudFinal, plataformas, sesion.email);
   }
 
   revalidatePath('/');
