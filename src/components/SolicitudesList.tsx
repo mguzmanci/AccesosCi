@@ -320,6 +320,10 @@ function SolicitudCard({
   const tieneGmail = plataformas.some(
     (p) => idsAccesos.has(p.id) && p.nombre.toLowerCase().includes('gmail'),
   );
+  const tieneSlack = plataformas.some(
+    (p) => idsAccesos.has(p.id) && p.nombre.toLowerCase().includes('slack'),
+  );
+  const platsPaso1Baja = [tieneGmail && 'Gmail', tieneSlack && 'Slack'].filter(Boolean).join('/');
 
   // Próximo estado cuando tmallea completa paso 1
   const nextEstado: EstadoSolicitud = tieneSalesforce
@@ -463,7 +467,11 @@ function SolicitudCard({
           {/* Paso 1: tmallea saca Gmail/Slack en tickets de baja */}
           {puedeAccionarTmallea && s.tipo === 'baja' && (
             <div className="flex flex-wrap gap-2">
-              <BotonEstado id={s.id} estado={nextEstado} label="Completado paso 1 (Gmail/Slack)" />
+              <BotonEstado
+                id={s.id}
+                estado={nextEstado}
+                label={platsPaso1Baja ? `Completado paso 1 (${platsPaso1Baja})` : 'Completado paso 1'}
+              />
               <BotonEstado id={s.id} estado="en_proceso" label="Marcar en proceso" />
               <BotonEstado id={s.id} estado="rechazada" label="Rechazar" />
             </div>
