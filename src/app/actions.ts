@@ -68,6 +68,20 @@ function fechaHoyChile(): string {
   }).format(new Date()).replace(/\//g, '-');
 }
 
+// Las bajas de accesos puntuales (Slack/Jira/Salesforce) se hacen siempre el
+// dia 1 del proximo mes, sin importar cuando se completa el ticket.
+function primerDiaProximoMesChile(): string {
+  const partes = new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric', month: '2-digit',
+    timeZone: 'America/Santiago',
+  }).formatToParts(new Date());
+  const anio = Number(partes.find((p) => p.type === 'year')!.value);
+  const mes = Number(partes.find((p) => p.type === 'month')!.value);
+  const proximoMes = mes === 12 ? 1 : mes + 1;
+  const proximoAnio = mes === 12 ? anio + 1 : anio;
+  return `01-${String(proximoMes).padStart(2, '0')}-${proximoAnio}`;
+}
+
 interface AsesorEstaticoRaw {
   nombre: string;
   correo: string;
@@ -151,7 +165,7 @@ async function marcarBajaCompletada(
   if (pide('salesforce')) porQuitar.push('Salesforce');
   if (porQuitar.length === 0) return;
 
-  const nota = `Eliminar ${porQuitar.join(', ')} el ${fecha}`;
+  const nota = `Eliminar ${porQuitar.join(', ')} el ${primerDiaProximoMesChile()}`;
   const comentarioActual = await leerEdicionCorreo(correoBaja, 'comentario');
   const nuevoComentario = comentarioActual ? `${comentarioActual}\n${nota}` : nota;
   await guardarEdicionCorreo(correoBaja, 'comentario', nuevoComentario);
