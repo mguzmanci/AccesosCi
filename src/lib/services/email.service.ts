@@ -9,6 +9,12 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
   },
+  // Sin esto, si el servidor no puede conectar a Gmail (puerto bloqueado,
+  // red lenta, etc.) el envio se cuelga indefinidamente en vez de fallar
+  // rapido con un error manejable.
+  connectionTimeout: 10_000,
+  greetingTimeout: 10_000,
+  socketTimeout: 10_000,
 });
 
 export async function enviarCorreo(
