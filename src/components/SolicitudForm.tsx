@@ -40,7 +40,13 @@ function formatearRut(value: string): string {
   return `${formatted}-${dv}`;
 }
 
-export function SolicitudForm({ plataformas }: { plataformas: Plataforma[] }) {
+export function SolicitudForm({
+  plataformas,
+  esAdmin = false,
+}: {
+  plataformas: Plataforma[];
+  esAdmin?: boolean;
+}) {
   const [estado, formAction, pending] = useActionState(crearSolicitudAction, estadoInicial);
   const [tipo, setTipo] = useState<TipoSolicitud>('crear');
   const [rut, setRut] = useState('');
@@ -129,7 +135,11 @@ export function SolicitudForm({ plataformas }: { plataformas: Plataforma[] }) {
       <fieldset>
         <legend className="text-sm font-medium text-foreground">Plataformas</legend>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
-          {plataformas.map((p) => (
+          {plataformas
+            .filter(
+              (p) => esAdmin || tipo === 'baja' || !p.nombre.toLowerCase().includes('salesforce'),
+            )
+            .map((p) => (
             <label
               key={p.id}
               className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"

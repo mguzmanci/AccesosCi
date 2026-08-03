@@ -127,7 +127,7 @@ export default async function Home({
             {
               id: 'nueva',
               label: 'Nueva solicitud',
-              content: <SolicitudForm plataformas={plataformasActivas} />,
+              content: <SolicitudForm plataformas={plataformasActivas} esAdmin={esAdmin} />,
             },
             {
               id: 'solicitudes',
