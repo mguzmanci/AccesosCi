@@ -85,6 +85,7 @@ function primerDiaProximoMesChile(): string {
 interface AsesorEstaticoRaw {
   nombre: string;
   correo: string;
+  estado?: string;
   jira?: boolean;
   slack?: boolean;
   sf?: string;
@@ -99,18 +100,29 @@ interface HojaEstaticaRaw {
   grupos: GrupoEstaticoRaw[];
 }
 const hojasEstaticas = (correosData as { hojas: HojaEstaticaRaw[] }).hojas;
-const correosEstaticos = hojasEstaticas.flatMap((h) =>
-  h.grupos.flatMap((g) => g.asesores.map((a) => a.correo.toLowerCase())),
-);
+const asesoresEstaticos = hojasEstaticas.flatMap((h) => h.grupos.flatMap((g) => g.asesores));
 
 async function existeCorreoActivoEnOtroGrupo(correo: string): Promise<boolean> {
   const buscado = correo.toLowerCase();
   const [edits, miembros] = await Promise.all([leerEdicionesCorreos(), leerMiembrosExtra()]);
-  const oculto =
-    edits[`${correo}||eliminado`] === 'true' || edits[`${correo}||transferido`] === 'true';
+  const key = (campo: string) => `${correo}||${campo}`;
+
+  const oculto = edits[key('eliminado')] === 'true' || edits[key('transferido')] === 'true';
   if (oculto) return false;
-  if (correosEstaticos.includes(buscado)) return true;
-  return miembros.some((m) => m.correo.toLowerCase() === buscado);
+
+  const estatico = asesoresEstaticos.find((a) => a.correo.toLowerCase() === buscado);
+  if (estatico) {
+    const estadoEfectivo = (edits[key('estado')] ?? estatico.estado ?? 'Activo').toLowerCase();
+    return estadoEfectivo !== 'eliminado';
+  }
+
+  const miembro = miembros.find((m) => m.correo.toLowerCase() === buscado);
+  if (miembro) {
+    const estadoEfectivo = (edits[key('estado')] ?? miembro.estado ?? 'Activo').toLowerCase();
+    return estadoEfectivo !== 'eliminado';
+  }
+
+  return false;
 }
 
 async function etiquetaHojaGrupo(hojaId: string, grupoNombre: string): Promise<string> {
