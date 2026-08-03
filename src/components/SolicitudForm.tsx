@@ -137,7 +137,11 @@ export function SolicitudForm({
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
           {plataformas
             .filter(
-              (p) => esAdmin || tipo === 'baja' || !p.nombre.toLowerCase().includes('salesforce'),
+              (p) =>
+                esAdmin ||
+                tipo === 'baja' ||
+                (!p.nombre.toLowerCase().includes('salesforce') &&
+                  !p.nombre.toLowerCase().includes('slack')),
             )
             .map((p) => (
             <label
