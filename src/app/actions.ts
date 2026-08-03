@@ -429,7 +429,13 @@ export async function crearMiembroAction(
   if (await existeCorreoActivoEnOtroGrupo(correoLimpio)) {
     throw new Error('Este correo ya existe activo en otro grupo.');
   }
-  await crearMiembroExtra(hojaId, grupoNombre, nombre.trim(), correoLimpio, slack, jira, sf);
+  // Si la persona ya habia sido eliminada del todo antes (en otro grupo), al
+  // volver a agregarla queda claro que esta activa de nuevo: se le quita esa
+  // marca para que no quede oculta en su nueva fila.
+  if ((await leerEdicionCorreo(correoLimpio, 'eliminado')) === 'true') {
+    await borrarEdicionesEliminado(correoLimpio);
+  }
+  await crearMiembroExtraSiNoExiste(hojaId, grupoNombre, nombre.trim(), correoLimpio, slack, jira, sf);
   revalidatePath('/');
 }
 
