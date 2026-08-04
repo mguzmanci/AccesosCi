@@ -436,6 +436,8 @@ export async function crearMiembroAction(
     await borrarEdicionesEliminado(correoLimpio);
   }
   await crearMiembroExtraSiNoExiste(hojaId, grupoNombre, nombre.trim(), correoLimpio, slack, jira, sf);
+  const etiqueta = await etiquetaHojaGrupo(hojaId, grupoNombre);
+  await registrarHistorial(correoLimpio, 'alta', null, etiqueta, sesion.email);
   revalidatePath('/');
 }
 

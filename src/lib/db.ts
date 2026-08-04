@@ -329,6 +329,10 @@ export interface HistorialEntry {
   creadoEn: string;
 }
 
+export interface HistorialEntryConCursor extends HistorialEntry {
+  secuencia: number;
+}
+
 export async function registrarHistorial(
   correo: string,
   campo: string,
@@ -355,6 +359,34 @@ export async function leerHistorial(): Promise<HistorialEntry[]> {
   if (error) throw new Error(`leerHistorial: ${error.message}`);
   return (data ?? []).map((row) => ({
     id: row.id as string,
+    correo: row.correo as string,
+    campo: row.campo as string,
+    valorAnterior: (row.valor_anterior as string | null) ?? null,
+    valorNuevo: row.valor_nuevo as string,
+    usuarioEmail: row.usuario_email as string,
+    creadoEn: row.creado_en as string,
+  }));
+}
+
+/**
+ * Lectura incremental para consumidores externos (plataforma comercial):
+ * eventos con `secuencia` > cursor, en orden ascendente. `secuencia` es una
+ * columna bigserial (monotónica) — `id` es uuid y no sirve como cursor.
+ */
+export async function leerEventosAccesosDesde(
+  cursor: number,
+  limite = 500,
+): Promise<HistorialEntryConCursor[]> {
+  const { data, error } = await getSupabase()
+    .from('correos_historial')
+    .select('id, secuencia, correo, campo, valor_anterior, valor_nuevo, usuario_email, creado_en')
+    .gt('secuencia', cursor)
+    .order('secuencia', { ascending: true })
+    .limit(limite);
+  if (error) throw new Error(`leerEventosAccesosDesde: ${error.message}`);
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    secuencia: row.secuencia as number,
     correo: row.correo as string,
     campo: row.campo as string,
     valorAnterior: (row.valor_anterior as string | null) ?? null,
